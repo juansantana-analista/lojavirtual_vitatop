@@ -419,11 +419,9 @@ body {
     font-weight: bold;
     border: 2px solid white;
     animation: pulse 2s infinite;
-    padding: 0 4px;
+    padding: 0;
     box-sizing: border-box;
     text-align: center;
-    line-height: 22px;
-    vertical-align: middle;
 }
 
 @keyframes pulse {
