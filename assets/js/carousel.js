@@ -2,7 +2,6 @@
 
 class SimpleCarousel {
     constructor(selector) {
-        console.log('🎠 Inicializando carrossel...', selector);
         this.carousel = document.querySelector(selector);
         if (!this.carousel) {
             console.error('❌ Elemento do carrossel não encontrado:', selector);
@@ -20,7 +19,6 @@ class SimpleCarousel {
     }
     
     async init() {
-        console.log('🚀 Iniciando carregamento do carrossel...');
         
         this.showLoading();
         await this.loadBanners();
@@ -32,11 +30,9 @@ class SimpleCarousel {
         this.startAutoPlay();
         this.showSlide(0);
         
-        console.log('✅ Carrossel inicializado com sucesso!');
     }
     
     async loadBanners() {
-        console.log('📡 Carregando banners da API...');
         
         try {
             const response = await fetch('api/listar_banners.php', {
@@ -44,21 +40,17 @@ class SimpleCarousel {
                 headers: { 'Content-Type': 'application/json' }
             });
             
-            console.log('📊 Status da resposta:', response.status);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
             const responseText = await response.text();
-            console.log('📄 Resposta da API:', responseText.substring(0, 200) + '...');
             
             const data = JSON.parse(responseText);
-            console.log('📦 Dados parseados:', data);
             
             if (data.status === 'success' && data.images && data.images.length > 0) {
                 this.bannerImages = data.images;
-                console.log('✅ Banners carregados:', this.bannerImages.length);
             } else {
                 console.warn('⚠️ Usando fallbacks - nenhum banner na API');
                 this.bannerImages = this.getFallbackImages();
@@ -69,11 +61,9 @@ class SimpleCarousel {
             this.bannerImages = this.getFallbackImages();
         }
         
-        console.log('📋 Total de banners:', this.bannerImages.length);
     }
     
     getFallbackImages() {
-        console.log('🎨 Gerando SVGs fallback...');
         return [
             this.createSVGBanner('#2c5530', 'Extrato de Própolis', 'Poder da Natureza'),
             this.createSVGBanner('#ff6b35', 'Vitaminas Premium', 'Sua Saúde em Primeiro Lugar'),
@@ -148,13 +138,11 @@ class SimpleCarousel {
     }
     
     createSlides() {
-        console.log('🖼️ Criando slides...');
         
         const container = document.createElement('div');
         container.className = 'carousel-container';
         
         this.bannerImages.forEach((imageUrl, index) => {
-            console.log(`🎯 Criando slide ${index + 1}:`, imageUrl.substring(0, 50) + '...');
             
             const slide = document.createElement('div');
             slide.className = 'carousel-slide';
@@ -168,7 +156,6 @@ class SimpleCarousel {
                 img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
                 slide.appendChild(img);
                 
-                console.log(`✅ SVG slide ${index + 1} criado`);
             } else {
                 // É uma URL externa - criar com fallback
                 this.createImageSlide(slide, imageUrl, index);
@@ -179,7 +166,6 @@ class SimpleCarousel {
         });
         
         this.carousel.appendChild(container);
-        console.log('✅ Slides criados:', this.slides.length);
     }
     
     createImageSlide(slide, imageUrl, index) {
@@ -208,14 +194,12 @@ class SimpleCarousel {
                 const svgUrl = this.createSVGBanner(color, title, subtitle);
                 img.src = svgUrl;
                 
-                console.log(`🔄 Fallback aplicado para slide ${index + 1}`);
             } else {
                 console.error(`❌ Fallback também falhou para slide ${index + 1} - isso não deveria acontecer com SVG`);
             }
         };
         
         img.onload = () => {
-            console.log(`✅ Banner ${index + 1} carregado com sucesso`);
         };
         
         slide.appendChild(img);
@@ -345,7 +329,6 @@ class SimpleCarousel {
     }
     
     async reloadBanners() {
-        console.log('🔄 Recarregando banners...');
         this.showLoading();
         await this.loadBanners();
         
@@ -371,14 +354,12 @@ class SimpleCarousel {
 
 // Inicializar quando DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 DOM carregado - iniciando carrossel');
     
     const carouselElement = document.querySelector('.hero-carousel');
     if (carouselElement) {
         const carousel = new SimpleCarousel('.hero-carousel');
         window.heroCarousel = carousel;
         
-        console.log('💡 Para debug: window.heroCarousel.reloadBanners()');
     } else {
         console.error('❌ Elemento .hero-carousel não encontrado');
     }
