@@ -1,6 +1,10 @@
 <?php
 // pages/checkout.php
 
+// Suprimir warnings durante o processamento do checkout
+error_reporting(E_ERROR | E_PARSE);
+ini_set('display_errors', 0);
+
 // Verificar se há itens no carrinho
 if (empty($_SESSION['carrinho'])) {
     header('Location: ?page=carrinho');
@@ -13,6 +17,9 @@ $success_checkout = null;
 
 // Processar envio do formulário
 if ($_POST['action'] ?? '' === 'finalizar_pedido') {
+    // Iniciar buffer de saída para capturar warnings
+    ob_start();
+    
     try {
         // Adequação: Estrutura de dados do cliente conforme esperado pela GravarPedido
         $dadosCliente = [
@@ -117,6 +124,9 @@ if ($_POST['action'] ?? '' === 'finalizar_pedido') {
                 // Obter código do pedido
                 $pedido_codigo = $dados_retorno['codigo_pedido'] ?? 'N/A';
                 
+                // Limpar qualquer saída anterior
+                ob_end_clean();
+                
                 // Usar JavaScript para redirecionar (evita problemas de header)
                 echo "<script>window.location.href = '?page=pedido&codigo={$pedido_codigo}&tipo={$forma_pagamento}';</script>";
                 exit;
@@ -140,6 +150,9 @@ if ($_POST['action'] ?? '' === 'finalizar_pedido') {
         $erro_checkout = "Erro interno: " . $e->getMessage();
         logActivity('checkout_exception', ['erro' => $e->getMessage()]);
     }
+    
+    // Limpar buffer de saída
+    ob_end_clean();
 }
 
 // Buscar dados dos produtos no carrinho
