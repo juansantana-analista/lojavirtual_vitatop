@@ -422,7 +422,8 @@ body {
     padding: 0 4px;
     box-sizing: border-box;
     text-align: center;
-    line-height: 1;
+    line-height: 22px;
+    vertical-align: middle;
 }
 
 @keyframes pulse {
