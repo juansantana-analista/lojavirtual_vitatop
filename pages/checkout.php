@@ -318,7 +318,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Vencimento</label>
                                     <input type="text" name="data_expira" class="form-control" 
-                                           placeholder="MM/AA">
+                                           placeholder="MM/AAAA">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">CVV</label>
