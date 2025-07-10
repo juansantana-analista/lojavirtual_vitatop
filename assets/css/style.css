@@ -2047,10 +2047,19 @@ html {
   .frete-gratis-sugestao-box.compact {
     padding: 8px 2px;
   }
+  .produtos-sugeridos-lista {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 6px;
+    margin-left: -8px;
+    margin-right: -8px;
+  }
   .produto-sugestao-card.mini {
-    width: 90px;
-    min-width: 80px;
+    flex: 0 0 90px;
+    min-width: 90px;
     max-width: 100px;
     padding: 6px 2px;
+    margin-right: 4px;
   }
 }
