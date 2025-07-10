@@ -393,10 +393,12 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                 <span>Frete:</span>
                                 <span id="frete">A calcular</span>
                             </div>
+                            <!--
                             <div class="d-flex justify-content-between mb-2" id="descontoDiv" style="display: none;">
                                 <span>Desconto PIX:</span>
                                 <span id="desconto" class="text-success">-R$ 0,00</span>
                             </div>
+                            -->
                             <hr>
                             <div class="d-flex justify-content-between mb-3">
                                 <strong>Total:</strong>
