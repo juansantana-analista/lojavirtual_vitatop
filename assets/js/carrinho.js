@@ -117,6 +117,11 @@ function updateCartDisplay() {
     });
     
     document.getElementById('cart-total').textContent = formatMoney(total);
+    // Recalcular frete automaticamente se o CEP estiver preenchido
+    const cepInput = document.getElementById('cep');
+    if (cepInput && cepInput.value.length >= 8) {
+        calcularFrete();
+    }
 }
 
 function clearCart() {
