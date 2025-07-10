@@ -141,7 +141,6 @@ function clearCart() {
 
 // Função para calcular o frete
 function calcularFrete() {
-    alert('Função calcularFrete chamada!');
     const cep = document.getElementById('cep').value;
     const resultado = document.getElementById('frete-resultado');
     const freteValorElement = document.getElementById('frete-valor');
@@ -152,7 +151,6 @@ function calcularFrete() {
         freteValorElement.textContent = 'A calcular';
         return;
     }
-    // Captura o valor do subtotal do carrinho
     const subtotalText = document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.');
     const valor = parseFloat(subtotalText);
     fetch('/lojinha_vitatop/api/calcular_frete.php', {
@@ -162,16 +160,15 @@ function calcularFrete() {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Resposta do frete:', data);
         if (data.status === 'success') {
-            // Pega o valor do frete do campo correto
-            const freteValor = parseFloat(data.data && data.data.frete ? data.data.frete : data.valor);
+            const freteValor = parseFloat(
+                data?.data?.data?.frete ?? data?.data?.frete ?? data?.frete ?? data?.valor
+            );
             if (freteValor === 0) {
                 freteValorElement.textContent = 'Grátis';
             } else {
                 freteValorElement.textContent = formatMoney(freteValor);
             }
-            // Atualiza o total
             const subtotal = parseFloat(document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.'));
             if (!isNaN(subtotal)) {
                 const total = subtotal + freteValor;
@@ -184,7 +181,6 @@ function calcularFrete() {
         }
     })
     .catch((error) => {
-        console.error('Erro no fetch do frete:', error);
         freteValorElement.textContent = 'Erro';
         resultado.textContent = 'Erro ao calcular frete.';
     });
