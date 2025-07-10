@@ -433,13 +433,15 @@ function handlePaymentChange() {
         carregarParcelas();
     } else {
         parcelamentoDiv.style.display = 'none';
-        
+        descontoDiv.style.display = 'none';
+        /*
         if (selectedPayment === 'pix') {
             descontoDiv.style.display = 'flex';
             aplicarDescontoPix();
         } else {
             descontoDiv.style.display = 'none';
         }
+        */
     }
     
     atualizarTotal();

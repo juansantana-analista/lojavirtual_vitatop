@@ -286,7 +286,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="radio" name="forma_pagamento" value="pix" id="pix" required>
                                 <label class="form-check-label" for="pix">
-                                    <i class="fas fa-qrcode me-2"></i>PIX - Desconto de 5%
+                                    <i class="fas fa-qrcode me-2"></i>PIX - (Confirmação Imediata)
                                 </label>
                             </div>
                             <div class="form-check mb-3">
