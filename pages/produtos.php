@@ -15,6 +15,14 @@ if (!empty($termo_busca)) {
         return strpos($nome, $termo_lower) !== false || strpos($titulo, $termo_lower) !== false;
     });
 }
+
+// Gerar lista de categorias únicas (id => nome)
+$categorias_unicas = [];
+foreach ($produtos_filtrados as $produto) {
+    if (!empty($produto['categoria_id']) && !empty($produto['categoria_nome'])) {
+        $categorias_unicas[$produto['categoria_id']] = $produto['categoria_nome'];
+    }
+}
 ?>
 
 <div class="container">
@@ -69,10 +77,9 @@ if (!empty($termo_busca)) {
                     <select class="form-select" id="filterCategory">
                         <option value="">Todas as categorias</option>
                         <?php
-                        $categorias = array_unique(array_column($produtos_filtrados, 'categoria_id'));
-                        foreach ($categorias as $categoria):
+                        foreach ($categorias_unicas as $cat_id => $cat_nome):
                         ?>
-                            <option value="<?php echo $categoria; ?>">Categoria <?php echo $categoria; ?></option>
+                            <option value="<?php echo $cat_id; ?>"><?php echo htmlspecialchars($cat_nome); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
