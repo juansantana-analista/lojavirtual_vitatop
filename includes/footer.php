@@ -71,10 +71,12 @@
                                 <i class="fas fa-award text-warning"></i>
                                 <small>Anvisa Certificado</small>
                             </div>
+                            <!--
                             <div class="security-item">
                                 <i class="fas fa-medal text-info"></i>
                                 <small>ISO 9001</small>
                             </div>
+                            -->
                         </div>
                     </div>
                 </div>

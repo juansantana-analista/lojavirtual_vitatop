@@ -166,7 +166,7 @@
     </nav>
 
     <!-- Benefícios em Destaque 
-    -->
+    
     <div class="benefits-bar d-none d-lg-block">
         <div class="container">
             <div class="row">
@@ -192,7 +192,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <!-- Offcanvas Menu Mobile -->
     <div class="offcanvas offcanvas-start offcanvas-mobile" tabindex="-1" id="menuMobile" aria-labelledby="menuMobileLabel">
