@@ -1613,9 +1613,16 @@ html {
     position: relative;
 }
 
-.cart-item .btn-outline-danger {
+
+
+/* Manter a coluna original mas posicionar o ícone sobre ela */
+.cart-item .col-md-1.text-end {
+    position: relative;
+}
+
+.cart-item .col-md-1.text-end .btn-outline-danger {
     position: absolute;
-    top: 10px;
+    top: -10px;
     right: 10px;
     z-index: 10;
     width: 32px;
@@ -1630,19 +1637,14 @@ html {
     transition: all 0.3s ease;
 }
 
-.cart-item .btn-outline-danger:hover {
+.cart-item .col-md-1.text-end .btn-outline-danger:hover {
     background: #dc3545;
     color: white;
     transform: scale(1.1);
 }
 
-.cart-item .btn-outline-danger i {
+.cart-item .col-md-1.text-end .btn-outline-danger i {
     font-size: 12px;
-}
-
-/* Ocultar a coluna original da lixeira */
-.cart-item .col-md-1.text-end {
-    visibility: hidden;
 }
 
 /* Responsivo para mobile */
