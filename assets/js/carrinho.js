@@ -153,13 +153,16 @@ function calcularFrete() {
     }
     const subtotalText = document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.');
     const valor = parseFloat(subtotalText);
+    const body = { cep: cep, valor: valor };
+    console.log('Enviando para calcular_frete.php:', body);
     fetch('/lojinha_vitatop/api/calcular_frete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cep: cep, valor: valor })
+        body: JSON.stringify(body)
     })
     .then(response => response.json())
     .then(data => {
+        console.log('Resposta recebida do calcular_frete.php:', data);
         if (data.status === 'success') {
             const freteValor = parseFloat(
                 data?.data?.data?.frete ?? data?.data?.frete ?? data?.frete ?? data?.valor
@@ -181,6 +184,7 @@ function calcularFrete() {
         }
     })
     .catch((error) => {
+        console.error('Erro no fetch do frete:', error);
         freteValorElement.textContent = 'Erro';
         resultado.textContent = 'Erro ao calcular frete.';
     });
