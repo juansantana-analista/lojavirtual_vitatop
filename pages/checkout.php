@@ -447,17 +447,23 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                 </div>
                             <?php endif; ?>
                             
-                            <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
-                                 alt="<?php echo htmlspecialchars($produto['titulo']); ?>" 
-                                 class="produto-imagem">
-                            
-                            <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
-                            <div class="produto-preco"><?php echo formatPrice($produto['preco_lojavirtual']); ?></div>
-                            
-                            <button type="button" class="btn btn-adicionar" 
-                                    onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
-                                Adicionar
-                            </button>
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
+                                         alt="<?php echo htmlspecialchars($produto['titulo']); ?>" 
+                                         class="produto-imagem">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
+                                    <div class="produto-preco"><?php echo formatPrice($produto['preco_lojavirtual']); ?></div>
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <button type="button" class="btn btn-adicionar" 
+                                            onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
+                                        Adicionar
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 </div>

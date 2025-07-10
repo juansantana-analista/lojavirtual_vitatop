@@ -126,29 +126,35 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                         </div>
                     </div>
                     
-                    <div class="produtos-sugeridos-grid">
+                                        <div class="produtos-sugeridos-grid">
                         <?php foreach ($produtos_sugeridos as $produto): ?>
                             <?php 
                             $completa_frete = (float)$produto['preco_lojavirtual'] >= $falta_para_frete;
                             ?>
                             <div class="produto-sugestao-card">
-                                                            <?php if ($completa_frete): ?>
-                                <div class="completa-frete">
-                                    Completa
+                                <?php if ($completa_frete): ?>
+                                    <div class="completa-frete">
+                                        Completa
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <div class="row align-items-center">
+                                    <div class="col-md-2">
+                                        <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
+                                             alt="<?php echo htmlspecialchars($produto['titulo']); ?>" 
+                                             class="produto-imagem">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
+                                        <div class="produto-preco"><?php echo formatPrice($produto['preco_lojavirtual']); ?></div>
+                                    </div>
+                                    <div class="col-md-2 text-center">
+                                        <button type="button" class="btn btn-adicionar" 
+                                                onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
+                                            Adicionar
+                                        </button>
+                                    </div>
                                 </div>
-                            <?php endif; ?>
-                                
-                                <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
-                                     alt="<?php echo htmlspecialchars($produto['titulo']); ?>" 
-                                     class="produto-imagem">
-                                
-                                <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
-                                <div class="produto-preco"><?php echo formatPrice($produto['preco_lojavirtual']); ?></div>
-                                
-                                <button type="button" class="btn btn-adicionar" 
-                                        onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
-                                    Adicionar
-                                </button>
                             </div>
                         <?php endforeach; ?>
                     </div>
