@@ -1616,7 +1616,7 @@ html {
 .cart-item .btn-outline-danger {
     position: absolute;
     top: 10px;
-    left: 10px;
+    right: 10px;
     z-index: 10;
     width: 32px;
     height: 32px;
@@ -1640,21 +1640,16 @@ html {
     font-size: 12px;
 }
 
-/* Ajustar layout das colunas para compensar o ícone removido */
+/* Ocultar a coluna original da lixeira */
 .cart-item .col-md-1.text-end {
-    display: none;
-}
-
-.cart-item .col-md-2:last-child {
-    flex: 0 0 16.666667%;
-    max-width: 16.666667%;
+    visibility: hidden;
 }
 
 /* Responsivo para mobile */
 @media (max-width: 768px) {
     .cart-item .btn-outline-danger {
         top: 8px;
-        left: 8px;
+        right: 8px;
         width: 28px;
         height: 28px;
     }

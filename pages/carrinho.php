@@ -96,13 +96,13 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                     <div class="col-md-2 text-center">
                                         <strong class="item-total"><?php echo formatPrice($produto['preco_lojavirtual'] * $produto['quantidade']); ?></strong>
                                     </div>
-                                </div>
-                                <!-- Ícone de lixeira posicionado absolutamente -->
-                                <button type="button" class="btn btn-outline-danger" 
-                                        onclick="removeFromCart(<?php echo $produto['id']; ?>)"
-                                        title="Remover item">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                    <div class="col-md-1 text-end">
+                                        <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                onclick="removeFromCart(<?php echo $produto['id']; ?>)"
+                                                title="Remover item">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
