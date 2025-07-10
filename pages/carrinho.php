@@ -88,20 +88,18 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                                    data-produto-id="<?php echo $produto['id']; ?>">
                                             <button type="button" class="btn btn-sm btn-outline-secondary" 
                                                     onclick="increaseQuantity(<?php echo $produto['id']; ?>)">+</button>
+                                            <button type="button" class="btn btn-outline-danger" 
+                                                    onclick="removeFromCart(<?php echo $produto['id']; ?>)"
+                                                    title="Remover item">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="col-md-2 text-center">
                                         <strong><?php echo formatPrice($produto['preco_lojavirtual']); ?></strong>
                                     </div>
-                                    <div class="col-md-2 text-center">
+                                    <div class="col-md-3 text-center">
                                         <strong class="item-total"><?php echo formatPrice($produto['preco_lojavirtual'] * $produto['quantidade']); ?></strong>
-                                    </div>
-                                    <div class="col-md-1 text-end">
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                onclick="removeFromCart(<?php echo $produto['id']; ?>)"
-                                                title="Remover item">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
                                     </div>
                                 </div>
                             </div>

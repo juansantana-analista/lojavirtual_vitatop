@@ -1615,16 +1615,15 @@ html {
 
 
 
-/* Manter a coluna original mas posicionar o ícone sobre ela */
-.cart-item .col-md-1.text-end {
-    position: relative;
+/* Posicionar a lixeira ao lado dos controles de quantidade */
+.cart-item .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
 }
 
-.cart-item .col-md-1.text-end .btn-outline-danger {
-    position: absolute;
-    top: -10px;
-    right: 10px;
-    z-index: 10;
+.cart-item .btn-outline-danger {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -1635,15 +1634,16 @@ html {
     border: 1px solid #dc3545;
     color: #dc3545;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
-.cart-item .col-md-1.text-end .btn-outline-danger:hover {
+.cart-item .btn-outline-danger:hover {
     background: #dc3545;
     color: white;
     transform: scale(1.1);
 }
 
-.cart-item .col-md-1.text-end .btn-outline-danger i {
+.cart-item .btn-outline-danger i {
     font-size: 12px;
 }
 
