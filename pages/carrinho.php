@@ -62,7 +62,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
             
             <div class="cart-items" id="cartItems">
                 <?php foreach ($produtos_carrinho as $produto): ?>
-                    <div class="cart-item mb-3" id="item-<?php echo $produto['id']; ?>" data-produto-id="<?php echo $produto['id']; ?>">
+                    <div class="cart-item mb-3" id="item-<?php echo $produto['id']; ?>" data-produto-id="<?php echo $produto['id']; ?>" data-preco="<?php echo $produto['preco_lojavirtual']; ?>">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -123,13 +123,21 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                         <div class="card">
                             <div class="card-body">
                                 <h5>Resumo do Pedido</h5>
+                                <div class="mb-2">
+                                    <label for="cep">Calcular Frete:</label>
+                                    <div class="input-group">
+                                        <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite seu CEP">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="calcularFrete()">Calcular</button>
+                                    </div>
+                                    <div id="frete-resultado" class="small text-muted mt-1"></div>
+                                </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Subtotal:</span>
                                     <span id="cart-subtotal"><?php echo formatPrice($total_carrinho); ?></span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Frete:</span>
-                                    <span class="text-muted">A calcular</span>
+                                    <span id="frete-valor" class="text-muted">A calcular</span>
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-between mb-3">

@@ -139,6 +139,46 @@ function clearCart() {
     }
 }
 
+// Função para calcular o frete
+function calcularFrete() {
+    const cep = document.getElementById('cep').value;
+    const resultado = document.getElementById('frete-resultado');
+    const freteValor = document.getElementById('frete-valor');
+    resultado.textContent = '';
+    freteValor.textContent = 'Calculando...';
+    if (!cep || cep.length < 8) {
+        resultado.textContent = 'Digite um CEP válido.';
+        freteValor.textContent = 'A calcular';
+        return;
+    }
+    fetch('api/calcular_frete.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cep: cep })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            freteValor.textContent = data.valor_formatado || data.valor;
+            resultado.textContent = data.prazo ? `Prazo: ${data.prazo} dia(s)` : '';
+            // Atualizar total do carrinho se necessário
+            const subtotal = document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.');
+            const frete = parseFloat(data.valor);
+            if (!isNaN(frete)) {
+                const total = parseFloat(subtotal) + frete;
+                document.getElementById('cart-total').textContent = formatMoney(total);
+            }
+        } else {
+            freteValor.textContent = 'Erro';
+            resultado.textContent = data.message || 'Erro ao calcular frete.';
+        }
+    })
+    .catch(() => {
+        freteValor.textContent = 'Erro';
+        resultado.textContent = 'Erro ao calcular frete.';
+    });
+}
+
 // Toast notifications
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
