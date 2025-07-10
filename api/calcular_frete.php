@@ -18,16 +18,14 @@ if (empty($cep) || $valor <= 0) {
 $resultado = calcularFrete(API_URL, API_KEY, $cep, $valor);
 
 if ($resultado['status'] === 'success') {
+    // Repasse toda a estrutura da API, inclusive o campo frete
     echo json_encode([
         'status' => 'success',
-        'valor' => $resultado['data']['valor'] ?? 15.90,
-        'prazo' => $resultado['data']['prazo'] ?? '5-7'
+        'data' => $resultado['data']
     ]);
 } else {
-    // Valores padrão em caso de erro
     echo json_encode([
-        'status' => 'success',
-        'valor' => 15.90,
-        'prazo' => '5-7'
+        'status' => 'error',
+        'message' => 'Erro ao calcular frete'
     ]);
 }
