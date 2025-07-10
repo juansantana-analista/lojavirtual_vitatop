@@ -1860,3 +1860,106 @@ html {
         padding-right: 10px;
     }
 }
+
+/* Sugestão de frete grátis no carrinho */
+.frete-gratis-sugestao-box {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 24px 20px;
+  margin: 32px 0 24px 0;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 2px 12px rgba(44, 85, 48, 0.04);
+}
+.frete-gratis-msg {
+  color: #218838;
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.frete-gratis-msg i {
+  font-size: 1.3rem;
+}
+.produtos-sugeridos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: center;
+}
+.produto-sugestao-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px 10px;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 1px 6px rgba(44, 85, 48, 0.03);
+  transition: box-shadow 0.2s;
+}
+.produto-sugestao-card:hover {
+  box-shadow: 0 4px 16px rgba(44, 85, 48, 0.10);
+}
+.produto-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+.produto-info {
+  margin-bottom: 8px;
+}
+.produto-nome {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 2px;
+}
+.produto-preco {
+  color: #218838;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.btn-adicionar {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-adicionar:hover {
+  background: #218838;
+}
+.badge-completa {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ffc107;
+  color: #333;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  .produtos-sugeridos-lista {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .frete-gratis-sugestao-box {
+    padding: 14px 4px;
+  }
+}
