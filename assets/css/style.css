@@ -2172,3 +2172,83 @@ html {
     box-shadow: 0 1px 2px rgba(44,85,48,0.04);
   }
 }
+
+@media (max-width: 700px) {
+  .cart-item .row.align-items-center {
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    display: flex !important;
+    gap: 8px;
+  }
+  .cart-item .col-md-2, .cart-item .col-md-4, .cart-item .col-md-3, .cart-item .col-md-2, .cart-item .col-md-3 {
+    flex: unset !important;
+    max-width: unset !important;
+    width: auto !important;
+    padding: 0 4px !important;
+    display: flex;
+    align-items: center;
+  }
+  .cart-item .col-md-2:first-child {
+    flex: 0 0 48px !important;
+    max-width: 48px !important;
+    padding: 0 !important;
+    justify-content: flex-start;
+  }
+  .cart-item img.img-fluid {
+    width: 44px !important;
+    height: 44px !important;
+    object-fit: contain;
+    border-radius: 6px;
+    margin: 0;
+  }
+  .cart-item .col-md-4 {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 0;
+    padding: 0 2px !important;
+  }
+  .cart-item h6, .cart-item .text-muted.small {
+    font-size: 0.85rem !important;
+    margin-bottom: 2px;
+    line-height: 1.1;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cart-item .col-md-2.text-center, .cart-item .col-md-3.text-center {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    min-width: 0;
+    padding: 0 2px !important;
+  }
+  .cart-item .item-total, .cart-item strong {
+    font-size: 0.92rem !important;
+    font-weight: 600;
+    color: #218838;
+  }
+  .cart-item .quantity-controls {
+    gap: 4px;
+  }
+  .cart-item .btn-outline-danger {
+    width: 26px;
+    height: 26px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-item .row.align-items-center {
+    gap: 4px;
+  }
+  .cart-item img.img-fluid {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .cart-item h6, .cart-item .text-muted.small {
+    font-size: 0.78rem !important;
+    max-width: 70px;
+  }
+}
