@@ -121,7 +121,7 @@ function updateCartDisplay() {
     // Recalcular frete automaticamente se o CEP estiver preenchido
     const cepInput = document.getElementById('cep');
     if (cepInput && cepInput.value.length >= 8) {
-        calcularFrete();
+        calcularFreteCarrinho();
     }
 }
 
@@ -146,7 +146,7 @@ function clearCart() {
 }
 
 // Função para calcular o frete
-function calcularFrete() {
+function calcularFreteCarrinho() {
     const cep = document.getElementById('cep').value;
     const resultado = document.getElementById('frete-resultado');
     const freteValorElement = document.getElementById('frete-valor');

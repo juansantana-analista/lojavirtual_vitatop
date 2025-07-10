@@ -127,7 +127,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                     <label for="cep">Calcular Frete:</label>
                                     <div class="input-group">
                                         <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite seu CEP">
-                                        <button type="button" class="btn btn-outline-secondary" onclick="calcularFrete()">Calcular</button>
+                                        <button type="button" class="btn btn-outline-secondary" onclick="calcularFreteCarrinho()">Calcular</button>
                                     </div>
                                     <div id="frete-resultado" class="small text-muted mt-1"></div>
                                 </div>
