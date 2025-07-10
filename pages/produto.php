@@ -401,15 +401,16 @@ function carregarContraIndicacao() {
     })
     .then(async response => {
         const text = await response.text();
+        console.log('Texto bruto da resposta contraindicação:', text);
         const jsonStart = text.indexOf('{');
         let data;
         try {
             data = JSON.parse(text.slice(jsonStart));
         } catch (e) {
-            content.innerHTML = '<div class="alert alert-danger">Erro ao carregar contraindicações.</div>';
+            content.innerHTML = '<div class="alert alert-danger">Erro ao carregar contraindicações (JSON inválido).</div>';
             return;
         }
-        const contra = data?.data?.data?.contra_indicacoes;
+        const contra = data && data.data && data.data.data && data.data.data.contra_indicacoes;
         if (Array.isArray(contra) && contra.length > 0) {
             let html = '<ul class="list-group">';
             contra.forEach(item => {
@@ -421,8 +422,8 @@ function carregarContraIndicacao() {
             content.innerHTML = '<div class="alert alert-info">Nenhuma contraindicação cadastrada para este produto.</div>';
         }
     })
-    .catch(() => {
-        content.innerHTML = '<div class="alert alert-danger">Erro ao carregar contraindicações.</div>';
+    .catch((e) => {
+        content.innerHTML = '<div class="alert alert-danger">Erro ao carregar contraindicações (fetch).</div>';
     });
 }
 </script>
