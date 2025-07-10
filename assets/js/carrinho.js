@@ -163,9 +163,11 @@ function calcularFrete() {
     .then(async response => {
         const text = await response.text();
         console.log('Texto bruto da resposta:', text);
+        // Encontrar o início do JSON
+        const jsonStart = text.indexOf('{');
         let data;
         try {
-            data = JSON.parse(text);
+            data = JSON.parse(text.slice(jsonStart));
         } catch (e) {
             console.error('Erro ao fazer parse do JSON:', e);
             freteValorElement.textContent = 'Erro';
@@ -173,10 +175,11 @@ function calcularFrete() {
             return;
         }
         console.log('Resposta recebida do calcular_frete.php:', data);
-        if (data.status === 'success') {
-            const freteValor = parseFloat(
-                data?.data?.data?.frete ?? data?.data?.frete ?? data?.frete ?? data?.valor
-            );
+        // Acessar corretamente o valor do frete na estrutura aninhada
+        const freteValor = parseFloat(
+            data?.data?.data?.frete ?? data?.data?.frete ?? data?.frete ?? data?.valor
+        );
+        if (data.status === 'success' && !isNaN(freteValor)) {
             if (freteValor === 0) {
                 freteValorElement.textContent = 'Grátis';
             } else {
