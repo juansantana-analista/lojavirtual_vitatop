@@ -80,11 +80,12 @@ $produtos_promocao = array_slice($produtos, 8, 4);
                             <button class="btn-favorite" data-product-id="<?php echo $produto['id']; ?>" aria-label="Adicionar aos favoritos">
                                 <i class="far fa-heart"></i>
                             </button>
-                            <?php if (isPromocao($produto)): ?>
-                                <span class="discount-label">
-                                    -<?php echo calcularDesconto($produto['preco2'], $produto['preco_lojavirtual']); ?>%
-                                </span>
-                            <?php endif; ?>
+                            <?php 
+                            $desconto_visual = getDescontoVisual($produto['id']);
+                            ?>
+                            <span class="discount-label">
+                                -<?php echo $desconto_visual; ?>%
+                            </span>
                             <?php if ($index < 3): ?>
                                 <span class="bestseller-badge">
                                     <i class="fas fa-crown"></i>
@@ -109,15 +110,14 @@ $produtos_promocao = array_slice($produtos, 8, 4);
                                 <span class="rating-count">(<?php echo rand(50, 200); ?>)</span>
                             </div>
                             <div class="product-price">
-                                <?php if (isPromocao($produto)): ?>
-                                    <span class="old-price">De <?php echo formatPrice($produto['preco2']); ?></span>
-                                <?php endif; ?>
-                                <span class="current-price"><?php echo formatPrice($produto['preco_lojavirtual']); ?></span>
-                                <?php if (isPromocao($produto)): ?>
-                                    <span class="discount-percent">
-                                        -<?php echo calcularDesconto($produto['preco2'], $produto['preco_lojavirtual']); ?>%
-                                    </span>
-                                <?php endif; ?>
+                                <?php 
+                                $precos_desconto = formatPriceWithDiscount($produto['preco_lojavirtual'], $produto['id']);
+                                ?>
+                                <span class="old-price">De <?php echo $precos_desconto['preco_original']; ?></span>
+                                <span class="current-price"><?php echo $precos_desconto['preco_com_desconto']; ?></span>
+                                <span class="discount-percent">
+                                    -<?php echo $precos_desconto['desconto_percentual']; ?>%
+                                </span>
                             </div>
                             <div class="product-actions mt-3">
                                 <button class="btn btn-add-cart w-100" 

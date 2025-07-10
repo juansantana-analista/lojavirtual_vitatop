@@ -351,3 +351,44 @@ function getProdutosSugeridos($total_atual, $limite_frete_gratis = 300, $limite_
     // Retornar apenas os primeiros produtos
     return array_slice($produtos_disponiveis, 0, $limite_produtos);
 }
+
+/**
+ * Gerar desconto visual aleatório para produtos (efeito visual apenas)
+ */
+function getDescontoVisual($produto_id) {
+    // Usar o ID do produto como seed para gerar desconto consistente
+    $seed = crc32($produto_id);
+    srand($seed);
+    
+    // Gerar desconto entre 5% e 30%
+    $desconto = rand(5, 30);
+    
+    // Reset do seed
+    srand();
+    
+    return $desconto;
+}
+
+/**
+ * Calcular preço com desconto visual (apenas para exibição)
+ */
+function getPrecoComDescontoVisual($preco_original, $produto_id) {
+    $desconto = getDescontoVisual($produto_id);
+    $valor_desconto = ($preco_original * $desconto) / 100;
+    return $preco_original + $valor_desconto;
+}
+
+/**
+ * Formatar preço com desconto visual
+ */
+function formatPriceWithDiscount($preco_original, $produto_id) {
+    $preco_com_desconto = getPrecoComDescontoVisual($preco_original, $produto_id);
+    $desconto = getDescontoVisual($produto_id);
+    
+    return [
+        'preco_original' => formatPrice($preco_com_desconto),
+        'preco_com_desconto' => formatPrice($preco_original),
+        'desconto_percentual' => $desconto,
+        'valor_desconto' => formatPrice($preco_com_desconto - $preco_original)
+    ];
+}

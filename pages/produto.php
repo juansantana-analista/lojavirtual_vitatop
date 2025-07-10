@@ -55,9 +55,10 @@ if ($produto['preco'] < $produto['preco2']) {
                     <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
                          alt="<?php echo htmlspecialchars($produto['nome']); ?>" 
                          class="img-fluid rounded">
-                    <?php if ($desconto_percent > 0): ?>
-                        <span class="discount-label">-<?php echo $desconto_percent; ?>%</span>
-                    <?php endif; ?>
+                    <?php 
+                    $desconto_visual = getDescontoVisual($produto['id']);
+                    ?>
+                    <span class="discount-label">-<?php echo $desconto_visual; ?>%</span>
                 </div>
             </div>
         </div>
@@ -68,16 +69,15 @@ if ($produto['preco'] < $produto['preco2']) {
                 <p class="product-subtitle text-muted"><?php echo htmlspecialchars($produto['nome']); ?></p>
                 
                 <div class="price-section mb-4">
-                    <?php if ($produto['preco'] < $produto['preco2']): ?>
-                        <div class="old-price">De <?php echo formatPrice($produto['preco2']); ?></div>
-                    <?php endif; ?>
-                    <div class="current-price"><?php echo formatPrice($produto['preco_lojavirtual']); ?></div>
-                    <?php if ($desconto_percent > 0): ?>
-                        <div class="discount-info">
-                            <span class="badge bg-danger">-<?php echo $desconto_percent; ?>%</span>
-                            <span class="economy">Você economiza <?php echo formatPrice($produto['preco2'] - $produto['preco_lojavirtual']); ?></span>
-                        </div>
-                    <?php endif; ?>
+                    <?php 
+                    $precos_desconto = formatPriceWithDiscount($produto['preco_lojavirtual'], $produto['id']);
+                    ?>
+                    <div class="old-price">De <?php echo $precos_desconto['preco_original']; ?></div>
+                    <div class="current-price"><?php echo $precos_desconto['preco_com_desconto']; ?></div>
+                    <div class="discount-info">
+                        <span class="badge bg-danger">-<?php echo $precos_desconto['desconto_percentual']; ?>%</span>
+                        <span class="economy">Você economiza <?php echo $precos_desconto['valor_desconto']; ?></span>
+                    </div>
                 </div>
                 
                 <div class="purchase-options mb-4">
