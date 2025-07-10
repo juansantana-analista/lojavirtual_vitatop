@@ -1,24 +1,19 @@
 <?php
-// pages/carrinho.php
+// pages/carrinho.php - VERSÃO SIMPLIFICADA E CORRETA
 
-// Processar ações do carrinho
-if ($_POST['action'] ?? '' === 'update_cart') {
-    foreach ($_POST['quantidade'] as $produto_id => $quantidade) {
-        if ($quantidade > 0) {
-            $_SESSION['carrinho'][$produto_id] = $quantidade;
-        } else {
-            unset($_SESSION['carrinho'][$produto_id]);
+// Processar ações do carrinho APENAS se não houver output anterior
+if (!headers_sent()) {
+    if ($_POST['action'] ?? '' === 'update_cart') {
+        foreach ($_POST['quantidade'] as $produto_id => $quantidade) {
+            if ($quantidade > 0) {
+                $_SESSION['carrinho'][$produto_id] = $quantidade;
+            } else {
+                unset($_SESSION['carrinho'][$produto_id]);
+            }
         }
+        header('Location: ?page=carrinho');
+        exit;
     }
-    header('Location: ?page=carrinho');
-    exit;
-}
-
-if ($_POST['action'] ?? '' === 'remove_item') {
-    $produto_id = $_POST['produto_id'];
-    removeFromCart($produto_id);
-    header('Location: ?page=carrinho');
-    exit;
 }
 
 // Buscar dados dos produtos no carrinho
@@ -51,7 +46,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
 
     <div class="page-header mb-4">
         <h1>Meu Carrinho</h1>
-        <p class="text-muted"><?php echo count($produtos_carrinho); ?> item(ns) no carrinho</p>
+        <p class="text-muted"><span id="cart-count"><?php echo count($produtos_carrinho); ?></span> item(ns) no carrinho</p>
     </div>
 
     <?php if (empty($produtos_carrinho)): ?>
@@ -62,12 +57,12 @@ $total_carrinho = calculateCartTotal($todos_produtos);
             <a href="?page=produtos" class="btn btn-primary">Ver Produtos</a>
         </div>
     <?php else: ?>
-        <form method="POST">
+        <form method="POST" id="updateCartForm">
             <input type="hidden" name="action" value="update_cart">
             
-            <div class="cart-items">
+            <div class="cart-items" id="cartItems">
                 <?php foreach ($produtos_carrinho as $produto): ?>
-                    <div class="cart-item mb-3">
+                    <div class="cart-item mb-3" id="item-<?php echo $produto['id']; ?>" data-produto-id="<?php echo $produto['id']; ?>">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -89,7 +84,8 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                                    value="<?php echo $produto['quantidade']; ?>" 
                                                    min="0" 
                                                    class="form-control quantity-input d-inline-block mx-2" 
-                                                   style="width: 60px;">
+                                                   style="width: 60px;"
+                                                   data-produto-id="<?php echo $produto['id']; ?>">
                                             <button type="button" class="btn btn-sm btn-outline-secondary" 
                                                     onclick="increaseQuantity(<?php echo $produto['id']; ?>)">+</button>
                                         </div>
@@ -98,16 +94,14 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                         <strong><?php echo formatPrice($produto['preco_lojavirtual']); ?></strong>
                                     </div>
                                     <div class="col-md-2 text-center">
-                                        <strong><?php echo formatPrice($produto['preco_lojavirtual'] * $produto['quantidade']); ?></strong>
+                                        <strong class="item-total"><?php echo formatPrice($produto['preco_lojavirtual'] * $produto['quantidade']); ?></strong>
                                     </div>
                                     <div class="col-md-1 text-end">
-                                        <form method="POST" style="display: inline;">
-                                            <input type="hidden" name="action" value="remove_item">
-                                            <input type="hidden" name="produto_id" value="<?php echo $produto['id']; ?>">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                onclick="removeFromCart(<?php echo $produto['id']; ?>)"
+                                                title="Remover item">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -121,6 +115,9 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                     <div class="col-md-8">
                         <button type="submit" class="btn btn-outline-primary me-2">Atualizar Carrinho</button>
                         <a href="?page=produtos" class="btn btn-outline-secondary">Continuar Comprando</a>
+                        <button type="button" class="btn btn-outline-danger ms-2" onclick="clearCart()">
+                            <i class="fas fa-trash me-2"></i>Limpar Carrinho
+                        </button>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
@@ -128,7 +125,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                 <h5>Resumo do Pedido</h5>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Subtotal:</span>
-                                    <span><?php echo formatPrice($total_carrinho); ?></span>
+                                    <span id="cart-subtotal"><?php echo formatPrice($total_carrinho); ?></span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Frete:</span>
@@ -137,9 +134,9 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                 <hr>
                                 <div class="d-flex justify-content-between mb-3">
                                     <strong>Total:</strong>
-                                    <strong><?php echo formatPrice($total_carrinho); ?></strong>
+                                    <strong id="cart-total"><?php echo formatPrice($total_carrinho); ?></strong>
                                 </div>
-                                <a href="?page=checkout" class="btn btn-success w-100">
+                                <a href="?page=checkout" class="btn btn-success w-100" id="checkoutBtn">
                                     <i class="fas fa-credit-card me-2"></i>Finalizar Compra
                                 </a>
                             </div>
