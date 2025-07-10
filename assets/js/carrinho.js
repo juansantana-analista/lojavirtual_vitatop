@@ -141,6 +141,7 @@ function clearCart() {
 
 // Função para calcular o frete
 function calcularFrete() {
+    alert('Função calcularFrete chamada!');
     const cep = document.getElementById('cep').value;
     const resultado = document.getElementById('frete-resultado');
     const freteValorElement = document.getElementById('frete-valor');
