@@ -234,8 +234,16 @@ unset($_SESSION['dados_pix'], $_SESSION['dados_boleto'], $_SESSION['dados_cartao
                                     </tbody>
                                     <tfoot>
                                         <tr>
+                                            <th colspan="3">Subtotal:</th>
+                                            <th><?php echo formatPrice($pedido['data']['cliente']['valor_itens'] ?? 0); ?></th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3">Frete:</th>
+                                            <th><?php echo formatPrice($pedido['data']['cliente']['valor_frete'] ?? 0); ?></th>
+                                        </tr>
+                                        <tr>
                                             <th colspan="3">Total do Pedido:</th>
-                                            <th><?php echo formatPrice($pedido['data']['cliente']['valor_total']); ?></th>
+                                            <th><?php echo formatPrice($dados_pagamento['valor_total'] ?? $pedido['data']['cliente']['valor_total'] ?? 0); ?></th>
                                         </tr>
                                     </tfoot>
                                 </table>
