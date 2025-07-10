@@ -354,9 +354,9 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                 </div>
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-4 checkout-summary-sticky">
                 <!-- Resumo do Pedido -->
-                <div class="card sticky-top">
+                <div class="card">
                     <div class="card-header">
                         <h5>Resumo do Pedido</h5>
                     </div>
