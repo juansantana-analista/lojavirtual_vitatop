@@ -108,59 +108,48 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                 <?php endforeach; ?>
             </div>
 
-            </div>
-
-            <?php
-            // Seção de sugestões para frete grátis
-            if ($total_carrinho < 300) {
-                $produtos_sugeridos = getProdutosSugeridos($total_carrinho, 300, 4);
-                if (!empty($produtos_sugeridos)) {
-                    $falta_para_frete = 300 - $total_carrinho;
-            ?>
-            <div class="d-flex justify-content-center">
-                <div class="frete-gratis-sugestao" style="max-width: 600px; width: 100%;">
-                    <div class="sugestao-header">
-                        <h3><i class="fas fa-truck me-2"></i>Frete grátis disponível</h3>
-                        <p>Compre acima de R$ 300 e ganhe frete grátis</p>
-                        <div class="falta-valor">
-                            Faltam <?php echo formatPrice($falta_para_frete); ?> para frete grátis
-                        </div>
+            <div class="cart-summary mt-4">
+                <div class="row">
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-outline-primary me-2">Atualizar Carrinho</button>
+                        <a href="?page=produtos" class="btn btn-outline-secondary">Continuar Comprando</a>
+                        <button type="button" class="btn btn-outline-danger ms-2" onclick="clearCart()">
+                            <i class="fas fa-trash me-2"></i>Limpar Carrinho
+                        </button>
                     </div>
-                    <div class="produtos-sugeridos-grid">
-                        <?php foreach ($produtos_sugeridos as $produto): ?>
-                            <?php 
-                            $completa_frete = (float)$produto['preco_lojavirtual'] >= $falta_para_frete;
-                            ?>
-                            <div class="produto-sugestao-card">
-                                <?php if ($completa_frete): ?>
-                                    <div class="completa-frete">Completa</div>
-                                <?php endif; ?>
-                                <div class="row align-items-center">
-                                    <div class="col-md-2 text-center">
-                                        <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
-                                             alt="<?php echo htmlspecialchars($produto['titulo']); ?>" 
-                                             class="produto-imagem">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Resumo do Pedido</h5>
+                                <div class="mb-2">
+                                    <label for="cep">Calcular Frete:</label>
+                                    <div class="input-group">
+                                        <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite seu CEP">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="calcularFreteCarrinho()">Calcular</button>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
-                                        <div class="produto-preco"><?php echo formatPrice($produto['preco_lojavirtual']); ?></div>
-                                    </div>
-                                    <div class="col-md-4 text-end">
-                                        <button type="button" class="btn btn-adicionar" 
-                                                onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
-                                            Adicionar
-                                        </button>
-                                    </div>
+                                    <div id="frete-resultado" class="small text-muted mt-1"></div>
                                 </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Subtotal:</span>
+                                    <span id="cart-subtotal"><?php echo formatPrice($total_carrinho); ?></span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Frete:</span>
+                                    <span id="frete-valor" class="text-muted">A calcular</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <strong>Total:</strong>
+                                    <strong id="cart-total"><?php echo formatPrice($total_carrinho); ?></strong>
+                                </div>
+                                <a href="?page=checkout" class="btn btn-success w-100" id="checkoutBtn">
+                                    <i class="fas fa-credit-card me-2"></i>Finalizar Compra
+                                </a>
                             </div>
-                        <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             </div>
-            <?php 
-                }
-            }
-            ?>
         </form>
     <?php endif; ?>
 </div>
