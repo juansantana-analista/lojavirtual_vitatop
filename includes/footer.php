@@ -82,7 +82,7 @@
                 </div>
             </div>
             
-            <!-- Newsletter Footer -->
+            <!-- Newsletter Footer 
             <div class="newsletter-footer">
                 <div class="row align-items-center">
                     <div class="col-md-6">
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            
+            -->
             <!-- Footer Bottom -->
             <div class="footer-bottom">
                 <div class="row align-items-center">
