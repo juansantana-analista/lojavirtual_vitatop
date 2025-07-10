@@ -178,7 +178,7 @@ $produtos_promocao = array_slice($produtos, 8, 4);
         </div>
     </section>
 
-    <!-- Benefícios VitaTop -->
+    <!-- Benefícios VitaTop 
     <section class="benefits-section-main py-5">
         <div class="section-header text-center mb-5">
             <h2 class="section-title">Por que Escolher VitaTop?</h2>
@@ -224,6 +224,7 @@ $produtos_promocao = array_slice($produtos, 8, 4);
             </div>
         </div>
     </section>
+    -->
 
     <!-- Newsletter VitaTop -->
     <section class="newsletter-section-main py-5">
