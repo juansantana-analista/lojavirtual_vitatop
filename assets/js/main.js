@@ -495,12 +495,10 @@ function carregarParcelas() {
 }
 
 function atualizarTotal() {
-    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\d,]/g, '').replace(',', '.'));
+    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\\d,]/g, '').replace(',', '.'));
     const freteText = document.getElementById('frete').textContent;
-    const frete = freteText === 'A calcular' ? 0 : parseFloat(freteText.replace(/[^\d,]/g, '').replace(',', '.'));
-    
+    const frete = (freteText === 'A calcular' || freteText === 'Grátis') ? 0 : parseFloat(freteText.replace(/[^,]/g, '').replace(',', '.'));
     let total = subtotal + frete;
-    
     document.getElementById('total').textContent = formatMoney(total);
 }
 
