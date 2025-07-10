@@ -117,63 +117,55 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                 if (!empty($produtos_sugeridos)) {
                     $falta_para_frete = 300 - $total_carrinho;
             ?>
-                <div class="frete-gratis-sugestao frete-gratis-center">
-                    <div class="sugestao-header">
-                        <h3><i class="fas fa-truck me-2"></i>Frete grátis disponível</h3>
-                        <p>Compre acima de R$ 300 e ganhe frete grátis</p>
-                        <div class="falta-valor">
-                            Faltam <?php echo formatPrice($falta_para_frete); ?> para frete grátis
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="frete-gratis-sugestao">
+                        <div class="sugestao-header">
+                            <h3><i class="fas fa-truck me-2"></i>Frete grátis disponível</h3>
+                            <p>Compre acima de R$ 300 e ganhe frete grátis</p>
+                            <div class="falta-valor">
+                                Faltam <?php echo formatPrice($falta_para_frete); ?> para frete grátis
+                            </div>
                         </div>
-                    </div>
-                    
-                                        <div class="produtos-sugeridos-grid">
-                        <?php foreach ($produtos_sugeridos as $produto): ?>
-                            <?php 
-                            $completa_frete = (float)$produto['preco_lojavirtual'] >= $falta_para_frete;
-                            ?>
-                            <div class="produto-sugestao-card">
-                                <?php if ($completa_frete): ?>
-                                    <div class="completa-frete">
-                                        Completa
-                                    </div>
-                                <?php endif; ?>
-                                
-                                <div class="row align-items-center">
-                                    <div class="col-md-2">
+                        <div class="produtos-sugeridos-grid">
+                            <?php foreach ($produtos_sugeridos as $produto): ?>
+                                <?php 
+                                $completa_frete = (float)$produto['preco_lojavirtual'] >= $falta_para_frete;
+                                ?>
+                                <div class="produto-sugestao-card row align-items-center mb-2">
+                                    <?php if ($completa_frete): ?>
+                                        <div class="completa-frete">Completa</div>
+                                    <?php endif; ?>
+                                    <div class="col-2 text-center">
                                         <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
                                              alt="<?php echo htmlspecialchars($produto['titulo']); ?>" 
                                              class="produto-imagem">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-6">
                                         <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
                                         <div class="produto-preco"><?php echo formatPrice($produto['preco_lojavirtual']); ?></div>
                                     </div>
-                                    <div class="col-md-2 text-center">
+                                    <div class="col-4 text-end">
                                         <button type="button" class="btn btn-adicionar" 
                                                 onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
                                             Adicionar
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                </div>
-            <?php 
-                }
-            }
-            ?>
 
-            <div class="cart-summary mt-4">
-                <div class="row">
-                    <div class="col-md-8">
-                        <button type="submit" class="btn btn-outline-primary me-2">Atualizar Carrinho</button>
+                    <div class="mt-3 d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-outline-primary">Atualizar Carrinho</button>
                         <a href="?page=produtos" class="btn btn-outline-secondary">Continuar Comprando</a>
-                        <button type="button" class="btn btn-outline-danger ms-2" onclick="clearCart()">
+                        <button type="button" class="btn btn-outline-danger" onclick="clearCart()">
                             <i class="fas fa-trash me-2"></i>Limpar Carrinho
                         </button>
                     </div>
-                    <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <div class="cart-summary mt-0">
                         <div class="card">
                             <div class="card-body">
                                 <h5>Resumo do Pedido</h5>
@@ -206,6 +198,10 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                     </div>
                 </div>
             </div>
+            <?php 
+                }
+            }
+            ?>
         </form>
     <?php endif; ?>
 </div>
