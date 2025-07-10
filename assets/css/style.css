@@ -48,6 +48,159 @@ body {
 }
 
 /* =================
+   CONTROLES DE QUANTIDADE 
+   ================= */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.quantity-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--boticario-green);
+    background: white;
+    color: var(--boticario-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.quantity-btn:hover {
+    background: var(--boticario-green);
+    color: white;
+    transform: scale(1.05);
+}
+
+.quantity-btn:active {
+    transform: scale(0.95);
+}
+
+.quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.quantity-input {
+    width: 80px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--boticario-green);
+    background: white;
+    transition: var(--transition);
+}
+
+.quantity-input:focus {
+    outline: none;
+    border-color: var(--boticario-green);
+    box-shadow: 0 0 0 3px rgba(44, 85, 48, 0.1);
+}
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input[type=number] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Versão compacta para cards */
+.quantity-controls-compact {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.quantity-controls-compact .quantity-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+.quantity-controls-compact .quantity-input {
+    width: 60px;
+    height: 32px;
+    font-size: 14px;
+}
+
+/* Versão para carrinho */
+.quantity-controls-cart {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.quantity-controls-cart .quantity-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+}
+
+.quantity-controls-cart .quantity-input {
+    width: 70px;
+    height: 36px;
+    font-size: 14px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .quantity-controls {
+        gap: 6px;
+    }
+    
+    .quantity-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+    
+    .quantity-input {
+        width: 70px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .quantity-controls {
+        gap: 4px;
+    }
+    
+    .quantity-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .quantity-input {
+        width: 60px;
+        height: 32px;
+        font-size: 13px;
+    }
+}
+
+/* =================
    BARRA DO AFILIADO 
    ================= */
 .affiliate-bar {
