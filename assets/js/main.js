@@ -153,31 +153,140 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar favoritos
     function initFavorites() {
+        // Carregar favoritos do localStorage
+        loadFavorites();
+        
+        // Adicionar event listeners aos botões de favorito
         document.querySelectorAll('.btn-favorite').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                const icon = this.querySelector('i');
-                const isFavorite = icon.classList.contains('fas');
+                const productId = this.dataset.productId;
+                if (!productId) return;
                 
-                if (isFavorite) {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                    showToast('Removido dos favoritos', 'info');
-                } else {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                    showToast('Adicionado aos favoritos!', 'success');
-                }
-                
-                // Animação de coração
-                this.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 200);
+                toggleFavorite(productId, this);
             });
         });
+    }
+
+    function loadFavorites() {
+        try {
+            const favorites = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
+            // Atualizar visual dos botões de favorito
+            favorites.forEach(productId => {
+                const button = document.querySelector(`[data-product-id="${productId}"].btn-favorite`);
+                if (button) {
+                    const icon = button.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                    }
+                }
+            });
+            
+            // Atualizar contagem no header
+            updateFavoritesCount();
+        } catch (error) {
+            console.error('Erro ao carregar favoritos:', error);
+        }
+    }
+
+    function updateFavoritesCount() {
+        try {
+            const favorites = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
+            const badge = document.getElementById('favoritesCount');
+            
+            if (badge) {
+                if (favorites.length > 0) {
+                    badge.textContent = favorites.length;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar contagem de favoritos:', error);
+        }
+    }
+
+    function toggleFavorite(productId, button) {
+        try {
+            let favorites = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
+            const icon = button.querySelector('i');
+            
+            if (favorites.includes(productId)) {
+                // Remover dos favoritos
+                favorites = favorites.filter(id => id !== productId);
+                if (icon) {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                }
+                showToast('Removido dos favoritos', 'info');
+            } else {
+                // Adicionar aos favoritos
+                favorites.push(productId);
+                if (icon) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                }
+                showToast('Adicionado aos favoritos!', 'success');
+            }
+            
+            // Salvar no localStorage
+            localStorage.setItem('vitatop_favorites', JSON.stringify(favorites));
+            
+            // Atualizar contagem no header
+            updateFavoritesCount();
+            
+            // Animação de coração
+            button.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 200);
+            
+        } catch (error) {
+            console.error('Erro ao salvar favorito:', error);
+            showToast('Erro ao salvar favorito', 'error');
+        }
+    }
+
+    function isFavorite(productId) {
+        try {
+            const favorites = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
+            return favorites.includes(productId);
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function getFavorites() {
+        try {
+            return JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function clearFavorites() {
+        try {
+            localStorage.removeItem('vitatop_favorites');
+            // Atualizar visual dos botões
+            document.querySelectorAll('.btn-favorite').forEach(button => {
+                const icon = button.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                }
+            });
+            
+            // Atualizar contagem no header
+            updateFavoritesCount();
+            
+            showToast('Favoritos limpos', 'info');
+        } catch (error) {
+            console.error('Erro ao limpar favoritos:', error);
+        }
     }
     
     // Scroll suave para seção de produtos

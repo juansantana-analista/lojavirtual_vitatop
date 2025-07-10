@@ -2495,3 +2495,68 @@ html {
         padding: 1px 3px;
     }
 }
+
+/* =================
+   LINK DE FAVORITOS NO HEADER
+   ================= */
+.favorites-info {
+    display: flex;
+    align-items: center;
+}
+
+.favorites-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--dark-gray);
+    transition: var(--transition);
+    position: relative;
+}
+
+.favorites-link:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.favorites-icon {
+    font-size: 1.5rem;
+    margin-right: 8px;
+}
+
+.favorites-text {
+    line-height: 1.2;
+}
+
+.favorites-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+
+/* Responsivo para favoritos */
+@media (max-width: 768px) {
+    .favorites-text {
+        display: none !important;
+    }
+    
+    .favorites-icon {
+        margin-right: 0;
+    }
+    
+    .favorites-badge {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+}

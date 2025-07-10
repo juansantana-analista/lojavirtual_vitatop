@@ -133,6 +133,18 @@ try {
                                 <?php endif; ?>
                             </a>
                         </div>
+                        
+                        <!-- Favoritos -->
+                        <div class="favorites-info ms-3">
+                            <a href="?page=favoritos" class="favorites-link" title="Meus Favoritos">
+                                <i class="fas fa-heart favorites-icon"></i>
+                                <div class="favorites-text d-none d-lg-block">
+                                    <small class="text-muted d-block">Meus</small>
+                                    <strong>Favoritos</strong>
+                                </div>
+                                <span class="favorites-badge" id="favoritesCount" style="display: none;">0</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -258,6 +270,11 @@ try {
                         <?php if (getCartCount() > 0): ?>
                             <span class="badge bg-primary ms-2"><?php echo getCartCount(); ?></span>
                         <?php endif; ?>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="?page=favoritos" class="nav-link">
+                        <i class="fas fa-heart me-3"></i>Meus Favoritos
                     </a>
                 </li>
             </ul>
