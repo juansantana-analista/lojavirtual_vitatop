@@ -117,7 +117,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                 if (!empty($produtos_sugeridos)) {
                     $falta_para_frete = 300 - $total_carrinho;
             ?>
-                <div class="frete-gratis-sugestao">
+                <div class="frete-gratis-sugestao frete-gratis-center">
                     <div class="sugestao-header">
                         <h3><i class="fas fa-truck me-2"></i>Frete grátis disponível</h3>
                         <p>Compre acima de R$ 300 e ganhe frete grátis</p>

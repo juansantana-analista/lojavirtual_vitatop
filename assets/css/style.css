@@ -1847,3 +1847,17 @@ html {
         font-size: 11px;
     }
 }
+
+.frete-gratis-center {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 992px) {
+    .frete-gratis-center {
+        max-width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
