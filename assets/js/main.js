@@ -548,3 +548,84 @@ function showLoading(element) {
 function hideLoading() {
     document.querySelectorAll('.loading').forEach(el => el.remove());
 }
+
+// Função para atualizar seção de sugestões de frete grátis
+function atualizarSugestoesFrete() {
+    const sugestaoSection = document.querySelector('.frete-gratis-sugestao');
+    if (!sugestaoSection) return;
+    
+    // Buscar total atual do carrinho
+    const subtotalElement = document.getElementById('cart-subtotal') || document.getElementById('subtotal');
+    if (!subtotalElement) return;
+    
+    const totalText = subtotalElement.textContent;
+    const total = parseFloat(totalText.replace(/[^\d,]/g, '').replace(',', '.'));
+    
+    // Se já tem frete grátis, ocultar seção
+    if (total >= 300) {
+        sugestaoSection.style.display = 'none';
+        return;
+    }
+    
+    // Atualizar valor que falta
+    const faltaElement = sugestaoSection.querySelector('.falta-valor');
+    if (faltaElement) {
+        const falta = 300 - total;
+        faltaElement.innerHTML = `<i class="fas fa-arrow-up me-1"></i>Faltam apenas R$ ${falta.toFixed(2).replace('.', ',')} para frete grátis!`;
+    }
+    
+    // Atualizar badges "Completa!"
+    const cards = sugestaoSection.querySelectorAll('.produto-sugestao-card');
+    cards.forEach(card => {
+        const precoElement = card.querySelector('.produto-preco');
+        const badgeElement = card.querySelector('.completa-frete');
+        
+        if (precoElement) {
+            const precoText = precoElement.textContent;
+            const preco = parseFloat(precoText.replace(/[^\d,]/g, '').replace(',', '.'));
+            
+            if (preco >= (300 - total)) {
+                if (!badgeElement) {
+                    const badge = document.createElement('div');
+                    badge.className = 'completa-frete';
+                    badge.innerHTML = '<i class="fas fa-star me-1"></i>Completa!';
+                    card.appendChild(badge);
+                }
+            } else {
+                if (badgeElement) {
+                    badgeElement.remove();
+                }
+            }
+        }
+    });
+}
+
+// Função para recarregar seção de sugestões via AJAX
+function recarregarSugestoesFrete() {
+    const sugestaoSection = document.querySelector('.frete-gratis-sugestao');
+    if (!sugestaoSection) return;
+    
+    // Mostrar loading
+    sugestaoSection.style.opacity = '0.5';
+    
+    // Fazer requisição AJAX para recarregar a seção
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const novaSugestao = doc.querySelector('.frete-gratis-sugestao');
+            
+            if (novaSugestao) {
+                sugestaoSection.innerHTML = novaSugestao.innerHTML;
+            } else {
+                sugestaoSection.style.display = 'none';
+            }
+            
+            sugestaoSection.style.opacity = '1';
+        })
+        .catch(error => {
+            console.error('Erro ao recarregar sugestões:', error);
+            sugestaoSection.style.opacity = '1';
+        });
+}

@@ -1647,6 +1647,230 @@ html {
     font-size: 12px;
 }
 
+/* Seção de sugestões para frete grátis */
+.frete-gratis-sugestao {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 30px 0;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.frete-gratis-sugestao::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.frete-gratis-sugestao .sugestao-header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.frete-gratis-sugestao .sugestao-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.frete-gratis-sugestao .sugestao-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.frete-gratis-sugestao .falta-valor {
+    background: rgba(255,255,255,0.2);
+    border-radius: 25px;
+    padding: 8px 20px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin: 10px 0;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.produtos-sugeridos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.produto-sugestao-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.produto-sugestao-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.produto-sugestao-card:hover::before {
+    left: 100%;
+}
+
+.produto-sugestao-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border-color: rgba(255,255,255,0.5);
+}
+
+.produto-sugestao-card .produto-imagem {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 auto 10px;
+    display: block;
+}
+
+.produto-sugestao-card .produto-nome {
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.produto-sugestao-card .produto-preco {
+    color: #28a745;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.produto-sugestao-card .btn-adicionar {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.produto-sugestao-card .btn-adicionar:hover {
+    background: linear-gradient(45deg, #218838, #1ea085);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+.produto-sugestao-card .completa-frete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff6b6b;
+    color: white;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+    .frete-gratis-sugestao {
+        padding: 20px;
+        margin: 20px 0;
+    }
+    
+    .frete-gratis-sugestao .sugestao-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .frete-gratis-sugestao .sugestao-header p {
+        font-size: 1rem;
+    }
+    
+    .produtos-sugeridos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .produto-sugestao-card {
+        padding: 12px;
+    }
+    
+    .produto-sugestao-card .produto-imagem {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .produto-sugestao-card .produto-nome {
+        font-size: 0.8rem;
+    }
+    
+    .produto-sugestao-card .produto-preco {
+        font-size: 1rem;
+    }
+    
+    .produto-sugestao-card .btn-adicionar {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .produtos-sugeridos-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .frete-gratis-sugestao {
+        padding: 15px;
+    }
+    
+    .falta-valor {
+        font-size: 1rem;
+        padding: 6px 15px;
+    }
+}
+
 /* Responsivo para mobile */
 @media (max-width: 768px) {
     .cart-item .btn-outline-danger {

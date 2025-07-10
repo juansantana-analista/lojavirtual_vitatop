@@ -24,6 +24,11 @@ function addToCart(produtoId, quantidade = 1) {
             // Atualizar contador do carrinho
             updateCartCounter();
             
+            // Atualizar seção de sugestões de frete grátis
+            if (typeof atualizarSugestoesFrete === 'function') {
+                setTimeout(atualizarSugestoesFrete, 500);
+            }
+            
             // Mostrar feedback
             showToast('Produto adicionado à sua Sacola!', 'success');
         } else {
@@ -154,6 +159,12 @@ function updateCartDisplay() {
     
     document.getElementById('cart-total').textContent = formatMoney(total);
     document.getElementById('cart-subtotal').textContent = formatMoney(total);
+    
+    // Atualizar seção de sugestões de frete grátis
+    if (typeof atualizarSugestoesFrete === 'function') {
+        setTimeout(atualizarSugestoesFrete, 300);
+    }
+    
     // Recalcular frete automaticamente se o CEP estiver preenchido
     const cepInput = document.getElementById('cep');
     if (cepInput && cepInput.value.length >= 8) {

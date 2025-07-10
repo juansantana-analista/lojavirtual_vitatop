@@ -306,3 +306,48 @@ function clearCache($pattern = '*') {
         unlink($file);
     }
 }
+
+/**
+ * Buscar produtos sugeridos para frete grátis
+ */
+function getProdutosSugeridos($total_atual, $limite_frete_gratis = 300, $limite_produtos = 4) {
+    // Buscar todos os produtos
+    $produtos_response = listarProdutos();
+    if ($produtos_response['status'] !== 'success') {
+        return [];
+    }
+    
+    $todos_produtos = $produtos_response['data']['data'];
+    $produtos_carrinho = array_keys($_SESSION['carrinho'] ?? []);
+    
+    // Filtrar produtos que não estão no carrinho
+    $produtos_disponiveis = array_filter($todos_produtos, function($produto) use ($produtos_carrinho) {
+        return !in_array($produto['id'], $produtos_carrinho);
+    });
+    
+    // Calcular quanto falta para frete grátis
+    $falta_para_frete = $limite_frete_gratis - $total_atual;
+    
+    if ($falta_para_frete <= 0) {
+        return []; // Já tem frete grátis
+    }
+    
+    // Ordenar produtos por relevância para frete grátis
+    usort($produtos_disponiveis, function($a, $b) use ($falta_para_frete) {
+        $preco_a = (float)$a['preco_lojavirtual'];
+        $preco_b = (float)$b['preco_lojavirtual'];
+        
+        // Priorizar produtos que completam o frete grátis
+        $completa_a = $preco_a >= $falta_para_frete;
+        $completa_b = $preco_b >= $falta_para_frete;
+        
+        if ($completa_a && !$completa_b) return -1;
+        if (!$completa_a && $completa_b) return 1;
+        
+        // Se ambos completam ou não completam, priorizar os mais baratos
+        return $preco_a <=> $preco_b;
+    });
+    
+    // Retornar apenas os primeiros produtos
+    return array_slice($produtos_disponiveis, 0, $limite_produtos);
+}
