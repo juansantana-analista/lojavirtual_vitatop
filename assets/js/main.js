@@ -122,28 +122,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // Melhorar botões de adicionar ao carrinho
     function initAddToCartButtons() {
         document.querySelectorAll('.btn-add-cart').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
                 const productId = this.dataset.productId;
                 const originalContent = this.innerHTML;
                 
                 // Estado de loading
+                this.disabled = true;
                 this.classList.add('loading');
-                this.innerHTML = '<span>Adicionando...</span>';
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adicionando...';
                 
-                // Simular adição (substituir pela função real)
+                // Chamar função real de adicionar ao carrinho
+                if (typeof addToCart === 'function') {
+                    addToCart(productId, 1);
+                } else {
+                    console.error('Função addToCart não encontrada');
+                    showToast('Erro ao adicionar produto', 'error');
+                }
+                
+                // Voltar ao estado original após um delay
                 setTimeout(() => {
+                    this.disabled = false;
                     this.classList.remove('loading');
-                    this.innerHTML = '<i class="fas fa-check me-2"></i>Adicionado!';
-                    this.classList.add('btn-success');
-                    this.classList.remove('btn-primary');
-                    
-                    // Voltar ao estado original
-                    setTimeout(() => {
-                        this.innerHTML = originalContent;
-                        this.classList.remove('btn-success');
-                        this.classList.add('btn-primary');
-                    }, 2000);
-                }, 800);
+                    this.innerHTML = originalContent;
+                }, 2000);
             });
         });
     }

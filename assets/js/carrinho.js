@@ -2,7 +2,12 @@
 
 // Funções do carrinho
 function addToCart(produtoId, quantidade = 1) {
-    fetch('/lojinha_vitatop/api/carrinho.php', {
+    // Determinar o caminho correto da API
+    const apiPath = window.location.pathname.includes('/lojinha_vitatop/') 
+        ? '/lojinha_vitatop/api/carrinho.php' 
+        : '/api/carrinho.php';
+    
+    fetch(apiPath, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -20,7 +25,7 @@ function addToCart(produtoId, quantidade = 1) {
             updateCartCounter();
             
             // Mostrar feedback
-            showToast('Produto adicionado ao carrinho!', 'success');
+            showToast('Produto adicionado à sua Sacola!', 'success');
         } else {
             showToast('Erro ao adicionar produto', 'error');
         }
@@ -89,18 +94,49 @@ function decreaseQuantity(produtoId) {
 }
 
 function updateCartCounter() {
-    fetch('/lojinha_vitatop/api/carrinho.php?action=count')
+    // Determinar o caminho correto da API
+    const apiPath = window.location.pathname.includes('/lojinha_vitatop/') 
+        ? '/lojinha_vitatop/api/carrinho.php?action=count' 
+        : '/api/carrinho.php?action=count';
+    
+    fetch(apiPath)
         .then(response => response.json())
         .then(data => {
-            const badge = document.querySelector('.badge');
-            if (badge) {
+            // Atualizar o badge principal do header
+            const cartBadge = document.querySelector('.cart-badge');
+            if (cartBadge) {
                 if (data.count > 0) {
-                    badge.textContent = data.count;
-                    badge.style.display = 'inline';
+                    cartBadge.textContent = data.count;
+                    cartBadge.style.display = 'inline';
                 } else {
-                    badge.style.display = 'none';
+                    cartBadge.style.display = 'none';
                 }
             }
+            
+            // Atualizar também o badge do menu mobile
+            const mobileBadge = document.querySelector('.mobile-nav .badge');
+            if (mobileBadge) {
+                if (data.count > 0) {
+                    mobileBadge.textContent = data.count;
+                    mobileBadge.style.display = 'inline';
+                } else {
+                    mobileBadge.style.display = 'none';
+                }
+            }
+            
+            // Se não existir badge, criar um
+            if (!cartBadge && data.count > 0) {
+                const cartLink = document.querySelector('.cart-link');
+                if (cartLink) {
+                    const newBadge = document.createElement('span');
+                    newBadge.className = 'cart-badge';
+                    newBadge.textContent = data.count;
+                    cartLink.appendChild(newBadge);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao atualizar contador do carrinho:', error);
         });
 }
 
@@ -212,11 +248,18 @@ function calcularFreteCarrinho() {
 // Toast notifications
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
+    toast.className = `toast-notification toast-${type}`;
+    
+    const icon = type === 'success' ? 'fa-check-circle' : 
+                 type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+    
     toast.innerHTML = `
         <div class="toast-content">
+            <i class="fas ${icon} me-2"></i>
             <span class="toast-message">${message}</span>
-            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     `;
     
@@ -225,36 +268,93 @@ function showToast(message, type = 'info') {
         const styles = document.createElement('style');
         styles.id = 'toast-styles';
         styles.textContent = `
-            .toast {
+            .toast-notification {
                 position: fixed;
                 top: 20px;
                 right: 20px;
                 background: white;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                padding: 15px;
-                max-width: 300px;
+                border-radius: 12px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                padding: 16px 20px;
+                max-width: 350px;
                 z-index: 9999;
-                animation: slideIn 0.3s ease;
+                animation: slideInRight 0.4s ease;
+                border: 1px solid #e9ecef;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
-            .toast-success { border-left: 4px solid #28a745; }
-            .toast-error { border-left: 4px solid #dc3545; }
-            .toast-info { border-left: 4px solid #17a2b8; }
+            .toast-success { 
+                border-left: 4px solid #28a745; 
+                background: linear-gradient(135deg, #f8fff9, #ffffff);
+            }
+            .toast-error { 
+                border-left: 4px solid #dc3545; 
+                background: linear-gradient(135deg, #fff8f8, #ffffff);
+            }
+            .toast-info { 
+                border-left: 4px solid #17a2b8; 
+                background: linear-gradient(135deg, #f8fdff, #ffffff);
+            }
             .toast-content {
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
+                gap: 12px;
+            }
+            .toast-message {
+                flex: 1;
+                font-size: 0.95rem;
+                font-weight: 500;
+                color: #333;
             }
             .toast-close {
                 background: none;
                 border: none;
-                font-size: 18px;
+                font-size: 14px;
                 cursor: pointer;
-                margin-left: 10px;
+                color: #6c757d;
+                padding: 4px;
+                border-radius: 50%;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
             }
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
+            .toast-close:hover {
+                background: #f8f9fa;
+                color: #333;
+            }
+            .toast-success .fas.fa-check-circle { color: #28a745; }
+            .toast-error .fas.fa-exclamation-circle { color: #dc3545; }
+            .toast-info .fas.fa-info-circle { color: #17a2b8; }
+            @keyframes slideInRight {
+                from { 
+                    transform: translateX(100%); 
+                    opacity: 0; 
+                }
+                to { 
+                    transform: translateX(0); 
+                    opacity: 1; 
+                }
+            }
+            @media (max-width: 768px) {
+                .toast-notification {
+                    top: 10px;
+                    right: 10px;
+                    left: 10px;
+                    max-width: none;
+                    animation: slideInTop 0.4s ease;
+                }
+                @keyframes slideInTop {
+                    from { 
+                        transform: translateY(-100%); 
+                        opacity: 0; 
+                    }
+                    to { 
+                        transform: translateY(0); 
+                        opacity: 1; 
+                    }
+                }
             }
         `;
         document.head.appendChild(styles);
@@ -262,16 +362,22 @@ function showToast(message, type = 'info') {
     
     document.body.appendChild(toast);
     
-    // Remover automaticamente após 5 segundos
+    // Remover automaticamente após 4 segundos
     setTimeout(() => {
         if (toast.parentElement) {
-            toast.remove();
+            toast.style.animation = 'slideOutRight 0.3s ease forwards';
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.remove();
+                }
+            }, 300);
         }
-    }, 5000);
+    }, 4000);
 }
 
 // Inicializar quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
+    // Atualizar contador do carrinho
     updateCartCounter();
     
     // Adicionar listeners para inputs de quantidade
@@ -282,4 +388,11 @@ document.addEventListener('DOMContentLoaded', function() {
             updateCartQuantity(produtoId, quantidade);
         });
     });
+    
+    // Atualizar contador periodicamente (a cada 30 segundos)
+    setInterval(updateCartCounter, 30000);
 });
+
+// Função global para ser chamada de outros arquivos
+window.updateCartCounter = updateCartCounter;
+window.showToast = showToast;
