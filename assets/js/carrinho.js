@@ -161,10 +161,15 @@ function calcularFrete() {
     })
     .then(response => response.json())
     .then(data => {
+        console.log('Resposta do frete:', data);
         if (data.status === 'success') {
             // Pega o valor do frete do campo correto
             const freteValor = parseFloat(data.data && data.data.frete ? data.data.frete : data.valor);
-            freteValorElement.textContent = formatMoney(freteValor);
+            if (freteValor === 0) {
+                freteValorElement.textContent = 'Grátis';
+            } else {
+                freteValorElement.textContent = formatMoney(freteValor);
+            }
             // Atualiza o total
             const subtotal = parseFloat(document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.'));
             if (!isNaN(subtotal)) {
