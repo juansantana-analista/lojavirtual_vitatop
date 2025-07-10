@@ -119,10 +119,10 @@ $total_carrinho = calculateCartTotal($todos_produtos);
             ?>
                 <div class="frete-gratis-sugestao">
                     <div class="sugestao-header">
-                        <h3><i class="fas fa-shipping-fast me-2"></i>Frete Grátis!</h3>
-                        <p>Adicione mais produtos e ganhe frete grátis em compras acima de R$ 300</p>
+                        <h3><i class="fas fa-truck me-2"></i>Frete grátis disponível</h3>
+                        <p>Compre acima de R$ 300 e ganhe frete grátis</p>
                         <div class="falta-valor">
-                            <i class="fas fa-arrow-up me-1"></i>Faltam apenas <?php echo formatPrice($falta_para_frete); ?> para frete grátis!
+                            Faltam <?php echo formatPrice($falta_para_frete); ?> para frete grátis
                         </div>
                     </div>
                     
@@ -132,11 +132,11 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                             $completa_frete = (float)$produto['preco_lojavirtual'] >= $falta_para_frete;
                             ?>
                             <div class="produto-sugestao-card">
-                                <?php if ($completa_frete): ?>
-                                    <div class="completa-frete">
-                                        <i class="fas fa-star me-1"></i>Completa!
-                                    </div>
-                                <?php endif; ?>
+                                                            <?php if ($completa_frete): ?>
+                                <div class="completa-frete">
+                                    Completa
+                                </div>
+                            <?php endif; ?>
                                 
                                 <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
                                      alt="<?php echo htmlspecialchars($produto['titulo']); ?>" 
@@ -147,7 +147,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                                 
                                 <button type="button" class="btn btn-adicionar" 
                                         onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
-                                    <i class="fas fa-plus me-1"></i>Adicionar
+                                    Adicionar
                                 </button>
                             </div>
                         <?php endforeach; ?>

@@ -428,10 +428,10 @@ $total_carrinho = calculateCartTotal($todos_produtos);
         ?>
             <div class="frete-gratis-sugestao">
                 <div class="sugestao-header">
-                    <h3><i class="fas fa-shipping-fast me-2"></i>Frete Grátis!</h3>
-                    <p>Adicione mais produtos e ganhe frete grátis em compras acima de R$ 300</p>
+                    <h3><i class="fas fa-truck me-2"></i>Frete grátis disponível</h3>
+                    <p>Compre acima de R$ 300 e ganhe frete grátis</p>
                     <div class="falta-valor">
-                        <i class="fas fa-arrow-up me-1"></i>Faltam apenas <?php echo formatPrice($falta_para_frete); ?> para frete grátis!
+                        Faltam <?php echo formatPrice($falta_para_frete); ?> para frete grátis
                     </div>
                 </div>
                 
@@ -443,7 +443,7 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                         <div class="produto-sugestao-card">
                             <?php if ($completa_frete): ?>
                                 <div class="completa-frete">
-                                    <i class="fas fa-star me-1"></i>Completa!
+                                    Completa
                                 </div>
                             <?php endif; ?>
                             
@@ -456,15 +456,15 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                             
                             <button type="button" class="btn btn-adicionar" 
                                     onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
-                                <i class="fas fa-plus me-1"></i>Adicionar
+                                Adicionar
                             </button>
                         </div>
                     <?php endforeach; ?>
                 </div>
                 
                 <div class="text-center mt-4">
-                    <a href="?page=carrinho" class="btn btn-outline-light">
-                        <i class="fas fa-shopping-cart me-2"></i>Ver Carrinho Atualizado
+                    <a href="?page=carrinho" class="btn btn-outline-secondary">
+                        Ver carrinho atualizado
                     </a>
                 </div>
             </div>

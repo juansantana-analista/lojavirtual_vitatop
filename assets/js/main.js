@@ -571,7 +571,7 @@ function atualizarSugestoesFrete() {
     const faltaElement = sugestaoSection.querySelector('.falta-valor');
     if (faltaElement) {
         const falta = 300 - total;
-        faltaElement.innerHTML = `<i class="fas fa-arrow-up me-1"></i>Faltam apenas R$ ${falta.toFixed(2).replace('.', ',')} para frete grátis!`;
+        faltaElement.innerHTML = `Faltam R$ ${falta.toFixed(2).replace('.', ',')} para frete grátis`;
     }
     
     // Atualizar badges "Completa!"
@@ -584,14 +584,14 @@ function atualizarSugestoesFrete() {
             const precoText = precoElement.textContent;
             const preco = parseFloat(precoText.replace(/[^\d,]/g, '').replace(',', '.'));
             
-            if (preco >= (300 - total)) {
-                if (!badgeElement) {
-                    const badge = document.createElement('div');
-                    badge.className = 'completa-frete';
-                    badge.innerHTML = '<i class="fas fa-star me-1"></i>Completa!';
-                    card.appendChild(badge);
-                }
-            } else {
+                            if (preco >= (300 - total)) {
+                    if (!badgeElement) {
+                        const badge = document.createElement('div');
+                        badge.className = 'completa-frete';
+                        badge.innerHTML = 'Completa';
+                        card.appendChild(badge);
+                    }
+                } else {
                 if (badgeElement) {
                     badgeElement.remove();
                 }

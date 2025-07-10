@@ -1647,122 +1647,83 @@ html {
     font-size: 12px;
 }
 
-/* Seção de sugestões para frete grátis */
+/* Seção de sugestões para frete grátis - Versão discreta */
 .frete-gratis-sugestao {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 15px;
-    padding: 25px;
-    margin: 30px 0;
-    color: white;
-    position: relative;
-    overflow: hidden;
-}
-
-.frete-gratis-sugestao::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    color: #495057;
 }
 
 .frete-gratis-sugestao .sugestao-header {
-    position: relative;
-    z-index: 2;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .frete-gratis-sugestao .sugestao-header h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #28a745;
 }
 
 .frete-gratis-sugestao .sugestao-header p {
-    font-size: 1.1rem;
-    opacity: 0.9;
+    font-size: 0.95rem;
+    color: #6c757d;
     margin-bottom: 0;
 }
 
 .frete-gratis-sugestao .falta-valor {
-    background: rgba(255,255,255,0.2);
-    border-radius: 25px;
-    padding: 8px 20px;
+    background: #e8f5e8;
+    border: 1px solid #c3e6c3;
+    border-radius: 6px;
+    padding: 6px 12px;
     display: inline-block;
-    font-weight: 600;
-    font-size: 1.2rem;
-    margin: 10px 0;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin: 8px 0;
+    color: #155724;
 }
 
 .produtos-sugeridos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 25px;
-    position: relative;
-    z-index: 2;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
 }
 
 .produto-sugestao-card {
-    background: rgba(255,255,255,0.95);
-    border-radius: 12px;
-    padding: 15px;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 12px;
     text-align: center;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+    transition: all 0.2s ease;
     position: relative;
-    overflow: hidden;
-}
-
-.produto-sugestao-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    transition: left 0.5s ease;
-}
-
-.produto-sugestao-card:hover::before {
-    left: 100%;
 }
 
 .produto-sugestao-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    border-color: rgba(255,255,255,0.5);
+    border-color: #28a745;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .produto-sugestao-card .produto-imagem {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
-    border-radius: 8px;
-    margin: 0 auto 10px;
+    border-radius: 4px;
+    margin: 0 auto 8px;
     display: block;
 }
 
 .produto-sugestao-card .produto-nome {
-    color: #333;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 8px;
-    line-height: 1.3;
+    color: #495057;
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    line-height: 1.2;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -1771,74 +1732,81 @@ html {
 
 .produto-sugestao-card .produto-preco {
     color: #28a745;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
 }
 
 .produto-sugestao-card .btn-adicionar {
-    background: linear-gradient(45deg, #28a745, #20c997);
+    background: #28a745;
     border: none;
     color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
     width: 100%;
 }
 
 .produto-sugestao-card .btn-adicionar:hover {
-    background: linear-gradient(45deg, #218838, #1ea085);
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+    background: #218838;
+    transform: none;
 }
 
 .produto-sugestao-card .completa-frete {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #ff6b6b;
+    top: 8px;
+    right: 8px;
+    background: #dc3545;
     color: white;
-    font-size: 0.7rem;
-    padding: 4px 8px;
-    border-radius: 10px;
-    font-weight: 600;
-    animation: pulse 2s infinite;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+/* Ajustes no layout do carrinho */
+.cart-summary {
+    margin-top: 30px;
+}
+
+.cart-summary .row {
+    margin: 0 -15px;
+}
+
+.cart-summary .col-md-8,
+.cart-summary .col-md-4 {
+    padding: 0 15px;
 }
 
 /* Responsividade para mobile */
 @media (max-width: 768px) {
     .frete-gratis-sugestao {
-        padding: 20px;
-        margin: 20px 0;
+        padding: 15px;
+        margin: 15px 0;
     }
     
     .frete-gratis-sugestao .sugestao-header h3 {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
     }
     
     .frete-gratis-sugestao .sugestao-header p {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
     .produtos-sugeridos-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        gap: 12px;
     }
     
     .produto-sugestao-card {
-        padding: 12px;
+        padding: 10px;
     }
     
     .produto-sugestao-card .produto-imagem {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
     }
     
     .produto-sugestao-card .produto-nome {
@@ -1846,28 +1814,28 @@ html {
     }
     
     .produto-sugestao-card .produto-preco {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
     .produto-sugestao-card .btn-adicionar {
-        padding: 6px 12px;
-        font-size: 0.8rem;
+        padding: 5px 10px;
+        font-size: 0.75rem;
     }
 }
 
 @media (max-width: 480px) {
     .produtos-sugeridos-grid {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 10px;
     }
     
     .frete-gratis-sugestao {
-        padding: 15px;
+        padding: 12px;
     }
     
     .falta-valor {
-        font-size: 1rem;
-        padding: 6px 15px;
+        font-size: 0.85rem;
+        padding: 5px 10px;
     }
 }
 
