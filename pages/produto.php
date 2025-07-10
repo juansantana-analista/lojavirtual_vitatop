@@ -103,7 +103,7 @@ if ($produto['preco'] < $produto['preco2']) {
                 <div class="shipping-calculator">
                     <h6>Calcular Frete</h6>
                     <div class="input-group mb-2">
-                        <input type="text" class="form-control" placeholder="Digite seu CEP" id="cepFrete">
+                        <input type="text" class="form-control" placeholder="Digite seu CEP" id="cepFrete" oninput="applyCepMask(this)">
                         <button class="btn btn-outline-primary" onclick="calcularFreteDetalhes()">Calcular</button>
                     </div>
                     <div id="freteResultado"></div>
@@ -301,6 +301,10 @@ if ($produto['preco'] < $produto['preco2']) {
 </div>
 
 <script>
+function applyCepMask(input) {
+    input.value = input.value.replace(/\D/g, '').replace(/(\d{5})(\d{1,3})/, '$1-$2');
+}
+
 function increaseProductQuantity() {
     const input = document.getElementById('productQuantity');
     const currentValue = parseInt(input.value);
