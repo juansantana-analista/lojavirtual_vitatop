@@ -381,9 +381,14 @@ function buscarCep() {
 }
 
 function calcularFrete(cep) {
-    const valor = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\d,]/g, '').replace(',', '.'));
-    
-    // Fazer requisição para calcular frete
+    const subtotalElem = document.getElementById('subtotal');
+    const freteElem = document.getElementById('frete');
+    const freteInfo = document.getElementById('freteCalculado');
+    if (!subtotalElem || !freteElem) {
+        console.error('Elementos de subtotal ou frete não encontrados no DOM.');
+        return;
+    }
+    const valor = parseFloat(subtotalElem.textContent.replace(/[^\d,]/g, '').replace(',', '.'));
     fetch('/lojinha_vitatop/api/calcular_frete.php', {
         method: 'POST',
         headers: {
@@ -394,26 +399,43 @@ function calcularFrete(cep) {
             valor: valor
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            // Pega o valor do frete do campo correto
-            const freteValor = parseFloat(data.data && data.data.frete ? data.data.frete : data.valor);
-            document.getElementById('frete').textContent = formatMoney(freteValor);
-            // Atualizar total
+    .then(async response => {
+        const text = await response.text();
+        // Encontrar o início do JSON
+        const jsonStart = text.indexOf('{');
+        let data;
+        try {
+            data = JSON.parse(text.slice(jsonStart));
+        } catch (e) {
+            console.error('Erro ao fazer parse do JSON:', e);
+            if (freteElem) freteElem.textContent = 'Erro';
+            if (freteInfo) freteInfo.textContent = 'Erro ao calcular frete.';
+            return;
+        }
+        // Acessar corretamente o valor do frete na estrutura aninhada
+        const freteValor = parseFloat(
+            data?.data?.data?.frete ?? data?.data?.frete ?? data?.frete ?? data?.valor
+        );
+        if (data.status === 'success' && !isNaN(freteValor)) {
+            if (freteValor === 0) {
+                freteElem.textContent = 'Grátis';
+            } else {
+                freteElem.textContent = formatMoney(freteValor);
+            }
             atualizarTotal();
-            // Mostrar informações do frete
-            const freteInfo = document.getElementById('freteCalculado');
             if (freteInfo) {
-                freteInfo.innerHTML = `<strong>Frete calculado:</strong><br>Valor: ${formatMoney(freteValor)}`;
+                freteInfo.innerHTML = `<strong>Frete calculado:</strong><br>Valor: ${freteValor === 0 ? 'Grátis' : formatMoney(freteValor)}`;
                 freteInfo.style.display = 'block';
             }
         } else {
-            document.getElementById('frete').textContent = 'Erro';
+            freteElem.textContent = 'Erro';
+            if (freteInfo) freteInfo.textContent = data.message || 'Erro ao calcular frete.';
         }
     })
     .catch(error => {
         console.error('Erro ao calcular frete:', error);
+        if (freteElem) freteElem.textContent = 'Erro';
+        if (freteInfo) freteInfo.textContent = 'Erro ao calcular frete.';
     });
 }
 
