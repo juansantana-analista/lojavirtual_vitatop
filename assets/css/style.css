@@ -2257,9 +2257,9 @@ html {
   .cart-summary .col-md-8 {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     align-items: stretch;
-    padding: 0 4px;
+    padding: 0 12px 18px 12px;
   }
   .cart-summary .col-md-8 > .btn,
   .cart-summary .col-md-8 > a.btn {
@@ -2269,16 +2269,24 @@ html {
     font-size: 1rem;
     padding: 12px 0;
   }
+  .cart-summary .col-md-8 > .btn:last-child,
+  .cart-summary .col-md-8 > a.btn:last-child {
+    margin-bottom: 18px !important;
+  }
 }
 
 @media (max-width: 480px) {
   .cart-summary .col-md-8 {
-    gap: 8px;
-    padding: 0 2px;
+    gap: 10px;
+    padding: 0 6px 14px 6px;
   }
   .cart-summary .col-md-8 > .btn,
   .cart-summary .col-md-8 > a.btn {
     font-size: 0.98rem;
     padding: 10px 0;
+  }
+  .cart-summary .col-md-8 > .btn:last-child,
+  .cart-summary .col-md-8 > a.btn:last-child {
+    margin-bottom: 14px !important;
   }
 }
