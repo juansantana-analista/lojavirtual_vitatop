@@ -29,6 +29,7 @@ class SimpleCarousel {
         this.hideLoading();
         this.startAutoPlay();
         this.showSlide(0);
+        this.updateResponsiveStyles();
         
     }
     
@@ -153,7 +154,13 @@ class SimpleCarousel {
                 const img = document.createElement('img');
                 img.src = imageUrl;
                 img.alt = `Banner VitaTop ${index + 1}`;
-                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                // Aplicar estilos responsivos
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    img.style.cssText = 'width: 100%; height: auto; object-fit: contain; display: block;';
+                } else {
+                    img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+                }
                 slide.appendChild(img);
                 
             } else {
@@ -172,7 +179,13 @@ class SimpleCarousel {
         const img = document.createElement('img');
         img.src = imageUrl;
         img.alt = `Banner VitaTop ${index + 1}`;
-        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+        // Aplicar estilos responsivos
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            img.style.cssText = 'width: 100%; height: auto; object-fit: contain; display: block;';
+        } else {
+            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+        }
         
         // Variável para controlar se já tentou fallback
         let fallbackAttempted = false;
@@ -264,6 +277,11 @@ class SimpleCarousel {
                 this.startAutoPlay();
             }
         });
+        
+        // Responsive resize handler
+        window.addEventListener('resize', () => {
+            this.updateResponsiveStyles();
+        });
     }
     
     handleSwipe(startX, endX) {
@@ -277,6 +295,19 @@ class SimpleCarousel {
                 this.prevSlide();
             }
         }
+    }
+    
+    updateResponsiveStyles() {
+        const isMobile = window.innerWidth <= 768;
+        const images = this.carousel.querySelectorAll('.carousel-slide img');
+        
+        images.forEach(img => {
+            if (isMobile) {
+                img.style.cssText = 'width: 100%; height: auto; object-fit: contain; display: block;';
+            } else {
+                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+            }
+        });
     }
     
     showSlide(index) {
