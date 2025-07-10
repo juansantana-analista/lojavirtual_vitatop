@@ -1524,68 +1524,61 @@ html {
 /* ====== CATEGORIAS PRINCIPAIS - RESPONSIVO ====== */
 @media (max-width: 768px) {
     .categories-section-main .row.g-4 {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 0;
-        justify-content: space-between;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin: 0;
     }
     .categories-section-main .col-lg-3,
     .categories-section-main .col-md-6,
     .categories-section-main .col-6 {
-        flex: 0 0 48%;
-        max-width: 48%;
-        padding: 0 4px;
-        margin-bottom: 12px;
+        all: unset;
+        display: block;
     }
     .category-card-main {
-        padding: 12px 6px;
-        border-radius: 12px;
+        padding: 10px 4px;
+        border-radius: 10px;
         font-size: 0.95rem;
-        min-height: 90px;
+        min-height: 70px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: 2px;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(44,85,48,0.06);
+        border: 1px solid #e9ecef;
     }
     .category-card-main .category-icon {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         margin-bottom: 2px;
     }
     .category-card-main h5 {
-        font-size: 1rem;
+        font-size: 0.95rem;
         margin-bottom: 2px;
     }
     .category-card-main p {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         margin-bottom: 0;
     }
 }
 @media (max-width: 576px) {
     .categories-section-main .row.g-4 {
-        gap: 6px 0;
-    }
-    .categories-section-main .col-lg-3,
-    .categories-section-main .col-md-6,
-    .categories-section-main .col-6 {
-        flex: 0 0 48%;
-        max-width: 48%;
-        padding: 0 2px;
-        margin-bottom: 8px;
+        gap: 6px;
     }
     .category-card-main {
-        padding: 8px 2px;
-        border-radius: 10px;
-        font-size: 0.9rem;
-        min-height: 70px;
+        padding: 7px 1px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        min-height: 55px;
     }
     .category-card-main .category-icon {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
     .category-card-main h5 {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
     .category-card-main p {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 }
