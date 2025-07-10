@@ -409,6 +409,23 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateCartCounter, 30000);
 });
 
+// Garante reload total após atualizar carrinho
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupCartReload);
+} else {
+  setupCartReload();
+}
+function setupCartReload() {
+  var form = document.getElementById('updateCartForm');
+  if(form){
+    form.addEventListener('submit', function() {
+      setTimeout(function(){
+        window.location.reload();
+      }, 100);
+    });
+  }
+}
+
 // Função global para ser chamada de outros arquivos
 window.updateCartCounter = updateCartCounter;
 window.showToast = showToast;
