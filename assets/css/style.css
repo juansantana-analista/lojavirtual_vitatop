@@ -2290,3 +2290,16 @@ html {
     margin-bottom: 14px !important;
   }
 }
+
+.checkout-summary-sticky {
+  position: sticky;
+  top: 80px; /* altura do header + espaçamento */
+  z-index: 100;
+}
+
+@media (max-width: 991px) {
+  .checkout-summary-sticky {
+    position: static;
+    top: unset;
+  }
+}
