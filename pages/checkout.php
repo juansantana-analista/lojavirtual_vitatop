@@ -63,13 +63,14 @@ if ($_POST['action'] ?? '' === 'finalizar_pedido') {
         
         // Calcular frete se necessário
         $total_produtos = calculateCartTotal($todos_produtos);
-        $frete = 0; // Você pode implementar o cálculo de frete aqui
+        $frete = isset($_POST['frete']) ? floatval(str_replace([',', 'R$', ' '], ['.', '', ''], $_POST['frete'])) : 0;
+        $total_pedido = isset($_POST['total_pedido']) ? floatval(str_replace([',', 'R$', ' '], ['.', '', ''], $_POST['total_pedido'])) : ($total_produtos + $frete);
         
         // Adequação: Estrutura de dados do pedido conforme esperado pela GravarPedido
         $dadosPedido = [
             'nome_loja' => getAfiliado() ?: '001',        
             'opcao_pagamento' => $opcao_pagamento,       
-            'total' => $total_produtos,
+            'total' => $total_pedido,
             'frete' => $frete,
             'parcelas' => $_POST['parcelas'] ?? 1,       
             'itens' => $itens_pedido,
@@ -180,6 +181,8 @@ $total_carrinho = calculateCartTotal($todos_produtos);
 
     <form method="POST" id="checkoutForm">
         <input type="hidden" name="action" value="finalizar_pedido">
+        <input type="hidden" name="frete" id="inputFrete" value="0">
+        <input type="hidden" name="total_pedido" id="inputTotalPedido" value="<?php echo $total_carrinho; ?>">
         
         <div class="row">
             <div class="col-lg-8">
