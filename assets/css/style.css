@@ -1963,3 +1963,93 @@ html {
     padding: 14px 4px;
   }
 }
+
+/* Versão compacta da sugestão de frete grátis */
+.frete-gratis-sugestao-box.compact {
+  padding: 14px 8px;
+  margin-bottom: 18px;
+  max-width: 100%;
+}
+.produtos-sugeridos-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.produto-sugestao-card.mini {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 8px 6px;
+  width: 100px;
+  min-width: 90px;
+  max-width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(44, 85, 48, 0.03);
+}
+.produto-sugestao-card.mini .produto-img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  margin-bottom: 4px;
+}
+.produto-sugestao-card.mini .produto-nome {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 2px;
+  text-align: center;
+  line-height: 1.1;
+  max-height: 2.2em;
+  overflow: hidden;
+}
+.produto-sugestao-card.mini .produto-preco {
+  color: #218838;
+  font-weight: bold;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+.produto-sugestao-card.mini .btn-adicionar {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.produto-sugestao-card.mini .btn-adicionar:hover {
+  background: #218838;
+}
+.produto-sugestao-card.mini .badge-completa {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #ffc107;
+  color: #333;
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  .frete-gratis-sugestao-box.compact {
+    padding: 8px 2px;
+  }
+  .produto-sugestao-card.mini {
+    width: 90px;
+    min-width: 80px;
+    max-width: 100px;
+    padding: 6px 2px;
+  }
+}

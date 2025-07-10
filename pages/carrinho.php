@@ -108,22 +108,22 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                 <?php endforeach; ?>
             </div>
 
-            <?php if ($total_carrinho < 300): ?>
-            <?php
-                if (function_exists('getProdutosSugeridos')) {
-                    $produtos_sugeridos = getProdutosSugeridos($total_carrinho, 300, 4);
-                } else {
-                    $produtos_carrinho_ids = array_keys($_SESSION['carrinho'] ?? []);
-                    $produtos_disponiveis = array_filter($todos_produtos, function($p) use ($produtos_carrinho_ids) {
-                        return !in_array($p['id'], $produtos_carrinho_ids);
-                    });
-                    shuffle($produtos_disponiveis);
-                    $produtos_sugeridos = array_slice($produtos_disponiveis, 0, 4);
-                }
-            ?>
-            <div class="row justify-content-center">
-              <div class="col-12">
-                <div class="frete-gratis-sugestao-box">
+            <div class="row">
+              <div class="col-md-8 mx-auto">
+                <?php if ($total_carrinho < 300): ?>
+                <?php
+                    if (function_exists('getProdutosSugeridos')) {
+                        $produtos_sugeridos = getProdutosSugeridos($total_carrinho, 300, 4);
+                    } else {
+                        $produtos_carrinho_ids = array_keys($_SESSION['carrinho'] ?? []);
+                        $produtos_disponiveis = array_filter($todos_produtos, function($p) use ($produtos_carrinho_ids) {
+                            return !in_array($p['id'], $produtos_carrinho_ids);
+                        });
+                        shuffle($produtos_disponiveis);
+                        $produtos_sugeridos = array_slice($produtos_disponiveis, 0, 4);
+                    }
+                ?>
+                <div class="frete-gratis-sugestao-box compact">
                   <div class="frete-gratis-msg">
                     <i class="fas fa-truck"></i>
                     <span>
@@ -132,13 +132,11 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                   </div>
                   <div class="produtos-sugeridos-lista justify-content-center">
                     <?php foreach ($produtos_sugeridos as $produto): ?>
-                      <div class="produto-sugestao-card">
+                      <div class="produto-sugestao-card mini">
                         <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" alt="<?php echo htmlspecialchars($produto['titulo']); ?>" class="produto-img">
-                        <div class="produto-info">
-                          <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
-                          <div class="produto-preco">R$ <?php echo number_format($produto['preco_lojavirtual'], 2, ',', '.'); ?></div>
-                        </div>
-                        <button class="btn-adicionar" onclick="addToCart(<?php echo $produto['id']; ?>, 1)">Adicionar</button>
+                        <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
+                        <div class="produto-preco">R$ <?php echo number_format($produto['preco_lojavirtual'], 2, ',', '.'); ?></div>
+                        <button class="btn-adicionar" onclick="addToCart(<?php echo $produto['id']; ?>, 1)">+</button>
                         <?php if ($produto['preco_lojavirtual'] >= (300 - $total_carrinho)): ?>
                           <span class="badge-completa">Completa o frete grátis!</span>
                         <?php endif; ?>
@@ -146,9 +144,9 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                     <?php endforeach; ?>
                   </div>
                 </div>
+                <?php endif; ?>
               </div>
             </div>
-            <?php endif; ?>
 
             <div class="cart-summary mt-4">
                 <div class="row">
