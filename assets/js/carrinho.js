@@ -82,7 +82,7 @@ function updateCartQuantity(produtoId, quantidade) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            updateCartDisplay();
+            window.location.reload(); // Recarrega a página para atualizar tudo
         }
     });
 }
@@ -157,19 +157,27 @@ function updateCartDisplay() {
         const preco = parseFloat(item.dataset.preco);
         const quantidade = parseInt(item.querySelector('.quantity-input').value);
         const subtotal = preco * quantidade;
-        
         item.querySelector('.item-total').textContent = formatMoney(subtotal);
         total += subtotal;
     });
-    
     document.getElementById('cart-total').textContent = formatMoney(total);
     document.getElementById('cart-subtotal').textContent = formatMoney(total);
-    
-    // Atualizar seção de sugestões de frete grátis
+
+    // Esconde a sugestão de frete grátis se o total for >= 300
+    const sugestaoBox = document.querySelector('.frete-gratis-sugestao-box');
+    if (sugestaoBox) {
+        if (total >= 300) {
+            sugestaoBox.style.display = 'none';
+        } else {
+            sugestaoBox.style.display = '';
+        }
+    }
+
+    // Atualizar seção de sugestões de frete grátis (se necessário)
     if (typeof atualizarSugestoesFrete === 'function') {
         setTimeout(atualizarSugestoesFrete, 300);
     }
-    
+
     // Recalcular frete automaticamente se o CEP estiver preenchido
     const cepInput = document.getElementById('cep');
     if (cepInput && cepInput.value.length >= 8) {
@@ -265,10 +273,8 @@ function calcularFreteCarrinho() {
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast-notification toast-${type}`;
-    
     const icon = type === 'success' ? 'fa-check-circle' : 
                  type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
-    
     toast.innerHTML = `
         <div class="toast-content">
             <i class="fas ${icon} me-2"></i>
@@ -278,7 +284,6 @@ function showToast(message, type = 'info') {
             </button>
         </div>
     `;
-    
     // Adicionar estilos se não existirem
     if (!document.getElementById('toast-styles')) {
         const styles = document.createElement('style');
@@ -375,9 +380,7 @@ function showToast(message, type = 'info') {
         `;
         document.head.appendChild(styles);
     }
-    
     document.body.appendChild(toast);
-    
     // Remover automaticamente após 4 segundos
     setTimeout(() => {
         if (toast.parentElement) {
@@ -390,42 +393,3 @@ function showToast(message, type = 'info') {
         }
     }, 4000);
 }
-
-// Inicializar quando a página carregar
-document.addEventListener('DOMContentLoaded', function() {
-    // Atualizar contador do carrinho
-    updateCartCounter();
-    
-    // Adicionar listeners para inputs de quantidade
-    document.querySelectorAll('.quantity-input').forEach(input => {
-        input.addEventListener('change', function() {
-            const produtoId = this.name.match(/\d+/)[0];
-            const quantidade = parseInt(this.value);
-            updateCartQuantity(produtoId, quantidade);
-        });
-    });
-    
-    // Atualizar contador periodicamente (a cada 30 segundos)
-    setInterval(updateCartCounter, 30000);
-});
-
-// Garante reload total após atualizar carrinho
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', setupCartReload);
-} else {
-  setupCartReload();
-}
-function setupCartReload() {
-  var form = document.getElementById('updateCartForm');
-  if(form){
-    form.addEventListener('submit', function() {
-      setTimeout(function(){
-        window.location.reload();
-      }, 100);
-    });
-  }
-}
-
-// Função global para ser chamada de outros arquivos
-window.updateCartCounter = updateCartCounter;
-window.showToast = showToast;
