@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initProductFilters();
     initCepLookup();
     initPaymentMethods();
-    initFavorites();
     
     // Máscaras de input
     initInputMasks();
@@ -152,143 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Inicializar favoritos
-    function initFavorites() {
-        // Carregar favoritos do localStorage
-        loadFavorites();
-        
-        // Adicionar event listeners aos botões de favorito
-        document.querySelectorAll('.btn-favorite').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const productId = this.dataset.productId;
-                if (!productId) return;
-                
-                toggleFavorite(productId, this);
-            });
-        });
-    }
 
-    function loadFavorites() {
-        try {
-            const favorites = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
-            // Atualizar visual dos botões de favorito
-            favorites.forEach(productId => {
-                const button = document.querySelector(`[data-product-id="${productId}"].btn-favorite`);
-                if (button) {
-                    const icon = button.querySelector('i');
-                    if (icon) {
-                        icon.classList.remove('far');
-                        icon.classList.add('fas');
-                    }
-                }
-            });
-            
-            // Atualizar contagem no header
-            updateFavoritesCount();
-        } catch (error) {
-            console.error('Erro ao carregar favoritos:', error);
-        }
-    }
-
-    function updateFavoritesCount() {
-        try {
-            const favorites = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
-            const badge = document.getElementById('favoritesCount');
-            
-            if (badge) {
-                if (favorites.length > 0) {
-                    badge.textContent = favorites.length;
-                    badge.style.display = 'flex';
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
-        } catch (error) {
-            console.error('Erro ao atualizar contagem de favoritos:', error);
-        }
-    }
-
-    function toggleFavorite(productId, button) {
-        try {
-            let favorites = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
-            const icon = button.querySelector('i');
-            
-            if (favorites.includes(productId)) {
-                // Remover dos favoritos
-                favorites = favorites.filter(id => id !== productId);
-                if (icon) {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                }
-                showToast('Removido dos favoritos', 'info');
-            } else {
-                // Adicionar aos favoritos
-                favorites.push(productId);
-                if (icon) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                }
-                showToast('Adicionado aos favoritos!', 'success');
-            }
-            
-            // Salvar no localStorage
-            localStorage.setItem('vitatop_favorites', JSON.stringify(favorites));
-            
-            // Atualizar contagem no header
-            updateFavoritesCount();
-            
-            // Animação de coração
-            button.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                button.style.transform = 'scale(1)';
-            }, 200);
-            
-        } catch (error) {
-            console.error('Erro ao salvar favorito:', error);
-            showToast('Erro ao salvar favorito', 'error');
-        }
-    }
-
-    function isFavorite(productId) {
-        try {
-            const favorites = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
-            return favorites.includes(productId);
-        } catch (error) {
-            return false;
-        }
-    }
-
-    function getFavorites() {
-        try {
-            return JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
-        } catch (error) {
-            return [];
-        }
-    }
-
-    function clearFavorites() {
-        try {
-            localStorage.removeItem('vitatop_favorites');
-            // Atualizar visual dos botões
-            document.querySelectorAll('.btn-favorite').forEach(button => {
-                const icon = button.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                }
-            });
-            
-            // Atualizar contagem no header
-            updateFavoritesCount();
-            
-            showToast('Favoritos limpos', 'info');
-        } catch (error) {
-            console.error('Erro ao limpar favoritos:', error);
-        }
-    }
     
     // Scroll suave para seção de produtos
     function initSmoothScroll() {
@@ -362,44 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function showToast(message, type = 'info') {
-    // Remover toast anterior se existir
-    const existingToast = document.querySelector('.toast-notification');
-    if (existingToast) {
-        existingToast.remove();
-    }
-    
-    // Criar novo toast
-    const toast = document.createElement('div');
-    toast.className = `toast-notification toast-${type}`;
-    toast.innerHTML = `
-        <div class="toast-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
-            <span>${message}</span>
-        </div>
-        <button class="toast-close" onclick="this.parentElement.remove()">
-            <i class="fas fa-times"></i>
-        </button>
-    `;
-    
-    // Adicionar ao body
-    document.body.appendChild(toast);
-    
-    // Mostrar com animação
-    setTimeout(() => {
-        toast.classList.add('show');
-    }, 100);
-    
-    // Remover automaticamente após 5 segundos
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            if (toast.parentElement) {
-                toast.remove();
-            }
-        }, 300);
-    }, 5000);
-}
+
 
 // Busca de produtos
 function initSearch() {

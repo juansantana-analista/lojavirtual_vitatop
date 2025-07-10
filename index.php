@@ -44,10 +44,6 @@ switch($page) {
         $page_title = 'Status do Pedido - VitaTop';
         $template = 'pages/pedido.php';
         break;
-    case 'favoritos':
-        $page_title = 'Meus Favoritos - VitaTop';
-        $template = 'pages/favoritos.php';
-        break;
     default:
         $template = 'pages/home.php';
 }
