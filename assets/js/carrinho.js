@@ -82,7 +82,7 @@ function updateCartQuantity(produtoId, quantidade) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            window.location.reload(); // Recarrega a página para atualizar tudo
+            updateCartDisplay(); // Atualiza tudo dinamicamente
         }
     });
 }
