@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initProductFilters();
     initCepLookup();
     initPaymentMethods();
+    initFavorites();
     
     // Máscaras de input
     initInputMasks();
@@ -360,6 +361,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function showToast(message, type = 'info') {
+    // Remover toast anterior se existir
+    const existingToast = document.querySelector('.toast-notification');
+    if (existingToast) {
+        existingToast.remove();
+    }
+    
+    // Criar novo toast
+    const toast = document.createElement('div');
+    toast.className = `toast-notification toast-${type}`;
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    // Adicionar ao body
+    document.body.appendChild(toast);
+    
+    // Mostrar com animação
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+    
+    // Remover automaticamente após 5 segundos
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+        }, 300);
+    }, 5000);
+}
 
 // Busca de produtos
 function initSearch() {

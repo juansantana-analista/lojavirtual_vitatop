@@ -5,6 +5,10 @@
 $produtos_response = listarProdutos();
 $todos_produtos = $produtos_response['status'] === 'success' ? $produtos_response['data']['data'] : [];
 
+// Debug: verificar se os produtos estão sendo carregados
+error_log('Favoritos - Status da resposta: ' . $produtos_response['status']);
+error_log('Favoritos - Total de produtos: ' . count($todos_produtos));
+
 // Os favoritos serão carregados via JavaScript do localStorage
 ?>
 
@@ -82,11 +86,14 @@ const produtosData = <?php echo json_encode($todos_produtos); ?>;
 // Função para carregar e exibir favoritos
 function carregarFavoritos() {
     const container = document.getElementById('favoritosContainer');
-    const template = document.getElementById('produtoFavoritoTemplate');
     const btnLimpar = document.getElementById('btnLimparFavoritos');
+    
+    console.log('=== CARREGANDO FAVORITOS ===');
+    console.log('Produtos disponíveis:', produtosData);
     
     try {
         const favoritos = JSON.parse(localStorage.getItem('vitatop_favorites') || '[]');
+        console.log('Favoritos encontrados:', favoritos);
         
         // Mostrar/ocultar botão de limpar
         if (btnLimpar) {
@@ -94,6 +101,7 @@ function carregarFavoritos() {
         }
         
         if (favoritos.length === 0) {
+            console.log('Nenhum favorito encontrado');
             container.innerHTML = `
                 <div class="text-center py-5">
                     <i class="far fa-heart text-muted mb-3" style="font-size: 3rem;"></i>
@@ -107,53 +115,51 @@ function carregarFavoritos() {
             return;
         }
         
-        // Filtrar produtos favoritos
-        const produtosFavoritos = produtosData.filter(produto => 
-            favoritos.includes(produto.id.toString())
-        );
-        
-        if (produtosFavoritos.length === 0) {
-            container.innerHTML = `
-                <div class="text-center py-5">
-                    <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
-                    <h5>Produtos não encontrados</h5>
-                    <p class="text-muted">Alguns produtos favoritos podem ter sido removidos</p>
-                    <button onclick="limparFavoritosInvalidos()" class="btn btn-outline-warning me-2">
-                        <i class="fas fa-broom me-2"></i>Limpar favoritos inválidos
-                    </button>
-                    <a href="?page=produtos" class="btn btn-primary">
-                        <i class="fas fa-th-large me-2"></i>Ver todos os produtos
-                    </a>
-                </div>
-            `;
-            return;
-        }
-        
-        // Exibir produtos favoritos
+        // Teste simples: mostrar apenas os IDs dos favoritos
         let html = '<div class="row">';
+        html += '<div class="col-12">';
+        html += '<h3>IDs dos Favoritos:</h3>';
+        html += '<ul>';
+        favoritos.forEach(id => {
+            html += `<li>ID: ${id}</li>`;
+        });
+        html += '</ul>';
+        html += '</div>';
+        html += '</div>';
         
-        produtosFavoritos.forEach(produto => {
-            // Calcular preços com desconto visual
-            const precoOriginal = parseFloat(produto.preco_lojavirtual);
-            const desconto = Math.floor(Math.random() * 26) + 5; // 5% a 30%
-            const precoComDesconto = precoOriginal + (precoOriginal * desconto / 100);
-            
-            let produtoHtml = template.innerHTML
-                .replace(/{id}/g, produto.id)
-                .replace(/{foto}/g, produto.foto)
-                .replace(/{nome}/g, produto.nome)
-                .replace(/{titulo}/g, produto.titulo)
-                .replace(/{preco_original}/g, formatMoney(precoComDesconto))
-                .replace(/{preco_com_desconto}/g, formatMoney(precoOriginal));
-            
-            html += produtoHtml;
+        // Agora tentar filtrar produtos
+        const produtosFavoritos = produtosData.filter(produto => {
+            const produtoId = produto.id ? produto.id.toString() : '';
+            const isFavorite = favoritos.includes(produtoId);
+            console.log(`Produto ID: ${produtoId}, Favorito: ${isFavorite}`);
+            return isFavorite;
         });
         
-        html += '</div>';
+        console.log('Produtos favoritos filtrados:', produtosFavoritos);
+        
+        if (produtosFavoritos.length === 0) {
+            html += '<div class="col-12 mt-4">';
+            html += '<h4>Nenhum produto encontrado nos dados</h4>';
+            html += '<p>Isso pode indicar um problema na estrutura dos dados ou na comparação de IDs.</p>';
+            html += '</div>';
+        } else {
+            html += '<div class="col-12 mt-4">';
+            html += '<h4>Produtos Encontrados:</h4>';
+            produtosFavoritos.forEach(produto => {
+                html += `<div class="card mb-3">
+                    <div class="card-body">
+                        <h5>ID: ${produto.id}</h5>
+                        <p>Nome: ${produto.nome || produto.titulo || 'N/A'}</p>
+                        <p>Preço: ${produto.preco_lojavirtual || 'N/A'}</p>
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+        }
+        
         container.innerHTML = html;
         
-        // Reinicializar favoritos após carregar
-        initFavorites();
+        console.log('Favoritos carregados com sucesso');
         
     } catch (error) {
         console.error('Erro ao carregar favoritos:', error);
@@ -161,7 +167,7 @@ function carregarFavoritos() {
             <div class="text-center py-5">
                 <i class="fas fa-exclamation-triangle text-danger mb-3" style="font-size: 3rem;"></i>
                 <h5>Erro ao carregar favoritos</h5>
-                <p class="text-muted">Tente recarregar a página</p>
+                <p class="text-muted">Erro: ${error.message}</p>
                 <button onclick="location.reload()" class="btn btn-primary">
                     <i class="fas fa-redo me-2"></i>Recarregar
                 </button>
