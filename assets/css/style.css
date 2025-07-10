@@ -783,13 +783,16 @@ body {
 
 /* Indicadores */
 .carousel-indicators {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    bottom: auto;
+    left: auto;
+    transform: none;
     display: flex;
     gap: 10px;
     z-index: 10;
+    justify-content: center;
+    margin-top: 15px;
+    text-align: center;
 }
 
 .carousel-dot {

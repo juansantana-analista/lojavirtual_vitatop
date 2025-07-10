@@ -247,7 +247,8 @@ class SimpleCarousel {
             indicatorsContainer.appendChild(dot);
         });
         
-        this.carousel.appendChild(indicatorsContainer);
+        // Inserir os indicadores após o carrossel, não dentro dele
+        this.carousel.parentNode.insertBefore(indicatorsContainer, this.carousel.nextSibling);
         this.indicators = indicatorsContainer.querySelectorAll('.carousel-dot');
     }
     
@@ -363,6 +364,12 @@ class SimpleCarousel {
         this.showLoading();
         await this.loadBanners();
         
+        // Remover indicadores antigos se existirem
+        const oldIndicators = this.carousel.parentNode.querySelector('.carousel-indicators');
+        if (oldIndicators) {
+            oldIndicators.remove();
+        }
+        
         this.carousel.innerHTML = '';
         this.slides = [];
         
@@ -377,6 +384,13 @@ class SimpleCarousel {
     
     destroy() {
         this.stopAutoPlay();
+        
+        // Remover indicadores se existirem
+        const indicators = this.carousel.parentNode.querySelector('.carousel-indicators');
+        if (indicators) {
+            indicators.remove();
+        }
+        
         this.carousel.innerHTML = '';
         this.slides = [];
         this.bannerImages = [];
