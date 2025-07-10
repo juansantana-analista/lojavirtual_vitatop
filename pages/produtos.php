@@ -5,14 +5,28 @@ $produtos = $produtos_response['status'] === 'success' ? $produtos_response['dat
 
 // Verificar se há busca via URL
 $termo_busca = $_GET['busca'] ?? '';
+$categoria_filtro = $_GET['categoria'] ?? '';
 $produtos_filtrados = $produtos;
 
-if (!empty($termo_busca)) {
-    $termo_lower = strtolower(trim($termo_busca));
-    $produtos_filtrados = array_filter($produtos, function($produto) use ($termo_lower) {
-        $nome = strtolower($produto['nome']);
-        $titulo = strtolower($produto['titulo']);
-        return strpos($nome, $termo_lower) !== false || strpos($titulo, $termo_lower) !== false;
+// Aplicar filtros
+if (!empty($termo_busca) || !empty($categoria_filtro)) {
+    $produtos_filtrados = array_filter($produtos, function($produto) use ($termo_busca, $categoria_filtro) {
+        $passa_filtro = true;
+        
+        // Filtro por termo de busca
+        if (!empty($termo_busca)) {
+            $termo_lower = strtolower(trim($termo_busca));
+            $nome = strtolower($produto['nome']);
+            $titulo = strtolower($produto['titulo']);
+            $passa_filtro = $passa_filtro && (strpos($nome, $termo_lower) !== false || strpos($titulo, $termo_lower) !== false);
+        }
+        
+        // Filtro por categoria
+        if (!empty($categoria_filtro)) {
+            $passa_filtro = $passa_filtro && ($produto['categoria_id'] == $categoria_filtro);
+        }
+        
+        return $passa_filtro;
     });
 }
 
@@ -33,6 +47,8 @@ foreach ($produtos_filtrados as $produto) {
                 <li class="breadcrumb-item active">
                     <?php if (!empty($termo_busca)): ?>
                         Busca: "<?php echo htmlspecialchars($termo_busca); ?>"
+                    <?php elseif (!empty($categoria_filtro) && isset($categorias_unicas[$categoria_filtro])): ?>
+                        <?php echo htmlspecialchars($categorias_unicas[$categoria_filtro]); ?>
                     <?php else: ?>
                         Produtos
                     <?php endif; ?>
@@ -45,6 +61,8 @@ foreach ($produtos_filtrados as $produto) {
         <h1>
             <?php if (!empty($termo_busca)): ?>
                 Resultados para "<?php echo htmlspecialchars($termo_busca); ?>"
+            <?php elseif (!empty($categoria_filtro) && isset($categorias_unicas[$categoria_filtro])): ?>
+                <?php echo htmlspecialchars($categorias_unicas[$categoria_filtro]); ?>
             <?php else: ?>
                 Todos os Produtos
             <?php endif; ?>
@@ -52,11 +70,17 @@ foreach ($produtos_filtrados as $produto) {
         <p class="text-muted"><?php echo count($produtos_filtrados); ?> produtos encontrados</p>
     </div>
 
-    <?php if (!empty($termo_busca) && count($produtos_filtrados) === 0): ?>
+    <?php if ((!empty($termo_busca) || !empty($categoria_filtro)) && count($produtos_filtrados) === 0): ?>
         <div class="alert alert-info text-center">
             <i class="fas fa-search mb-2"></i>
             <h5>Nenhum produto encontrado</h5>
-            <p>Não encontramos produtos para "<?php echo htmlspecialchars($termo_busca); ?>"</p>
+            <p>
+                <?php if (!empty($termo_busca)): ?>
+                    Não encontramos produtos para "<?php echo htmlspecialchars($termo_busca); ?>"
+                <?php elseif (!empty($categoria_filtro)): ?>
+                    Não encontramos produtos nesta categoria
+                <?php endif; ?>
+            </p>
             <a href="?page=produtos" class="btn btn-primary">Ver todos os produtos</a>
         </div>
     <?php endif; ?>
@@ -79,7 +103,9 @@ foreach ($produtos_filtrados as $produto) {
                         <?php
                         foreach ($categorias_unicas as $cat_id => $cat_nome):
                         ?>
-                            <option value="<?php echo $cat_id; ?>"><?php echo htmlspecialchars($cat_nome); ?></option>
+                            <option value="<?php echo $cat_id; ?>" <?php echo ($categoria_filtro == $cat_id) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($cat_nome); ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -124,7 +150,7 @@ foreach ($produtos_filtrados as $produto) {
                         </div>
                     </div>
                 </div>
-                            <?php endforeach; ?>
+                <?php endforeach; ?>
             </div>
         </div>
     <?php endif; ?>

@@ -1,5 +1,31 @@
 <?php
 // includes/header.php - Estilo Boticário
+
+// Buscar categorias dinâmicas dos produtos
+$categorias_nav = [];
+try {
+    $produtos_response = listarProdutos();
+    if ($produtos_response['status'] === 'success') {
+        $produtos = $produtos_response['data']['data'];
+        $categorias_temp = [];
+        
+        foreach ($produtos as $produto) {
+            if (!empty($produto['categoria_id']) && !empty($produto['categoria_nome'])) {
+                $categorias_temp[$produto['categoria_id']] = $produto['categoria_nome'];
+            }
+        }
+        
+        // Limitar a 5 categorias para não sobrecarregar a navegação
+        $categorias_nav = array_slice($categorias_temp, 0, 5, true);
+    }
+} catch (Exception $e) {
+    // Em caso de erro, usar categorias padrão
+    $categorias_nav = [
+        '1' => 'Imunidade',
+        '2' => 'Diabetes',
+        '3' => 'Emagrecedor'
+    ];
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -127,31 +153,13 @@
                         
                         <!-- Menu de Navegação -->
                         <ul class="nav-menu d-none d-lg-flex">
+                            <?php foreach ($categorias_nav as $cat_id => $cat_nome): ?>
                             <li class="nav-item">
-                                <a href="?page=produtos&categoria=lancamentos" class="nav-link">
-                                    Lançamentos
+                                <a href="?page=produtos&categoria=<?php echo $cat_id; ?>" class="nav-link">
+                                    <?php echo htmlspecialchars($cat_nome); ?>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="?page=produtos&filter=promocao" class="nav-link">
-                                    Promos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="?page=produtos&categoria=vitaminas" class="nav-link">
-                                    Vitaminas
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="?page=produtos&categoria=suplementos" class="nav-link">
-                                    Suplementos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="?page=produtos&categoria=naturais" class="nav-link">
-                                    Naturais
-                                </a>
-                            </li>
+                            <?php endforeach; ?>
                             <li class="nav-item">
                                 <a href="?page=produtos" class="nav-link">
                                     <i class="fas fa-th-large me-1"></i>
@@ -228,25 +236,17 @@
                 </li>
                 <li class="nav-item">
                     <a href="?page=produtos&filter=promocao" class="nav-link promo-link">
-                        <i class="fas fa-fire me-3"></i>Boti Promo
+                        <i class="fas fa-fire me-3"></i>Vita Promo
                         <span class="badge bg-danger ms-2">Ofertas</span>
                     </a>
                 </li>
+                <?php foreach ($categorias_nav as $cat_id => $cat_nome): ?>
                 <li class="nav-item">
-                    <a href="?page=produtos&categoria=lancamentos" class="nav-link">
-                        <i class="fas fa-star me-3"></i>Lançamentos
+                    <a href="?page=produtos&categoria=<?php echo $cat_id; ?>" class="nav-link">
+                        <i class="fas fa-tag me-3"></i><?php echo htmlspecialchars($cat_nome); ?>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="?page=produtos&categoria=vitaminas" class="nav-link">
-                        <i class="fas fa-pills me-3"></i>Vitaminas
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="?page=produtos&categoria=suplementos" class="nav-link">
-                        <i class="fas fa-dumbbell me-3"></i>Suplementos
-                    </a>
-                </li>
+                <?php endforeach; ?>
                 <li class="nav-item">
                     <a href="?page=produtos" class="nav-link">
                         <i class="fas fa-th-large me-3"></i>Todos os Produtos
