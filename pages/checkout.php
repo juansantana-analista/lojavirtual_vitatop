@@ -418,66 +418,6 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                 </div>
             </div>
         </div>
-
-        <?php
-        // Seção de sugestões para frete grátis no checkout
-        if ($total_carrinho < 300) {
-            $produtos_sugeridos = getProdutosSugeridos($total_carrinho, 300, 4);
-            if (!empty($produtos_sugeridos)) {
-                $falta_para_frete = 300 - $total_carrinho;
-        ?>
-            <div class="frete-gratis-sugestao">
-                <div class="sugestao-header">
-                    <h3><i class="fas fa-truck me-2"></i>Frete grátis disponível</h3>
-                    <p>Compre acima de R$ 300 e ganhe frete grátis</p>
-                    <div class="falta-valor">
-                        Faltam <?php echo formatPrice($falta_para_frete); ?> para frete grátis
-                    </div>
-                </div>
-                
-                <div class="produtos-sugeridos-grid">
-                    <?php foreach ($produtos_sugeridos as $produto): ?>
-                        <?php 
-                        $completa_frete = (float)$produto['preco_lojavirtual'] >= $falta_para_frete;
-                        ?>
-                        <div class="produto-sugestao-card">
-                            <?php if ($completa_frete): ?>
-                                <div class="completa-frete">
-                                    Completa
-                                </div>
-                            <?php endif; ?>
-                            
-                            <div class="row align-items-center">
-                                <div class="col-md-2">
-                                    <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
-                                         alt="<?php echo htmlspecialchars($produto['titulo']); ?>" 
-                                         class="produto-imagem">
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
-                                    <div class="produto-preco"><?php echo formatPrice($produto['preco_lojavirtual']); ?></div>
-                                </div>
-                                <div class="col-md-2 text-center">
-                                    <button type="button" class="btn btn-adicionar" 
-                                            onclick="addToCart(<?php echo $produto['id']; ?>, 1)">
-                                        Adicionar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                
-                <div class="text-center mt-4">
-                    <a href="?page=carrinho" class="btn btn-outline-secondary">
-                        Ver carrinho atualizado
-                    </a>
-                </div>
-            </div>
-        <?php 
-            }
-        }
-        ?>
     </form>
 </div>
 
