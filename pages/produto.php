@@ -337,9 +337,11 @@ function calcularFreteDetalhes() {
         return;
     }
     
-    const valor = <?php echo $produto['preco_lojavirtual']; ?>;
+    const quantidade = parseInt(document.getElementById('productQuantity').value);
+    const valorUnitario = <?php echo $produto['preco_lojavirtual']; ?>;
+    const valor = valorUnitario * quantidade;
     
-    fetch('api/calcular_frete.php', {
+    fetch('/lojinha_vitatop/api/calcular_frete.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -349,20 +351,50 @@ function calcularFreteDetalhes() {
             valor: valor
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
+    .then(async response => {
+        const text = await response.text();
+        // Encontrar o início do JSON
+        const jsonStart = text.indexOf('{');
+        let data;
+        try {
+            data = JSON.parse(text.slice(jsonStart));
+        } catch (e) {
+            console.error('Erro ao fazer parse do JSON:', e);
+            document.getElementById('freteResultado').innerHTML = `
+                <div class="alert alert-danger">
+                    Erro ao calcular frete.
+                </div>
+            `;
+            return;
+        }
+        // Acessar corretamente o valor do frete na estrutura aninhada
+        const freteValor = parseFloat(
+            data?.data?.data?.frete ?? data?.data?.frete ?? data?.frete ?? data?.valor
+        );
+        if (data.status === 'success' && !isNaN(freteValor)) {
+            const freteDisplay = freteValor === 0 ? 'Grátis' : formatMoney(freteValor);
             document.getElementById('freteResultado').innerHTML = `
                 <div class="alert alert-info">
                     <strong>Frete calculado:</strong><br>
-                    Valor: ${formatMoney(data.valor)}<br>
-                    Prazo: ${data.prazo} dias úteis
+                    Valor: ${freteDisplay}<br>
+                    Para ${quantidade} unidade(s) - Total: ${formatMoney(valor + freteValor)}
+                </div>
+            `;
+        } else {
+            document.getElementById('freteResultado').innerHTML = `
+                <div class="alert alert-danger">
+                    Erro ao calcular frete.
                 </div>
             `;
         }
     })
     .catch(error => {
         console.error('Erro ao calcular frete:', error);
+        document.getElementById('freteResultado').innerHTML = `
+            <div class="alert alert-danger">
+                Erro ao calcular frete.
+            </div>
+        `;
     });
 }
 </script>
