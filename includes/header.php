@@ -32,6 +32,15 @@
         </div>
     </div>
 
+    <!-- Faixa de Frete Grátis -->
+    <div class="frete-gratis-banner">
+        <div class="content">
+            <i class="fas fa-truck"></i>
+            <span>Frete <span class="highlight">GRÁTIS</span> em compras acima de <span class="highlight">R$ 300</span></span>
+            <i class="fas fa-gift"></i>
+        </div>
+    </div>
+
     <!-- Header Principal -->
     <header class="header-main">
         <div class="container">
