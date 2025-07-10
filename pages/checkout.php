@@ -64,13 +64,13 @@ if ($_POST['action'] ?? '' === 'finalizar_pedido') {
         // Calcular frete se necessário
         $total_produtos = calculateCartTotal($todos_produtos);
         $frete = isset($_POST['frete']) ? floatval(str_replace([',', 'R$', ' '], ['.', '', ''], $_POST['frete'])) : 0;
-        $total_pedido = isset($_POST['total_pedido']) ? floatval(str_replace([',', 'R$', ' '], ['.', '', ''], $_POST['total_pedido'])) : ($total_produtos + $frete);
+        $total_pedido = isset($_POST['total_pedido']) ? floatval(str_replace([',', 'R$', ' '], ['.', '', ''], $_POST['total_pedido'])) : $total_produtos;
         
         // Adequação: Estrutura de dados do pedido conforme esperado pela GravarPedido
         $dadosPedido = [
             'nome_loja' => getAfiliado() ?: '001',        
             'opcao_pagamento' => $opcao_pagamento,       
-            'total' => $total_pedido,
+            'total' => $total_produtos, // Enviar apenas o valor dos produtos
             'frete' => $frete,
             'parcelas' => $_POST['parcelas'] ?? 1,       
             'itens' => $itens_pedido,

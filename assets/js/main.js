@@ -502,16 +502,16 @@ function carregarParcelas() {
 }
 
 function atualizarTotal() {
-    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\d,]/g, '').replace(',', '.'));
+    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\\d,]/g, '').replace(',', '.'));
     const freteText = document.getElementById('frete').textContent;
-    const frete = (freteText === 'A calcular' || freteText === 'Grátis') ? 0 : parseFloat(freteText.replace(/[^\d,]/g, '').replace(',', '.'));
+    const frete = (freteText === 'A calcular' || freteText === 'Grátis') ? 0 : parseFloat(freteText.replace(/[^,]/g, '').replace(',', '.'));
     let total = subtotal + frete;
     document.getElementById('total').textContent = formatMoney(total);
     // Atualizar campos ocultos para envio ao backend
     const inputFrete = document.getElementById('inputFrete');
     if (inputFrete) inputFrete.value = frete;
     const inputTotalPedido = document.getElementById('inputTotalPedido');
-    if (inputTotalPedido) inputTotalPedido.value = total;
+    if (inputTotalPedido) inputTotalPedido.value = subtotal; // Enviar apenas o valor dos produtos
 }
 
 // Máscaras de input
