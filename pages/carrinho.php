@@ -108,6 +108,48 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                 <?php endforeach; ?>
             </div>
 
+            <?php if ($total_carrinho < 300): ?>
+            <?php
+                if (function_exists('getProdutosSugeridos')) {
+                    $produtos_sugeridos = getProdutosSugeridos($total_carrinho, 300, 4);
+                } else {
+                    $produtos_carrinho_ids = array_keys($_SESSION['carrinho'] ?? []);
+                    $produtos_disponiveis = array_filter($todos_produtos, function($p) use ($produtos_carrinho_ids) {
+                        return !in_array($p['id'], $produtos_carrinho_ids);
+                    });
+                    shuffle($produtos_disponiveis);
+                    $produtos_sugeridos = array_slice($produtos_disponiveis, 0, 4);
+                }
+            ?>
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <div class="frete-gratis-sugestao-box">
+                  <div class="frete-gratis-msg">
+                    <i class="fas fa-truck"></i>
+                    <span>
+                      Faltam <strong>R$ <?php echo number_format(300 - $total_carrinho, 2, ',', '.'); ?></strong> para você ganhar <b>frete grátis</b>! Aproveite:
+                    </span>
+                  </div>
+                  <div class="produtos-sugeridos-lista justify-content-center">
+                    <?php foreach ($produtos_sugeridos as $produto): ?>
+                      <div class="produto-sugestao-card">
+                        <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" alt="<?php echo htmlspecialchars($produto['titulo']); ?>" class="produto-img">
+                        <div class="produto-info">
+                          <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
+                          <div class="produto-preco">R$ <?php echo number_format($produto['preco_lojavirtual'], 2, ',', '.'); ?></div>
+                        </div>
+                        <button class="btn-adicionar" onclick="addToCart(<?php echo $produto['id']; ?>, 1)">Adicionar</button>
+                        <?php if ($produto['preco_lojavirtual'] >= (300 - $total_carrinho)): ?>
+                          <span class="badge-completa">Completa o frete grátis!</span>
+                        <?php endif; ?>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php endif; ?>
+
             <div class="cart-summary mt-4">
                 <div class="row">
                     <div class="col-md-8">
@@ -153,42 +195,3 @@ $total_carrinho = calculateCartTotal($todos_produtos);
         </form>
     <?php endif; ?>
 </div>
-
-<?php if ($total_carrinho < 300): ?>
-<?php
-    if (function_exists('getProdutosSugeridos')) {
-        $produtos_sugeridos = getProdutosSugeridos($total_carrinho, 300, 4);
-    } else {
-        // Fallback: pegar até 4 produtos aleatórios fora do carrinho
-        $produtos_carrinho_ids = array_keys($_SESSION['carrinho'] ?? []);
-        $produtos_disponiveis = array_filter($todos_produtos, function($p) use ($produtos_carrinho_ids) {
-            return !in_array($p['id'], $produtos_carrinho_ids);
-        });
-        shuffle($produtos_disponiveis);
-        $produtos_sugeridos = array_slice($produtos_disponiveis, 0, 4);
-    }
-?>
-<div class="frete-gratis-sugestao-box">
-  <div class="frete-gratis-msg">
-    <i class="fas fa-truck"></i>
-    <span>
-      Faltam <strong>R$ <?php echo number_format(300 - $total_carrinho, 2, ',', '.'); ?></strong> para você ganhar <b>frete grátis</b>! Aproveite:
-    </span>
-  </div>
-  <div class="produtos-sugeridos-lista">
-    <?php foreach ($produtos_sugeridos as $produto): ?>
-      <div class="produto-sugestao-card">
-        <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" alt="<?php echo htmlspecialchars($produto['titulo']); ?>" class="produto-img">
-        <div class="produto-info">
-          <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
-          <div class="produto-preco">R$ <?php echo number_format($produto['preco_lojavirtual'], 2, ',', '.'); ?></div>
-        </div>
-        <button class="btn-adicionar" onclick="addToCart(<?php echo $produto['id']; ?>, 1)">Adicionar</button>
-        <?php if ($produto['preco_lojavirtual'] >= (300 - $total_carrinho)): ?>
-          <span class="badge-completa">Completa o frete grátis!</span>
-        <?php endif; ?>
-      </div>
-    <?php endforeach; ?>
-  </div>
-</div>
-<?php endif; ?>
