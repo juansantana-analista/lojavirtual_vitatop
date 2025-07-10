@@ -1,4 +1,32 @@
 <?php
+// Dispatcher para requisições genéricas (class/method)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (isset($input['class']) && isset($input['method'])) {
+        require_once __DIR__ . '/../config/api.php';
+        $requestData = $input;
+        $ch = curl_init(API_URL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($requestData));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: Basic ' . API_KEY
+        ]);
+        $response = curl_exec($ch);
+        if ($response === false) {
+            echo json_encode(['status' => 'error', 'message' => curl_error($ch)]);
+        } else {
+            $jsonStart = strpos($response, '{');
+            if ($jsonStart !== false) {
+                $response = substr($response, $jsonStart);
+            }
+            echo $response;
+        }
+        curl_close($ch);
+        exit;
+    }
+}
 // api/requests.php - Adequado para PedidoDigitalRest
 require_once __DIR__ . '/../config/api.php';
 
