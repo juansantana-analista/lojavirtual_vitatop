@@ -11,7 +11,8 @@ $path = parse_url($uri, PHP_URL_PATH);
 $segments = explode('/', trim($path, '/'));
 
 // Define o afiliado
-$afiliado = isset($segments[1]) && !empty($segments[1]) ? $segments[1] : 'default';
+$afiliado = (isset($segments[0], $segments[1]) && $segments[0] === 'lojinha_vitatop') ? $segments[1] : 'default';
+
 
 $_SESSION['afiliado'] = $afiliado;
 
