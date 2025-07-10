@@ -183,7 +183,8 @@ function calcularFrete() {
             resultado.textContent = data.message || 'Erro ao calcular frete.';
         }
     })
-    .catch(() => {
+    .catch((error) => {
+        console.error('Erro no fetch do frete:', error);
         freteValorElement.textContent = 'Erro';
         resultado.textContent = 'Erro ao calcular frete.';
     });
