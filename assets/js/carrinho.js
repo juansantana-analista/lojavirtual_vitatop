@@ -151,10 +151,13 @@ function calcularFrete() {
         freteValor.textContent = 'A calcular';
         return;
     }
+    // Captura o valor do subtotal do carrinho
+    const subtotalText = document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.');
+    const valor = parseFloat(subtotalText);
     fetch('api/calcular_frete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cep: cep })
+        body: JSON.stringify({ cep: cep, valor: valor })
     })
     .then(response => response.json())
     .then(data => {
@@ -162,11 +165,12 @@ function calcularFrete() {
             freteValor.textContent = data.valor_formatado || data.valor;
             resultado.textContent = data.prazo ? `Prazo: ${data.prazo} dia(s)` : '';
             // Atualizar total do carrinho se necessário
-            const subtotal = document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.');
-            const frete = parseFloat(data.valor);
-            if (!isNaN(frete)) {
-                const total = parseFloat(subtotal) + frete;
-                document.getElementById('cart-total').textContent = formatMoney(total);
+            if (!isNaN(valor)) {
+                const frete = parseFloat(data.valor);
+                if (!isNaN(frete)) {
+                    const total = valor + frete;
+                    document.getElementById('cart-total').textContent = formatMoney(total);
+                }
             }
         } else {
             freteValor.textContent = 'Erro';
