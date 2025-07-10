@@ -255,24 +255,137 @@ document.addEventListener('DOMContentLoaded', function() {
 // Busca de produtos
 function initSearch() {
     const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    
     if (searchInput) {
+        let searchTimeout;
+        
         searchInput.addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            filterProducts(query);
+            const query = this.value.trim();
+            
+            // Limpar timeout anterior
+            clearTimeout(searchTimeout);
+            
+            // Limpar resultados se não há query
+            if (query.length === 0) {
+                if (searchResults) {
+                    searchResults.style.display = 'none';
+                }
+                return;
+            }
+            
+            // Aguardar 300ms antes de fazer a busca (debounce)
+            searchTimeout = setTimeout(() => {
+                buscarProdutos(query);
+            }, 300);
+        });
+        
+        // Fechar resultados ao clicar fora
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                if (searchResults) {
+                    searchResults.style.display = 'none';
+                }
+            }
+        });
+        
+        // Buscar ao pressionar Enter
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query.length > 0) {
+                    window.location.href = `?page=produtos&busca=${encodeURIComponent(query)}`;
+                }
+            }
         });
     }
 }
 
-function filterProducts(query) {
-    const products = document.querySelectorAll('.produto-item');
-    products.forEach(product => {
-        const name = product.dataset.name;
-        if (name.includes(query)) {
-            product.style.display = 'block';
+function buscarProdutos(termo) {
+    const searchResults = document.getElementById('searchResults');
+    
+    if (!searchResults) return;
+    
+    // Mostrar loading
+    searchResults.innerHTML = '<div class="text-center p-3"><i class="fas fa-spinner fa-spin"></i> Buscando...</div>';
+    searchResults.style.display = 'block';
+    
+    fetch('/lojinha_vitatop/api/buscar_produtos.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            termo: termo
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            exibirResultadosBusca(data.data, termo);
         } else {
-            product.style.display = 'none';
+            searchResults.innerHTML = '<div class="text-center p-3 text-muted">Erro ao buscar produtos</div>';
         }
+    })
+    .catch(error => {
+        console.error('Erro na busca:', error);
+        searchResults.innerHTML = '<div class="text-center p-3 text-muted">Erro ao buscar produtos</div>';
     });
+}
+
+function exibirResultadosBusca(produtos, termo) {
+    const searchResults = document.getElementById('searchResults');
+    
+    if (produtos.length === 0) {
+        searchResults.innerHTML = `
+            <div class="search-results-content">
+                <div class="text-center p-3 text-muted">
+                    <i class="fas fa-search mb-2"></i>
+                    <p>Nenhum produto encontrado para "${termo}"</p>
+                </div>
+            </div>
+        `;
+        searchResults.style.display = 'block';
+        return;
+    }
+    
+    let html = '<div class="search-results-content">';
+    
+    produtos.forEach(produto => {
+        html += `
+            <a href="${produto.url}" class="search-result-item">
+                <div class="search-result-image">
+                    <img src="https://vitatop.tecskill.com.br/${produto.foto}" 
+                         alt="${produto.nome}" 
+                         class="img-fluid">
+                </div>
+                <div class="search-result-info">
+                    <h6 class="search-result-title">${produto.titulo}</h6>
+                    <p class="search-result-name">${produto.nome}</p>
+                    <div class="search-result-price">
+                        <span class="old-price">De ${produto.preco_original}</span>
+                        <span class="current-price">${produto.preco_com_desconto}</span>
+                        <span class="discount-percent">-${produto.desconto_percentual}%</span>
+                    </div>
+                </div>
+            </a>
+        `;
+    });
+    
+    if (produtos.length >= 8) {
+        html += `
+            <div class="search-result-more">
+                <a href="?page=produtos&busca=${encodeURIComponent(termo)}" class="btn btn-outline-primary btn-sm w-100">
+                    Ver todos os resultados
+                </a>
+            </div>
+        `;
+    }
+    
+    html += '</div>';
+    
+    searchResults.innerHTML = html;
+    searchResults.style.display = 'block';
 }
 
 // Filtros de produtos

@@ -2,6 +2,19 @@
 // pages/produtos.php
 $produtos_response = listarProdutos();
 $produtos = $produtos_response['status'] === 'success' ? $produtos_response['data']['data'] : [];
+
+// Verificar se há busca via URL
+$termo_busca = $_GET['busca'] ?? '';
+$produtos_filtrados = $produtos;
+
+if (!empty($termo_busca)) {
+    $termo_lower = strtolower(trim($termo_busca));
+    $produtos_filtrados = array_filter($produtos, function($produto) use ($termo_lower) {
+        $nome = strtolower($produto['nome']);
+        $titulo = strtolower($produto['titulo']);
+        return strpos($nome, $termo_lower) !== false || strpos($titulo, $termo_lower) !== false;
+    });
+}
 ?>
 
 <div class="container">
@@ -9,44 +22,66 @@ $produtos = $produtos_response['status'] === 'success' ? $produtos_response['dat
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="?page=home">Início</a></li>
-                <li class="breadcrumb-item active">Produtos</li>
+                <li class="breadcrumb-item active">
+                    <?php if (!empty($termo_busca)): ?>
+                        Busca: "<?php echo htmlspecialchars($termo_busca); ?>"
+                    <?php else: ?>
+                        Produtos
+                    <?php endif; ?>
+                </li>
             </ol>
         </nav>
     </div>
 
     <div class="page-header mb-4">
-        <h1>Todos os Produtos</h1>
-        <p class="text-muted"><?php echo count($produtos); ?> produtos encontrados</p>
+        <h1>
+            <?php if (!empty($termo_busca)): ?>
+                Resultados para "<?php echo htmlspecialchars($termo_busca); ?>"
+            <?php else: ?>
+                Todos os Produtos
+            <?php endif; ?>
+        </h1>
+        <p class="text-muted"><?php echo count($produtos_filtrados); ?> produtos encontrados</p>
     </div>
 
-    <div class="filters-section mb-4">
-        <div class="row">
-            <div class="col-md-3">
-                <select class="form-select" id="sortBy">
-                    <option value="">Ordenar por</option>
-                    <option value="price_asc">Menor preço</option>
-                    <option value="price_desc">Maior preço</option>
-                    <option value="name_asc">A-Z</option>
-                    <option value="name_desc">Z-A</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select class="form-select" id="filterCategory">
-                    <option value="">Todas as categorias</option>
-                    <?php
-                    $categorias = array_unique(array_column($produtos, 'categoria_id'));
-                    foreach ($categorias as $categoria):
-                    ?>
-                        <option value="<?php echo $categoria; ?>">Categoria <?php echo $categoria; ?></option>
-                    <?php endforeach; ?>
-                </select>
+    <?php if (!empty($termo_busca) && count($produtos_filtrados) === 0): ?>
+        <div class="alert alert-info text-center">
+            <i class="fas fa-search mb-2"></i>
+            <h5>Nenhum produto encontrado</h5>
+            <p>Não encontramos produtos para "<?php echo htmlspecialchars($termo_busca); ?>"</p>
+            <a href="?page=produtos" class="btn btn-primary">Ver todos os produtos</a>
+        </div>
+    <?php endif; ?>
+
+    <?php if (count($produtos_filtrados) > 0): ?>
+        <div class="filters-section mb-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <select class="form-select" id="sortBy">
+                        <option value="">Ordenar por</option>
+                        <option value="price_asc">Menor preço</option>
+                        <option value="price_desc">Maior preço</option>
+                        <option value="name_asc">A-Z</option>
+                        <option value="name_desc">Z-A</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="filterCategory">
+                        <option value="">Todas as categorias</option>
+                        <?php
+                        $categorias = array_unique(array_column($produtos_filtrados, 'categoria_id'));
+                        foreach ($categorias as $categoria):
+                        ?>
+                            <option value="<?php echo $categoria; ?>">Categoria <?php echo $categoria; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="produtos-grid">
-        <div class="row" id="produtosContainer">
-            <?php foreach ($produtos as $produto): ?>
+        <div class="produtos-grid">
+            <div class="row" id="produtosContainer">
+                <?php foreach ($produtos_filtrados as $produto): ?>
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4 produto-item" 
                      data-categoria="<?php echo $produto['categoria_id']; ?>"
                      data-price="<?php echo $produto['preco_lojavirtual']; ?>"
@@ -82,7 +117,8 @@ $produtos = $produtos_response['status'] === 'success' ? $produtos_response['dat
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
+                            <?php endforeach; ?>
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
 </div>
