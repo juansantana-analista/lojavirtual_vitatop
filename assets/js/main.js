@@ -448,6 +448,13 @@ function initPaymentMethods() {
     paymentRadios.forEach(radio => {
         radio.addEventListener('change', handlePaymentChange);
     });
+    // Remover chamada de carregarParcelas para não popular opções
+    //carregarParcelas();
+    // Garantir que só existe 1x sem juros
+    const select = document.getElementById('parcelasSelect');
+    if (select) {
+        select.innerHTML = '<option value="1">1x sem juros</option>';
+    }
 }
 
 function handlePaymentChange() {
