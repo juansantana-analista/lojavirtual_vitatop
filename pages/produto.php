@@ -55,10 +55,6 @@ if ($produto['preco'] < $produto['preco2']) {
                     <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" 
                          alt="<?php echo htmlspecialchars($produto['nome']); ?>" 
                          class="img-fluid rounded">
-                    <?php 
-                    $desconto_visual = getDescontoVisual($produto['id']);
-                    ?>
-                    <span class="discount-label">-<?php echo $desconto_visual; ?>%</span>
                 </div>
             </div>
         </div>

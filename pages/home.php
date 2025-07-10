@@ -83,9 +83,16 @@ $produtos_promocao = array_slice($produtos, 8, 4);
                             <?php 
                             $desconto_visual = getDescontoVisual($produto['id']);
                             ?>
-                            <span class="discount-label">
-                                -<?php echo $desconto_visual; ?>%
-                            </span>
+                            <div class="product-price">
+                                <?php 
+                                $precos_desconto = formatPriceWithDiscount($produto['preco_lojavirtual'], $produto['id']);
+                                ?>
+                                <span class="old-price">De <?php echo $precos_desconto['preco_original']; ?></span>
+                                <span class="current-price"><?php echo $precos_desconto['preco_com_desconto']; ?></span>
+                                <span class="discount-percent">
+                                    -<?php echo $precos_desconto['desconto_percentual']; ?>%
+                                </span>
+                            </div>
                             <?php if ($index < 3): ?>
                                 <span class="bestseller-badge">
                                     <i class="fas fa-crown"></i>

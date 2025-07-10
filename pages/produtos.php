@@ -74,7 +74,6 @@ $produtos = $produtos_response['status'] === 'success' ? $produtos_response['dat
                                 ?>
                                 <span class="old-price">De <?php echo $precos_desconto['preco_original']; ?></span>
                                 <span class="current-price"><?php echo $precos_desconto['preco_com_desconto']; ?></span>
-                                <span class="discount-badge">-<?php echo $precos_desconto['desconto_percentual']; ?>%</span>
                             </div>
                             <button class="btn btn-primary btn-add-cart w-100 mt-2" 
                                     data-product-id="<?php echo $produto['id']; ?>">
