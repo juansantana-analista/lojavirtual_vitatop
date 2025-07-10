@@ -121,7 +121,6 @@ $produtos_promocao = array_slice($produtos, 8, 4);
                             </div>
                             <div class="product-actions mt-3">
                                 <button class="btn btn-add-cart w-100" 
-                                        onclick="addToCart(<?php echo $produto['id']; ?>)"
                                         data-product-id="<?php echo $produto['id']; ?>">
                                     <i class="fas fa-shopping-bag me-2"></i>Adicionar à Sacola
                                 </button>

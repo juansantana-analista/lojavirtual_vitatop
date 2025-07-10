@@ -75,7 +75,7 @@ $produtos = $produtos_response['status'] === 'success' ? $produtos_response['dat
                                 <span class="current-price"><?php echo formatPrice($produto['preco_lojavirtual']); ?></span>
                             </div>
                             <button class="btn btn-primary btn-add-cart w-100 mt-2" 
-                                    onclick="addToCart(<?php echo $produto['id']; ?>)">
+                                    data-product-id="<?php echo $produto['id']; ?>">
                                 <i class="fas fa-shopping-bag me-2"></i>Adicionar
                             </button>
                         </div>
