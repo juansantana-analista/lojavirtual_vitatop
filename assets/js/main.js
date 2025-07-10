@@ -384,7 +384,7 @@ function calcularFrete(cep) {
     const valor = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\d,]/g, '').replace(',', '.'));
     
     // Fazer requisição para calcular frete
-    fetch('/api/calcular_frete.php', {
+    fetch('/lojinha_vitatop/api/calcular_frete.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -454,7 +454,7 @@ function handlePaymentChange() {
 function carregarParcelas() {
     const valor = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\d,]/g, '').replace(',', '.'));
     
-    fetch('/api/calcular_parcelas.php', {
+    fetch('/lojinha_vitatop/api/calcular_parcelas.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

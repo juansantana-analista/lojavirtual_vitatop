@@ -2,7 +2,7 @@
 
 // Funções do carrinho
 function addToCart(produtoId, quantidade = 1) {
-    fetch('/api/carrinho.php', {
+    fetch('/lojinha_vitatop/api/carrinho.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ function addToCart(produtoId, quantidade = 1) {
 
 function removeFromCart(produtoId) {
     if (confirm('Deseja remover este item do carrinho?')) {
-        fetch('/api/carrinho.php', {
+        fetch('/lojinha_vitatop/api/carrinho.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function removeFromCart(produtoId) {
 }
 
 function updateCartQuantity(produtoId, quantidade) {
-    fetch('/api/carrinho.php', {
+    fetch('/lojinha_vitatop/api/carrinho.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ function decreaseQuantity(produtoId) {
 }
 
 function updateCartCounter() {
-    fetch('/api/carrinho.php?action=count')
+    fetch('/lojinha_vitatop/api/carrinho.php?action=count')
         .then(response => response.json())
         .then(data => {
             const badge = document.querySelector('.badge');
@@ -121,7 +121,7 @@ function updateCartDisplay() {
 
 function clearCart() {
     if (confirm('Deseja limpar todo o carrinho?')) {
-        fetch('/api/carrinho.php', {
+        fetch('/lojinha_vitatop/api/carrinho.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ function calcularFrete() {
     // Captura o valor do subtotal do carrinho
     const subtotalText = document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.');
     const valor = parseFloat(subtotalText);
-    fetch('/api/calcular_frete.php', {
+    fetch('/lojinha_vitatop/api/calcular_frete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cep: cep, valor: valor })
