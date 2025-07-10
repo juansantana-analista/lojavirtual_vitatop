@@ -518,7 +518,7 @@ function initInputMasks() {
             this.value = this.value.replace(/\D/g, '').replace(/(\d{5})(\d{3})/, '$1-$2');
         });
     }
-    
+
     // Máscara de telefone
     const telefoneInput = document.querySelector('input[name="telefone"]');
     if (telefoneInput) {
@@ -528,7 +528,7 @@ function initInputMasks() {
                 .replace(/(\d{5})(\d{4})/, '$1-$2');
         });
     }
-    
+
     // Máscara de CPF
     const cpfInput = document.querySelector('input[name="cpf"]');
     if (cpfInput) {
@@ -539,6 +539,75 @@ function initInputMasks() {
                 .replace(/(\d{3})(\d{1,2})/, '$1-$2');
         });
     }
+
+    // Máscara de número do cartão (16 a 19 dígitos, espaçado)
+    const numeroCartaoInput = document.querySelector('input[name="numero_cartao"]');
+    if (numeroCartaoInput) {
+        numeroCartaoInput.addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '').slice(0, 19);
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            this.value = value;
+        });
+    }
+
+    // Máscara de vencimento (MM/YYYY)
+    const dataExpiraInput = document.querySelector('input[name="data_expira"]');
+    if (dataExpiraInput) {
+        dataExpiraInput.addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '').slice(0, 6);
+            if (value.length > 2) {
+                value = value.replace(/(\d{2})(\d{1,4})/, '$1/$2');
+            }
+            this.value = value;
+        });
+    }
+
+    // Máscara de CVV (3 ou 4 dígitos)
+    const cvvInput = document.querySelector('input[name="codigo_seguranca"]');
+    if (cvvInput) {
+        cvvInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 4);
+        });
+    }
+}
+
+// Validação dos campos do cartão no submit do checkout
+const checkoutForm = document.getElementById('checkoutForm');
+if (checkoutForm) {
+    checkoutForm.addEventListener('submit', function(e) {
+        const forma = document.querySelector('input[name="forma_pagamento"]:checked');
+        if (forma && forma.value === 'cartao') {
+            let erro = '';
+            // Número do cartão
+            const numero = document.querySelector('input[name="numero_cartao"]').value.replace(/\s/g, '');
+            if (numero.length < 16 || numero.length > 19) {
+                erro = 'Número do cartão inválido.';
+            }
+            // Vencimento
+            const venc = document.querySelector('input[name="data_expira"]').value;
+            if (!/^\d{2}\/\d{4}$/.test(venc)) {
+                erro = 'Data de vencimento inválida. Use MM/YYYY.';
+            } else {
+                const [mes, ano] = venc.split('/').map(Number);
+                const dataAtual = new Date();
+                const anoAtual = dataAtual.getFullYear();
+                const mesAtual = dataAtual.getMonth() + 1;
+                if (mes < 1 || mes > 12 || ano < anoAtual || (ano === anoAtual && mes < mesAtual)) {
+                    erro = 'Data de vencimento inválida ou expirada.';
+                }
+            }
+            // CVV
+            const cvv = document.querySelector('input[name="codigo_seguranca"]').value;
+            if (cvv.length < 3 || cvv.length > 4) {
+                erro = 'CVV inválido.';
+            }
+            if (erro) {
+                e.preventDefault();
+                alert(erro);
+                return false;
+            }
+        }
+    });
 }
 
 // Utilitários
