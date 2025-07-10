@@ -2064,6 +2064,49 @@ html {
   }
 }
 
+/* --- AJUSTE PARA SUGESTÕES EM LINHA NO MOBILE --- */
+@media (max-width: 700px) {
+  .produtos-sugeridos-lista {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+    padding-bottom: 8px;
+    margin-left: -8px;
+    margin-right: -8px;
+    justify-content: flex-start !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .produtos-sugeridos-lista::-webkit-scrollbar {
+    display: none;
+  }
+  .produto-sugestao-card.mini {
+    flex: 0 0 100px;
+    min-width: 100px;
+    max-width: 110px;
+    padding: 6px 2px;
+    margin-right: 4px;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+}
+
+/* Garante que em telas menores que 480px, os cards continuem em linha e responsivos */
+@media (max-width: 480px) {
+  .produtos-sugeridos-lista {
+    gap: 8px !important;
+    padding-bottom: 6px;
+  }
+  .produto-sugestao-card.mini {
+    flex: 0 0 90px;
+    min-width: 90px;
+    max-width: 100px;
+    padding: 4px 1px;
+  }
+}
+
 @media (max-width: 700px) {
   .frete-gratis-sugestao-box.compact {
     padding: 8px 2px;
