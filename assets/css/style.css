@@ -1605,3 +1605,61 @@ html {
         font-size: 0.75rem;
     }
 }
+
+/* =================
+   CARRINHO - ÍCONE DE LIXEIRA 
+   ================= */
+.cart-item {
+    position: relative;
+}
+
+.cart-item .btn-outline-danger {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    transition: all 0.3s ease;
+}
+
+.cart-item .btn-outline-danger:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+.cart-item .btn-outline-danger i {
+    font-size: 12px;
+}
+
+/* Ajustar layout das colunas para compensar o ícone removido */
+.cart-item .col-md-1.text-end {
+    display: none;
+}
+
+.cart-item .col-md-2:last-child {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+}
+
+/* Responsivo para mobile */
+@media (max-width: 768px) {
+    .cart-item .btn-outline-danger {
+        top: 8px;
+        left: 8px;
+        width: 28px;
+        height: 28px;
+    }
+    
+    .cart-item .btn-outline-danger i {
+        font-size: 11px;
+    }
+}
