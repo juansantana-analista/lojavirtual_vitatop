@@ -2252,3 +2252,33 @@ html {
     max-width: 70px;
   }
 }
+
+@media (max-width: 700px) {
+  .cart-summary .col-md-8 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    padding: 0 4px;
+  }
+  .cart-summary .col-md-8 > .btn,
+  .cart-summary .col-md-8 > a.btn {
+    width: 100%;
+    margin: 0 !important;
+    border-radius: 8px;
+    font-size: 1rem;
+    padding: 12px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-summary .col-md-8 {
+    gap: 8px;
+    padding: 0 2px;
+  }
+  .cart-summary .col-md-8 > .btn,
+  .cart-summary .col-md-8 > a.btn {
+    font-size: 0.98rem;
+    padding: 10px 0;
+  }
+}
