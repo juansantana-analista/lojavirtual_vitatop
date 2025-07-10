@@ -1,0 +1,38 @@
+RewriteEngine On
+
+# Redirecionar para index.php se o arquivo não existir
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)/?$ index.php [QSA,L]
+
+# Redirecionar URLs amigáveis
+RewriteRule ^([^/]+)/produtos/?$ index.php?page=produtos [QSA,L]
+RewriteRule ^([^/]+)/produto/([0-9]+)/?$ index.php?page=produto&id=$2 [QSA,L]
+RewriteRule ^([^/]+)/carrinho/?$ index.php?page=carrinho [QSA,L]
+RewriteRule ^([^/]+)/checkout/?$ index.php?page=checkout [QSA,L]
+RewriteRule ^([^/]+)/pedido/([^/]+)/?$ index.php?page=pedido&codigo=$2 [QSA,L]
+
+# Compressão GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Cache de arquivos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+</IfModule>
