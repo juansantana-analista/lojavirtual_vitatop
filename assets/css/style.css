@@ -410,7 +410,7 @@ body {
     background: var(--danger-color);
     color: white;
     border-radius: 50%;
-    width: 22px;
+    min-width: 22px;
     height: 22px;
     font-size: 11px;
     display: flex;
@@ -419,6 +419,10 @@ body {
     font-weight: bold;
     border: 2px solid white;
     animation: pulse 2s infinite;
+    padding: 0 4px;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 1;
 }
 
 @keyframes pulse {
@@ -1326,6 +1330,14 @@ body {
     .user-info {
         display: none !important;
     }
+    
+    /* Ajuste do cart-badge para mobile */
+    .cart-badge {
+        min-width: 20px;
+        height: 20px;
+        font-size: 10px;
+        padding: 0 3px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1390,6 +1402,14 @@ body {
     
     #newsletterForm {
         flex-direction: column;
+    }
+    
+    /* Ajuste do cart-badge para telas muito pequenas */
+    .cart-badge {
+        min-width: 18px;
+        height: 18px;
+        font-size: 9px;
+        padding: 0 2px;
     }
 }
 
