@@ -134,12 +134,12 @@ $total_carrinho = calculateCartTotal($todos_produtos);
                     <?php foreach ($produtos_sugeridos as $produto): ?>
                       <div class="produto-sugestao-card mini">
                         <img src="https://vitatop.tecskill.com.br/<?php echo $produto['foto']; ?>" alt="<?php echo htmlspecialchars($produto['titulo']); ?>" class="produto-img">
-                        <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
-                        <div class="produto-preco">R$ <?php echo number_format($produto['preco_lojavirtual'], 2, ',', '.'); ?></div>
-                        <button class="btn-adicionar" onclick="addToCart(<?php echo $produto['id']; ?>, 1)">+</button>
                         <?php if ($produto['preco_lojavirtual'] >= (300 - $total_carrinho)): ?>
                           <span class="badge-completa">Completa o frete grátis!</span>
                         <?php endif; ?>
+                        <div class="produto-nome"><?php echo htmlspecialchars($produto['titulo']); ?></div>
+                        <div class="produto-preco">R$ <?php echo number_format($produto['preco_lojavirtual'], 2, ',', '.'); ?></div>
+                        <button class="btn-adicionar" onclick="addToCart(<?php echo $produto['id']; ?>, 1)">+</button>
                       </div>
                     <?php endforeach; ?>
                   </div>
