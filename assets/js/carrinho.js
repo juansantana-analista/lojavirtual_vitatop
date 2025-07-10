@@ -160,8 +160,18 @@ function calcularFrete() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(async response => {
+        const text = await response.text();
+        console.log('Texto bruto da resposta:', text);
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            console.error('Erro ao fazer parse do JSON:', e);
+            freteValorElement.textContent = 'Erro';
+            resultado.textContent = 'Erro ao calcular frete.';
+            return;
+        }
         console.log('Resposta recebida do calcular_frete.php:', data);
         if (data.status === 'success') {
             const freteValor = parseFloat(
