@@ -145,7 +145,7 @@ if ($produto['preco'] < $produto['preco2']) {
                 <a class="nav-link active" data-bs-toggle="tab" href="#description">Descrição</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#specifications">Especificações</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#contraindicacao" id="tabContraIndicacao">Contra indicação</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#reviews">Avaliações</a>
@@ -170,35 +170,11 @@ if ($produto['preco'] < $produto['preco2']) {
                     <p>Tome 2 cápsulas ao dia, preferencialmente antes das refeições, ou conforme orientação de profissional habilitado.</p>
                 </div>
             </div>
-            
-            <div class="tab-pane fade" id="specifications">
-                <div class="specifications">
-                    <h5>Especificações Técnicas</h5>
-                    <table class="table table-striped">
-                        <tr>
-                            <td><strong>Código do Produto:</strong></td>
-                            <td><?php echo $produto['id']; ?></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Categoria:</strong></td>
-                            <td>Suplementos Naturais</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Peso:</strong></td>
-                            <td>100g</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Validade:</strong></td>
-                            <td>24 meses</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Registro ANVISA:</strong></td>
-                            <td>Dispensado conforme RDC 27/2010</td>
-                        </tr>
-                    </table>
+            <div class="tab-pane fade" id="contraindicacao">
+                <div id="contraIndicacaoContent">
+                    <div class="text-center text-muted py-4">Clique para carregar as contraindicações...</div>
                 </div>
             </div>
-            
             <div class="tab-pane fade" id="reviews">
                 <div class="reviews-section">
                     <h5>Avaliações dos Clientes</h5>
@@ -399,6 +375,54 @@ function calcularFreteDetalhes() {
                 Erro ao calcular frete.
             </div>
         `;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tabContra = document.getElementById('tabContraIndicacao');
+    if (tabContra) {
+        tabContra.addEventListener('shown.bs.tab', function () {
+            carregarContraIndicacao();
+        });
+    }
+});
+
+function carregarContraIndicacao() {
+    const content = document.getElementById('contraIndicacaoContent');
+    content.innerHTML = '<div class="text-center text-muted py-4">Carregando contraindicações...</div>';
+    fetch('/lojinha_vitatop/api/requests.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            class: 'ProdutoVariacaoRest',
+            method: 'obterProdutoCompleto',
+            produto_id: <?php echo (int)$produto['id']; ?>
+        })
+    })
+    .then(async response => {
+        const text = await response.text();
+        const jsonStart = text.indexOf('{');
+        let data;
+        try {
+            data = JSON.parse(text.slice(jsonStart));
+        } catch (e) {
+            content.innerHTML = '<div class="alert alert-danger">Erro ao carregar contraindicações.</div>';
+            return;
+        }
+        const contra = data?.data?.data?.contra_indicacoes;
+        if (Array.isArray(contra) && contra.length > 0) {
+            let html = '<ul class="list-group">';
+            contra.forEach(item => {
+                html += `<li class="list-group-item"><strong>${item.titulo}</strong>${item.descricao ? ': ' + item.descricao : ''}</li>`;
+            });
+            html += '</ul>';
+            content.innerHTML = html;
+        } else {
+            content.innerHTML = '<div class="alert alert-info">Nenhuma contraindicação cadastrada para este produto.</div>';
+        }
+    })
+    .catch(() => {
+        content.innerHTML = '<div class="alert alert-danger">Erro ao carregar contraindicações.</div>';
     });
 }
 </script>
