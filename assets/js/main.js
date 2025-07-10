@@ -450,23 +450,11 @@ function initPaymentMethods() {
 function handlePaymentChange() {
     const selectedPayment = document.querySelector('input[name="forma_pagamento"]:checked').value;
     const parcelamentoDiv = document.getElementById('parcelamento');
-    const descontoDiv = document.getElementById('descontoDiv');
     
     if (selectedPayment === 'cartao') {
         parcelamentoDiv.style.display = 'block';
-        descontoDiv.style.display = 'none';
-        carregarParcelas();
     } else {
         parcelamentoDiv.style.display = 'none';
-        descontoDiv.style.display = 'none';
-        /*
-        if (selectedPayment === 'pix') {
-            descontoDiv.style.display = 'flex';
-            aplicarDescontoPix();
-        } else {
-            descontoDiv.style.display = 'none';
-        }
-        */
     }
     
     atualizarTotal();
@@ -503,26 +491,12 @@ function carregarParcelas() {
     });
 }
 
-function aplicarDescontoPix() {
-    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\d,]/g, '').replace(',', '.'));
-    const desconto = subtotal * 0.05; // 5% de desconto
-    
-    document.getElementById('desconto').textContent = '-' + formatMoney(desconto);
-}
-
 function atualizarTotal() {
     const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace(/[^\d,]/g, '').replace(',', '.'));
     const freteText = document.getElementById('frete').textContent;
     const frete = freteText === 'A calcular' ? 0 : parseFloat(freteText.replace(/[^\d,]/g, '').replace(',', '.'));
     
     let total = subtotal + frete;
-    
-    // Aplicar desconto PIX se selecionado
-    const pixSelected = document.querySelector('input[value="pix"]:checked');
-    if (pixSelected) {
-        const desconto = subtotal * 0.05;
-        total -= desconto;
-    }
     
     document.getElementById('total').textContent = formatMoney(total);
 }
