@@ -358,10 +358,14 @@ function buscarCep() {
             }
             
             // Preencher campos
-            document.getElementById('endereco').value = data.logradouro;
-            document.getElementById('bairro').value = data.bairro;
-            document.getElementById('cidade').value = data.localidade;
-            document.getElementById('estado').value = data.uf;
+            const endereco = document.getElementById('endereco');
+            if (endereco) endereco.value = data.logradouro;
+            const bairro = document.getElementById('bairro');
+            if (bairro) bairro.value = data.bairro;
+            const cidade = document.getElementById('cidade');
+            if (cidade) cidade.value = data.localidade;
+            const estado = document.getElementById('estado');
+            if (estado) estado.value = data.uf;
             
             // Calcular frete
             calcularFrete(cep);
