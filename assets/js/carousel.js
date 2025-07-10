@@ -37,7 +37,9 @@ class SimpleCarousel {
     }
     
     async loadBanners() {
-        try {            
+        try {
+            console.log('Carregando banners...');
+            
             const response = await fetch('api/listar_banners.php', {
                 method: 'GET',
                 headers: {
@@ -49,9 +51,12 @@ class SimpleCarousel {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
-            const data = await response.json();            
+            const data = await response.json();
+            console.log('Resposta da API:', data);
+            
             if (data.status === 'success' && data.images && data.images.length > 0) {
                 this.bannerImages = data.images;
+                console.log('Banners carregados:', this.bannerImages);
             } else {
                 console.warn('Nenhum banner encontrado, usando fallbacks');
                 this.bannerImages = this.getFallbackImages();
@@ -109,6 +114,7 @@ class SimpleCarousel {
             
             // Adicionar evento de carregamento
             img.onload = () => {
+                console.log(`Banner ${index + 1} carregado com sucesso`);
                 slide.classList.add('loaded');
             };
             
@@ -305,6 +311,7 @@ class SimpleCarousel {
 
 // Inicializar o carrossel quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', async function() {
+    console.log('Inicializando carrossel VitaTop...');
     
     const carouselElement = document.querySelector('.hero-carousel');
     if (carouselElement) {
@@ -313,6 +320,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Expor globalmente para debug
         window.heroCarousel = carousel;
         
+        // Event listener para mudanças de slide
+        carouselElement.addEventListener('slideChanged', function(e) {
+            console.log('Slide alterado:', e.detail);
+        });
+        
+        console.log('Carrossel VitaTop inicializado com sucesso!');
     } else {
         console.error('Elemento .hero-carousel não encontrado');
     }

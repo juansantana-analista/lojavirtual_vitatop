@@ -696,7 +696,6 @@ $produtos_promocao = array_slice($produtos, 8, 4);
 <!-- Script para funcionalidades da home -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Inicializando página home VitaTop...');
     
     // Newsletter form
     const newsletterForm = document.getElementById('newsletterForm');
@@ -755,7 +754,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const carouselElement = document.querySelector('.hero-carousel');
     if (carouselElement) {
         carouselElement.addEventListener('slideChanged', function(e) {
-            console.log('Slide do carrossel alterado:', e.detail);
             
             // Aqui você pode adicionar tracking ou outras funcionalidades
             // Por exemplo, Google Analytics
@@ -766,7 +764,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    console.log('Home VitaTop carregada - Estilo Boticário completo!');
 });
 
 // Função para adicionar produto ao carrinho
