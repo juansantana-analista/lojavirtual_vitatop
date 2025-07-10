@@ -31,6 +31,11 @@ function addToCart(produtoId, quantidade = 1) {
             
             // Mostrar feedback
             showToast('Produto adicionado à sua Sacola!', 'success');
+            if (window.location.pathname.includes('carrinho')) {
+                setTimeout(function() {
+                    window.location.reload();
+                }, 600);
+            }
         } else {
             showToast('Erro ao adicionar produto', 'error');
         }
