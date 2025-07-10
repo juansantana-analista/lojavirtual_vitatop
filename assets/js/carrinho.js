@@ -143,12 +143,12 @@ function clearCart() {
 function calcularFrete() {
     const cep = document.getElementById('cep').value;
     const resultado = document.getElementById('frete-resultado');
-    const freteValor = document.getElementById('frete-valor');
+    const freteValorElement = document.getElementById('frete-valor');
     resultado.textContent = '';
-    freteValor.textContent = 'Calculando...';
+    freteValorElement.textContent = 'Calculando...';
     if (!cep || cep.length < 8) {
         resultado.textContent = 'Digite um CEP válido.';
-        freteValor.textContent = 'A calcular';
+        freteValorElement.textContent = 'A calcular';
         return;
     }
     // Captura o valor do subtotal do carrinho
@@ -162,23 +162,23 @@ function calcularFrete() {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            freteValor.textContent = data.valor_formatado || data.valor;
-            resultado.textContent = data.prazo ? `Prazo: ${data.prazo} dia(s)` : '';
-            // Atualizar total do carrinho se necessário
-            if (!isNaN(valor)) {
-                const frete = parseFloat(data.valor);
-                if (!isNaN(frete)) {
-                    const total = valor + frete;
-                    document.getElementById('cart-total').textContent = formatMoney(total);
-                }
+            // Pega o valor do frete do campo correto
+            const freteValor = parseFloat(data.data && data.data.frete ? data.data.frete : data.valor);
+            freteValorElement.textContent = formatMoney(freteValor);
+            // Atualiza o total
+            const subtotal = parseFloat(document.getElementById('cart-subtotal').textContent.replace(/[^\d,\.]/g, '').replace(',', '.'));
+            if (!isNaN(subtotal)) {
+                const total = subtotal + freteValor;
+                document.getElementById('cart-total').textContent = formatMoney(total);
             }
+            resultado.textContent = 'Frete calculado!';
         } else {
-            freteValor.textContent = 'Erro';
+            freteValorElement.textContent = 'Erro';
             resultado.textContent = data.message || 'Erro ao calcular frete.';
         }
     })
     .catch(() => {
-        freteValor.textContent = 'Erro';
+        freteValorElement.textContent = 'Erro';
         resultado.textContent = 'Erro ao calcular frete.';
     });
 }

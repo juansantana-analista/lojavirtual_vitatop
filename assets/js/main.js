@@ -397,20 +397,19 @@ function calcularFrete(cep) {
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            const freteValor = parseFloat(data.valor);
+            // Pega o valor do frete do campo correto
+            const freteValor = parseFloat(data.data && data.data.frete ? data.data.frete : data.valor);
             document.getElementById('frete').textContent = formatMoney(freteValor);
-            
             // Atualizar total
             atualizarTotal();
-            
             // Mostrar informações do frete
             const freteInfo = document.getElementById('freteCalculado');
-            freteInfo.innerHTML = `
-                <strong>Frete calculado:</strong><br>
-                Valor: ${formatMoney(freteValor)}<br>
-                Prazo: ${data.prazo} dias úteis
-            `;
-            freteInfo.style.display = 'block';
+            if (freteInfo) {
+                freteInfo.innerHTML = `<strong>Frete calculado:</strong><br>Valor: ${formatMoney(freteValor)}`;
+                freteInfo.style.display = 'block';
+            }
+        } else {
+            document.getElementById('frete').textContent = 'Erro';
         }
     })
     .catch(error => {
