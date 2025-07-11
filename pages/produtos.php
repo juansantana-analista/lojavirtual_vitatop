@@ -32,20 +32,6 @@ if (
 $produtos_response = listarProdutos();
 $produtos = $produtos_response['status'] === 'success' ? $produtos_response['data']['data'] : [];
 
-// Debug temporário
-if (php_sapi_name() !== 'cli') {
-    echo '<pre style="background:#fffbe6; border:1px solid #ccc; padding:10px;">';
-    echo 'Categorias permitidas: ';
-    print_r($categorias_permitidas);
-    echo 'Primeiros produtos:<br>';
-    foreach (array_slice($produtos, 0, 10) as $p) {
-        echo 'ID: ' . $p['id'] . ' | ';
-        echo 'categoria_produto: ' . ($p['categoria_produto'] ?? 'N/A') . ' | ';
-        echo 'categoria_id: ' . ($p['categoria_id'] ?? 'N/A') . '<br>';
-    }
-    echo '</pre>';
-}
-
 // Filtro robusto
 if (!empty($categorias_permitidas)) {
     $produtos = array_filter($produtos, function($produto) use ($categorias_permitidas) {
