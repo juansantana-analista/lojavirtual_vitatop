@@ -394,11 +394,34 @@ function formatPriceWithDiscount($preco_original, $produto_id) {
 }
 
 function buscarIdLojinhaPorSlug($slug) {
-    $mapa = [
-        'vitatop' => 14,
-        'lojinha17' => 17,
-        'Aline_Emporio' => 17, // Mapeamento correto para o afiliado
-        // Adicione outros slugs/ids conforme necessário
+    // Chama a API para buscar o ID da loja pelo nome/slug
+    $requestData = [
+        'class' => 'LojinhaRestService',
+        'method' => 'buscarLojaPorNome',
+        'nome_loja' => $slug
     ];
-    return $mapa[$slug] ?? 14;
+
+    $ch = curl_init(API_URL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($requestData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Basic ' . API_KEY
+    ]);
+
+    $response = curl_exec($ch);
+    if ($response === false) {
+        curl_close($ch);
+        return 14; // fallback padrão
+    }
+    $result = json_decode($response, true);
+    curl_close($ch);
+    if (
+        isset($result['status']) && $result['status'] === 'success' &&
+        isset($result['data']['data']['id'])
+    ) {
+        return (int)$result['data']['data']['id'];
+    }
+    return 14; // fallback padrão
 }
