@@ -394,10 +394,10 @@ function formatPriceWithDiscount($preco_original, $produto_id) {
 }
 
 function buscarIdLojinhaPorSlug($slug) {
-    // Exemplo de mapeamento. Substitua por consulta ao banco ou API se necessário.
     $mapa = [
         'vitatop' => 14,
         'lojinha17' => 17,
+        'Aline_Emporio' => 17, // Mapeamento correto para o afiliado
         // Adicione outros slugs/ids conforme necessário
     ];
     return $mapa[$slug] ?? 14;
