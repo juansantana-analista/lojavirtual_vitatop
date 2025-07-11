@@ -1,7 +1,32 @@
 <?php
 // pages/produtos.php
+require_once __DIR__ . '/../api/requests.php';
+
+$lojinha_id = 14; // Defina dinamicamente se necessário
+
+// Buscar categorias permitidas do lojista
+$categorias_response = listarCategoriasLojinha($lojinha_id);
+$categorias_permitidas = [];
+if (
+    isset($categorias_response['status']) && $categorias_response['status'] === 'success' &&
+    isset($categorias_response['data']['data']) && is_array($categorias_response['data']['data'])
+) {
+    foreach ($categorias_response['data']['data'] as $cat) {
+        if ($cat['habilitado'] == '1' && $cat['loja_virtual'] == '1') {
+            $categorias_permitidas[] = $cat['categoria_produto'];
+        }
+    }
+}
+
 $produtos_response = listarProdutos();
 $produtos = $produtos_response['status'] === 'success' ? $produtos_response['data']['data'] : [];
+
+// Filtrar produtos pelas categorias permitidas, se houver
+if (!empty($categorias_permitidas)) {
+    $produtos = array_filter($produtos, function($produto) use ($categorias_permitidas) {
+        return in_array($produto['categoria_produto'], $categorias_permitidas);
+    });
+}
 
 // Verificar se há busca via URL
 $termo_busca = $_GET['busca'] ?? '';

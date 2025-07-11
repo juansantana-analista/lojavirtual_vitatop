@@ -429,6 +429,33 @@ function listarCategorias() {
     return $result;
 }
 
+function listarCategoriasLojinha($lojinha_id) {
+    $requestData = [
+        'class' => 'LojinhaRestService',
+        'method' => 'listarCategoriasLojinha',
+        'lojinha_vitatop_id' => $lojinha_id
+    ];
+
+    $ch = curl_init(API_URL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($requestData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Basic ' . API_KEY
+    ]);
+
+    $response = curl_exec($ch);
+    if ($response === false) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        return ['status' => 'error', 'message' => $error];
+    }
+    $result = json_decode($response, true);
+    curl_close($ch);
+    return $result;
+}
+
 // Função auxiliar para validar dados antes do envio
 function validarDadosCheckout($dataCliente, $dataPedido) {
     $erros = [];
