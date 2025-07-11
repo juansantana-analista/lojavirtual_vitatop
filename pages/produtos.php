@@ -1,11 +1,15 @@
 <?php
 // pages/produtos.php
 require_once __DIR__ . '/../api/requests.php';
+require_once __DIR__ . '/../includes/functions.php';
 
-// Tornar o lojinha_id dinâmico com base no afiliado
-$lojinha_id = 14;
-if (!empty($_SESSION['afiliado']) && is_numeric($_SESSION['afiliado'])) {
-    $lojinha_id = (int)$_SESSION['afiliado'];
+$lojinha_id = 14; // valor padrão
+if (!empty($_SESSION['afiliado'])) {
+    if (is_numeric($_SESSION['afiliado'])) {
+        $lojinha_id = (int)$_SESSION['afiliado'];
+    } else {
+        $lojinha_id = buscarIdLojinhaPorSlug($_SESSION['afiliado']);
+    }
 }
 
 // Buscar categorias permitidas do lojista

@@ -392,3 +392,13 @@ function formatPriceWithDiscount($preco_original, $produto_id) {
         'valor_desconto' => formatPrice($preco_com_desconto - $preco_original)
     ];
 }
+
+function buscarIdLojinhaPorSlug($slug) {
+    // Exemplo de mapeamento. Substitua por consulta ao banco ou API se necessário.
+    $mapa = [
+        'vitatop' => 14,
+        'lojinha17' => 17,
+        // Adicione outros slugs/ids conforme necessário
+    ];
+    return $mapa[$slug] ?? 14;
+}
