@@ -5,6 +5,12 @@ require_once 'config/api.php';
 require_once 'includes/functions.php';
 require_once 'api/requests.php';
 
+$lojinha_id = 14; // Defina dinamicamente se necessário
+if (empty($_SESSION['visita_registrada'])) {
+    registrarVisitaLojinha($lojinha_id);
+    $_SESSION['visita_registrada'] = true;
+}
+
 // Captura o afiliado da URL
 $uri = $_SERVER['REQUEST_URI'];
 $path = parse_url($uri, PHP_URL_PATH);
