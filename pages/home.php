@@ -1,7 +1,11 @@
 <?php
 require_once __DIR__ . '/../api/requests.php';
 
-$lojinha_id = 14; // Defina dinamicamente se necessário
+// Tornar o lojinha_id dinâmico com base no afiliado
+$lojinha_id = 14;
+if (!empty($_SESSION['afiliado']) && is_numeric($_SESSION['afiliado'])) {
+    $lojinha_id = (int)$_SESSION['afiliado'];
+}
 
 // Buscar categorias permitidas do lojista
 $categorias_response = listarCategoriasLojinha($lojinha_id);
