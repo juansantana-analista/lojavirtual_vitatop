@@ -42,6 +42,9 @@ if ($loja_nao_encontrada) {
     exit;
 }
 
+if (!isset($_SESSION['visita_registrada']) || !is_array($_SESSION['visita_registrada'])) {
+    $_SESSION['visita_registrada'] = [];
+}
 if (empty($_SESSION['visita_registrada'][$lojinha_id])) {
     registrarVisitaLojinha($lojinha_id);
     $_SESSION['visita_registrada'][$lojinha_id] = true;
