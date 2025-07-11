@@ -5,12 +5,6 @@ require_once 'config/api.php';
 require_once 'includes/functions.php';
 require_once 'api/requests.php';
 
-$lojinha_id = 14; // Defina dinamicamente se necessário
-if (empty($_SESSION['visita_registrada'])) {
-    registrarVisitaLojinha($lojinha_id);
-    $_SESSION['visita_registrada'] = true;
-}
-
 // Captura o afiliado da URL
 $uri = $_SERVER['REQUEST_URI'];
 $path = parse_url($uri, PHP_URL_PATH);
@@ -18,9 +12,30 @@ $segments = explode('/', trim($path, '/'));
 
 // Define o afiliado
 $afiliado = (isset($segments[0], $segments[1]) && $segments[0] === 'lojinha_vitatop') ? $segments[1] : 'default';
-
-
 $_SESSION['afiliado'] = $afiliado;
+
+// Determina o lojinha_id de forma robusta
+$lojinha_id = 14; // valor padrão
+if (!empty($_SESSION['afiliado'])) {
+    if (is_numeric($_SESSION['afiliado'])) {
+        $lojinha_id = (int)$_SESSION['afiliado'];
+    } else {
+        $lojinha_id = buscarIdLojinhaPorSlug($_SESSION['afiliado']);
+    }
+}
+
+// Debug explícito
+if (php_sapi_name() !== 'cli') {
+    echo '<pre style="background:#ffe;border:1px solid #ccc;padding:10px;">';
+    echo 'DEBUG: $_SESSION["afiliado"] = ' . var_export($_SESSION['afiliado'], true) . "\n";
+    echo 'DEBUG: lojinha_id usado = ' . var_export($lojinha_id, true) . "\n";
+    echo '</pre>';
+}
+
+if (empty($_SESSION['visita_registrada'])) {
+    registrarVisitaLojinha($lojinha_id);
+    $_SESSION['visita_registrada'] = true;
+}
 
 // Roteamento simples
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
