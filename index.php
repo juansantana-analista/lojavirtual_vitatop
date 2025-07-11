@@ -42,9 +42,9 @@ if ($loja_nao_encontrada) {
     exit;
 }
 
-if (empty($_SESSION['visita_registrada'])) {
+if (empty($_SESSION['visita_registrada'][$lojinha_id])) {
     registrarVisitaLojinha($lojinha_id);
-    $_SESSION['visita_registrada'] = true;
+    $_SESSION['visita_registrada'][$lojinha_id] = true;
 }
 
 // Roteamento simples
