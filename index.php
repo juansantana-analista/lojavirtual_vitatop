@@ -33,7 +33,7 @@ if ($loja_nao_encontrada) {
     echo '<title>Loja não encontrada</title>';
     echo '<style>body{background:#f8f9fa;font-family:sans-serif;margin:0;padding:0;} .notfound-container{max-width:520px;margin:80px auto;padding:48px 32px;background:#fff;border-radius:16px;box-shadow:0 6px 32px rgba(0,0,0,0.10);} .notfound-logo{text-align:center;margin-bottom:24px;} .notfound-logo img{max-width:180px;} .notfound-title{font-size:2.3rem;font-weight:800;color:#1a1a1a;margin-bottom:12px;text-align:center;} .notfound-msg{font-size:1.15rem;color:#444;margin-bottom:28px;text-align:center;line-height:1.6;} .notfound-sugestao{font-size:1rem;color:#888;text-align:center;margin-bottom:0;} .notfound-emoji{text-align:center;font-size:3.5rem;margin-bottom:18px;}@media(max-width:600px){.notfound-container{padding:28px 8px;}}</style>';
     echo '</head><body><div class="notfound-container">';
-    echo '<div class="notfound-logo"><img src="/assets/images/logos/logo.png" alt="VitaTop"></div>';
+    echo '<div class="notfound-logo"><img src="assets/images/logos/logo.png" alt="VitaTop"></div>';
     echo '<div class="notfound-emoji">😕</div>';
     echo '<div class="notfound-title">Ops! Loja não encontrada</div>';
     echo '<div class="notfound-msg">A loja que você tentou acessar não está disponível no momento.<br>Isso pode acontecer se o endereço estiver incorreto ou se a loja foi desativada.<br><br><strong>Que tal explorar outras oportunidades de bem-estar na VitaTop?</strong></div>';
