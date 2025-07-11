@@ -1,7 +1,40 @@
 <?php
-// pages/home.php - Estilo Boticário VitaTop
+require_once __DIR__ . '/../api/requests.php';
+
+$lojinha_id = 14; // Defina dinamicamente se necessário
+
+// Buscar categorias permitidas do lojista
+$categorias_response = listarCategoriasLojinha($lojinha_id);
+$categorias_permitidas = [];
+if (
+    isset($categorias_response['status']) && $categorias_response['status'] === 'success' &&
+    isset($categorias_response['data']['data']) && is_array($categorias_response['data']['data'])
+) {
+    foreach ($categorias_response['data']['data'] as $cat) {
+        if (
+            isset($cat['habilitado'], $cat['loja_virtual'], $cat['categoria_produto']) &&
+            $cat['habilitado'] == '1' && $cat['loja_virtual'] == '1'
+        ) {
+            $categorias_permitidas[] = $cat['categoria_produto'];
+        }
+    }
+}
+
 $produtos_response = listarProdutos();
 $produtos = $produtos_response['status'] === 'success' ? $produtos_response['data']['data'] : [];
+
+// Filtrar produtos pelas categorias permitidas, se houver
+if (!empty($categorias_permitidas)) {
+    $produtos = array_filter($produtos, function($produto) use ($categorias_permitidas) {
+        $cat_id = null;
+        if (isset($produto['categoria_produto'])) {
+            $cat_id = $produto['categoria_produto'];
+        } elseif (isset($produto['categoria_id'])) {
+            $cat_id = $produto['categoria_id'];
+        }
+        return $cat_id && in_array($cat_id, $categorias_permitidas);
+    });
+}
 
 // Pegar produtos em destaque e promoções
 $produtos_destaque = array_slice($produtos, 0, 8);

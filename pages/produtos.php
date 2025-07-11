@@ -12,7 +12,10 @@ if (
     isset($categorias_response['data']['data']) && is_array($categorias_response['data']['data'])
 ) {
     foreach ($categorias_response['data']['data'] as $cat) {
-        if ($cat['habilitado'] == '1' && $cat['loja_virtual'] == '1') {
+        if (
+            isset($cat['habilitado'], $cat['loja_virtual'], $cat['categoria_produto']) &&
+            $cat['habilitado'] == '1' && $cat['loja_virtual'] == '1'
+        ) {
             $categorias_permitidas[] = $cat['categoria_produto'];
         }
     }
@@ -24,7 +27,13 @@ $produtos = $produtos_response['status'] === 'success' ? $produtos_response['dat
 // Filtrar produtos pelas categorias permitidas, se houver
 if (!empty($categorias_permitidas)) {
     $produtos = array_filter($produtos, function($produto) use ($categorias_permitidas) {
-        return in_array($produto['categoria_produto'], $categorias_permitidas);
+        $cat_id = null;
+        if (isset($produto['categoria_produto'])) {
+            $cat_id = $produto['categoria_produto'];
+        } elseif (isset($produto['categoria_id'])) {
+            $cat_id = $produto['categoria_id'];
+        }
+        return $cat_id && in_array($cat_id, $categorias_permitidas);
     });
 }
 
