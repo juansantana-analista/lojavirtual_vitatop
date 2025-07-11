@@ -394,7 +394,6 @@ function formatPriceWithDiscount($preco_original, $produto_id) {
 }
 
 function buscarIdLojinhaPorSlug($slug) {
-    // Chama a API para buscar o ID da loja pelo nome/slug
     $requestData = [
         'class' => 'LojinhaRestService',
         'method' => 'buscarLojaPorNome',
@@ -413,15 +412,16 @@ function buscarIdLojinhaPorSlug($slug) {
     $response = curl_exec($ch);
     if ($response === false) {
         curl_close($ch);
-        return 14; // fallback padrão
+        return null; // fallback para loja não encontrada
     }
     $result = json_decode($response, true);
     curl_close($ch);
     if (
         isset($result['status']) && $result['status'] === 'success' &&
+        isset($result['data']['status']) && $result['data']['status'] === 'success' &&
         isset($result['data']['data']['id'])
     ) {
         return (int)$result['data']['data']['id'];
     }
-    return 14; // fallback padrão
+    return null; // loja não encontrada
 }
