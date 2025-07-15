@@ -26,6 +26,19 @@ try {
         '3' => 'Emagrecedor'
     ];
 }
+
+// Buscar dados da loja para o logo dinâmico
+$lojinha_id = 14; // Defina o ID da loja conforme necessário
+$loja_dados_response = obterLojaDados($lojinha_id);
+$logo_url = 'assets/images/logos/logo.png'; // padrão
+if (
+    isset($loja_dados_response['status']) && $loja_dados_response['status'] === 'success' &&
+    isset($loja_dados_response['data']['status']) && $loja_dados_response['data']['status'] === 'success' &&
+    isset($loja_dados_response['data']['data']['is_especial']) && $loja_dados_response['data']['data']['is_especial'] === 'S' &&
+    !empty($loja_dados_response['data']['data']['logo_url'])
+) {
+    $logo_url = 'https://vitatop.tecskill.com.br/' . ltrim($loja_dados_response['data']['data']['logo_url'], '/');
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -83,7 +96,7 @@ try {
                     <a href="?page=home" class="logo-main">
                         <div class="d-flex align-items-center">
                             <div class="logo-text-container">
-                                <img src="assets/images/logos/logo.png" alt="" width="150px">
+                                <img src="<?php echo $logo_url; ?>" alt="" width="150px">
                             </div>
                         </div>
                     </a>

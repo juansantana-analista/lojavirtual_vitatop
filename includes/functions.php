@@ -425,3 +425,29 @@ function buscarIdLojinhaPorSlug($slug) {
     }
     return null; // loja não encontrada
 }
+
+function obterLojaDados($lojinha_id) {
+    $requestData = [
+        'class' => 'LojinhaRestService',
+        'method' => 'obterLojaDados',
+        'loja_id' => $lojinha_id
+    ];
+
+    $ch = curl_init(API_URL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($requestData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Basic ' . API_KEY
+    ]);
+
+    $response = curl_exec($ch);
+    if ($response === false) {
+        curl_close($ch);
+        return null; // fallback para erro
+    }
+    $result = json_decode($response, true);
+    curl_close($ch);
+    return $result;
+}
