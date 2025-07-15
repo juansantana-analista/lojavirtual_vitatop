@@ -28,7 +28,7 @@ try {
 }
 
 // Buscar dados da loja para o logo dinâmico
-$lojinha_id = 14; // Defina o ID da loja conforme necessário
+// $lojinha_id = 14; // REMOVIDO: agora usa o valor já definido no index.php
 $loja_dados_response = obterLojaDados($lojinha_id);
 $logo_url = 'assets/images/logos/logo.png'; // padrão
 if (
