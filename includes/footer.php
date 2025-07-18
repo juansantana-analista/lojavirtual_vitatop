@@ -4,7 +4,7 @@
     </main>
 
     <!-- Footer Principal -->
-    <footer class="footer">
+    <footer class="footer" style="background: linear-gradient(135deg, <?php echo $corPrincipal; ?>, <?php echo $corSecundaria; ?>);">
         <div class="container">           
             <!-- Informações do Distribuidor -->
             <div class="distributor-section">
@@ -570,13 +570,6 @@
         .footer-links li {
             margin-bottom: 0;
         }
-    }
-    </style>
-
-    <style>
-    :root {
-        --boticario-green: <?php echo $corPrincipal; ?>;
-        --boticario-light-green: <?php echo $corSecundaria; ?>;
     }
     </style>
 

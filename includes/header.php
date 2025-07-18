@@ -58,7 +58,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
 </head>
 <body>
     <!-- Barra do Distribuidor/Afiliado -->
-    <div class="affiliate-bar">
+    <div class="affiliate-bar" style="background: linear-gradient(135deg, <?php echo $corPrincipal; ?>, <?php echo $corSecundaria; ?>);">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="affiliate-info">
