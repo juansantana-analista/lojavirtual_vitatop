@@ -56,41 +56,41 @@ $produtos_promocao = array_slice($produtos, 8, 4);
 
 <div class="container">
     <!-- Categorias Principais - Estilo Boticário -->
-    <section class="categories-section-main py-5" style="background: <?php echo $corPrincipal; ?>;">
+    <section class="categories-section-main py-5">
         <div class="row g-4">
             <div class="col-lg-3 col-md-6 col-6">
                 <a href="?page=produtos&categoria=lancamentos" class="category-card-main">
-                    <div class="category-icon">
+                    <div class="category-icon" style="color: <?php echo $corPrincipal; ?>;">
                         <i class="fas fa-star"></i>
                     </div>
-                    <h5>Lançamentos</h5>
+                    <h5 style="color: <?php echo $corPrincipal; ?>;">Lançamentos</h5>
                     <p>Novidades em suplementos</p>
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-6">
-                <a href="?page=produtos&filter=promocao" class="category-card-main promo-category">
-                    <div class="category-icon">
+                <a href="?page=produtos&filter=promocao" class="category-card-main promo-category" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
+                    <div class="category-icon" style="color: #fff;">
                         <i class="fas fa-percentage"></i>
                     </div>
-                    <h5>Promos</h5>
+                    <h5 style="color: #fff;">Promos</h5>
                     <p>Ofertas imperdíveis</p>
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-6">
                 <a href="?page=produtos&categoria=vitaminas" class="category-card-main">
-                    <div class="category-icon">
+                    <div class="category-icon" style="color: <?php echo $corPrincipal; ?>;">
                         <i class="fas fa-pills"></i>
                     </div>
-                    <h5>Vitaminas</h5>
+                    <h5 style="color: <?php echo $corPrincipal; ?>;">Vitaminas</h5>
                     <p>Saúde e bem-estar</p>
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-6">
                 <a href="?page=produtos&categoria=proteinas" class="category-card-main">
-                    <div class="category-icon">
+                    <div class="category-icon" style="color: <?php echo $corPrincipal; ?>;">
                         <i class="fas fa-tint"></i>
                     </div>
-                    <h5>Mel</h5>
+                    <h5 style="color: <?php echo $corPrincipal; ?>;">Mel</h5>
                     <p>Produtos a base de Mel</p>
                 </a>
             </div>
