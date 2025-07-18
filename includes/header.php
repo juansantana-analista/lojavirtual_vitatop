@@ -44,12 +44,6 @@ $corPrincipal = $loja_dados['cor_principal'] ?? '#2c5530';
 $corSecundaria = $loja_dados['cor_secundaria'] ?? '#41714d';
 $whatsapp = $loja_dados['whatsapp'] ?? '';
 ?>
-<style>
-:root {
-    --boticario-green: <?php echo $corPrincipal; ?>;
-    --boticario-light-green: <?php echo $corSecundaria; ?>;
-}
-</style>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -61,6 +55,12 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
     <link href="assets/css/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+    :root {
+        --boticario-green: <?php echo $corPrincipal; ?>;
+        --boticario-light-green: <?php echo $corSecundaria; ?>;
+    }
+    </style>
 </head>
 <body>
     <!-- Barra do Distribuidor/Afiliado -->
