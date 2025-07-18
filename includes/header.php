@@ -70,8 +70,13 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
                     <span class="me-3">
                         <i class="fab fa-whatsapp me-1"></i>
                         <?php if ($whatsapp): ?>
+                            <?php
+                            // Remover o 55 do início apenas para exibição visual
+                            $whatsapp_visual = preg_replace('/^55/', '', preg_replace('/\D/', '', $whatsapp));
+                            $whatsapp_visual = preg_replace('/(\d{2})(\d{1})(\d{4})(\d{4})/', '($1) $2 $3-$4', $whatsapp_visual);
+                            ?>
                             <a href="https://wa.me/<?php echo preg_replace('/\D/', '', $whatsapp); ?>" target="_blank" class="text-success" style="text-decoration:none;">
-                                <small style="color: #fff;"><?php echo formatTelefone($whatsapp); ?></small>
+                                <small style="color: #fff;"><?php echo $whatsapp_visual; ?></small>
                             </a>
                         <?php else: ?>
                             <small style="color: #fff;">(11) 99999-9999</small>
