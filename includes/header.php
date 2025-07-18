@@ -58,7 +58,8 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
 </head>
 <body>
     <!-- Barra do Distribuidor/Afiliado -->
-    <div class="affiliate-bar" style="background: <?php echo $corPrincipal; ?>;">
+    <?php $isEspecial = $loja_dados['is_especial'] ?? 'N'; ?>
+    <div class="affiliate-bar"<?php if ($isEspecial === 'S'): ?> style="background: <?php echo $corPrincipal; ?>;"<?php endif; ?>>
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="affiliate-info">
@@ -82,7 +83,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
     </div>
 
     <!-- Faixa de Frete Grátis -->
-    <div class="frete-gratis-banner" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
+    <div class="frete-gratis-banner"<?php if ($isEspecial === 'S'): ?> style="background: <?php echo $corPrincipal; ?>; color: #fff;"<?php endif; ?>>
         <div class="content">
             <i class="fas fa-truck"></i>
             <span>Frete <span class="highlight">GRÁTIS</span> em compras acima de <span class="highlight">R$ 300</span></span>
@@ -120,7 +121,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
                                    placeholder="O que você procura hoje?" 
                                    id="searchInput" 
                                    autocomplete="off">
-                            <button class="btn-search" type="button" aria-label="Buscar" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
+                            <button class="btn-search" type="button" aria-label="Buscar"<?php if ($isEspecial === 'S'): ?> style="background: <?php echo $corPrincipal; ?>; color: #fff;"<?php endif; ?>>
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -171,7 +172,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
                 <div class="col-lg-12">
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <!-- Botão de Ofertas Especiais -->
-                        <a href="?page=produtos&filter=promocao" class="promo-button" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
+                        <a href="?page=produtos&filter=promocao" class="promo-button"<?php if ($isEspecial === 'S'): ?> style="background: <?php echo $corPrincipal; ?>; color: #fff;"<?php endif; ?>>
                             <i class="fas fa-fire me-2"></i>
                             <span class="promo-text">Vita Promo</span>
                         </a>

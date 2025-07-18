@@ -4,7 +4,8 @@
     </main>
 
     <!-- Footer Principal -->
-    <footer class="footer" style="background: <?php echo $corPrincipal; ?>;">
+    <?php $isEspecial = $loja_dados['is_especial'] ?? 'N'; ?>
+    <footer class="footer"<?php if ($isEspecial === 'S'): ?> style="background: <?php echo $corPrincipal; ?>;"<?php endif; ?>>
         <div class="container">           
             <!-- Informações do Distribuidor -->
             <div class="distributor-section">
