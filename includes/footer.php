@@ -4,15 +4,15 @@
     </main>
 
     <!-- Footer Principal -->
-    <footer class="footer">
+    <footer class="footer" style="background: linear-gradient(135deg, var(--boticario-green), var(--boticario-light-green)); color: #fff;">
         <div class="container">           
             <!-- Informações do Distribuidor -->
-            <div class="distributor-section">
+            <div class="distributor-section" style="background: rgba(255,255,255,0.1); border: 1px solid var(--boticario-green);">
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <div class="distributor-info">
                             <div class="d-flex align-items-center">
-                                <div class="distributor-icon">
+                                <div class="distributor-icon" style="background: var(--boticario-green);">
                                     <i class="fas fa-user-tie"></i>
                                 </div>
                                 <div class="distributor-details">
