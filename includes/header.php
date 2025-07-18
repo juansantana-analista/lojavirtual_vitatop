@@ -70,10 +70,10 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
                         <i class="fab fa-whatsapp me-1"></i>
                         <?php if ($whatsapp): ?>
                             <a href="https://wa.me/<?php echo preg_replace('/\D/', '', $whatsapp); ?>" target="_blank" class="text-success" style="text-decoration:none;">
-                                <small><?php echo formatTelefone($whatsapp); ?></small>
+                                <small style="color: #fff;"><?php echo formatTelefone($whatsapp); ?></small>
                             </a>
                         <?php else: ?>
-                            <small>(11) 99999-9999</small>
+                            <small style="color: #fff;">(11) 99999-9999</small>
                         <?php endif; ?>
                     </span>
                 </div>
