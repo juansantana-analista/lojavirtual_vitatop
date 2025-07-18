@@ -1429,6 +1429,8 @@ body {
     border-color: var(--boticario-green) !important;
 }
 
+/* Removidas as classes utilitárias com PHP, pois não funcionam em CSS estático. Para aplicar a cor principal da loja, use style="background: <?php echo $corPrincipal; ?>;" ou style="color: <?php echo $corPrincipal; ?>;" diretamente nos elementos HTML desejados. */
+
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;

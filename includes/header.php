@@ -82,7 +82,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
     </div>
 
     <!-- Faixa de Frete Grátis -->
-    <div class="frete-gratis-banner">
+    <div class="frete-gratis-banner" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
         <div class="content">
             <i class="fas fa-truck"></i>
             <span>Frete <span class="highlight">GRÁTIS</span> em compras acima de <span class="highlight">R$ 300</span></span>
@@ -120,7 +120,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
                                    placeholder="O que você procura hoje?" 
                                    id="searchInput" 
                                    autocomplete="off">
-                            <button class="btn-search" type="button" aria-label="Buscar">
+                            <button class="btn-search" type="button" aria-label="Buscar" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -173,7 +173,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
                         <!-- Botão de Ofertas Especiais -->
                         <a href="?page=produtos&filter=promocao" class="promo-button">
                             <i class="fas fa-fire me-2"></i>
-                            <span class="promo-text">Vita Promo</span>
+                            <span class="promo-text" style="color: <?php echo $corPrincipal; ?>;">Vita Promo</span>
                         </a>
                         
                         <!-- Menu de Navegação -->

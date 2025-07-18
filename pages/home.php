@@ -56,7 +56,7 @@ $produtos_promocao = array_slice($produtos, 8, 4);
 
 <div class="container">
     <!-- Categorias Principais - Estilo Boticário -->
-    <section class="categories-section-main py-5">
+    <section class="categories-section-main py-5" style="background: <?php echo $corPrincipal; ?>;">
         <div class="row g-4">
             <div class="col-lg-3 col-md-6 col-6">
                 <a href="?page=produtos&categoria=lancamentos" class="category-card-main">
@@ -100,7 +100,7 @@ $produtos_promocao = array_slice($produtos, 8, 4);
     <!-- Seção de Mais Vendidos -->
     <section class="best-sellers-section py-5" id="mais-vendidos">
         <div class="section-header text-center mb-5">
-            <div class="section-badge">
+            <div class="section-badge" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
                 <i class="fas fa-trophy me-2"></i>Mais Vendidos
             </div>
             <h2 class="section-title">Os Preferidos dos Nossos Clientes</h2>
@@ -269,7 +269,7 @@ $produtos_promocao = array_slice($produtos, 8, 4);
 
     <!-- Newsletter VitaTop -->
     <section class="newsletter-section-main py-5">
-        <div class="newsletter-container">
+        <div class="newsletter-container" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="newsletter-content">
