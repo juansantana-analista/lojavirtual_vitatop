@@ -171,7 +171,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
                 <div class="col-lg-12">
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <!-- Botão de Ofertas Especiais -->
-                        <a href="?page=produtos&filter=promocao" class="promo-button" style="background-color: <?php echo $corPrincipal; ?>;">
+                        <a href="?page=produtos&filter=promocao" class="promo-button" style="background: <?php echo $corPrincipal; ?>; color: #fff;">
                             <i class="fas fa-fire me-2"></i>
                             <span class="promo-text">Vita Promo</span>
                         </a>
