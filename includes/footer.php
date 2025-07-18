@@ -27,7 +27,11 @@
                     </div>
                     <div class="col-md-4 text-md-end">
                         <div class="distributor-actions">
-                            <a href="#" class="btn btn-distributor">
+                            <?php
+                            $whatsapp = $loja_dados_response['data']['data']['whatsapp'] ?? '';
+                            $whatsapp_link = $whatsapp ? 'https://wa.me/' . preg_replace('/\D/', '', $whatsapp) : '#';
+                            ?>
+                            <a href="<?php echo $whatsapp_link; ?>" class="btn btn-distributor" target="_blank">
                                 <i class="fab fa-whatsapp me-2"></i>Falar com Distribuidor
                             </a>
                         </div>

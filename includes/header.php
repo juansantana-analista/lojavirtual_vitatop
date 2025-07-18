@@ -39,7 +39,17 @@ if (
 ) {
     $logo_url = 'https://vitatop.tecskill.com.br/' . ltrim($loja_dados_response['data']['data']['logo_url'], '/');
 }
+$loja_dados = $loja_dados_response['data']['data'] ?? [];
+$corPrincipal = $loja_dados['cor_principal'] ?? '#2c5530';
+$corSecundaria = $loja_dados['cor_secundaria'] ?? '#41714d';
+$whatsapp = $loja_dados['whatsapp'] ?? '';
 ?>
+<style>
+:root {
+    --boticario-green: <?php echo $corPrincipal; ?>;
+    --boticario-light-green: <?php echo $corSecundaria; ?>;
+}
+</style>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -63,8 +73,14 @@ if (
                 </div>
                 <div class="contact-info d-none d-md-flex">
                     <span class="me-3">
-                        <i class="fas fa-phone me-1"></i>
-                        <small>(11) 99999-9999</small>
+                        <i class="fab fa-whatsapp me-1"></i>
+                        <?php if ($whatsapp): ?>
+                            <a href="https://wa.me/<?php echo preg_replace('/\D/', '', $whatsapp); ?>" target="_blank" class="text-success" style="text-decoration:none;">
+                                <small><?php echo formatTelefone($whatsapp); ?></small>
+                            </a>
+                        <?php else: ?>
+                            <small>(11) 99999-9999</small>
+                        <?php endif; ?>
                     </span>
                 </div>
             </div>
