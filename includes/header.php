@@ -64,7 +64,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
 </head>
 <body>
     <!-- Barra do Distribuidor/Afiliado -->
-    <div class="affiliate-bar" style="background: linear-gradient(135deg, var(--boticario-green), var(--boticario-light-green));">
+    <div class="affiliate-bar">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="affiliate-info">
@@ -97,7 +97,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
     </div>
 
     <!-- Header Principal -->
-    <header class="header-main" style="background: var(--boticario-green); color: #fff;">
+    <header class="header-main">
         <div class="container">
             <div class="row align-items-center py-3">
                 <!-- Menu Mobile Toggle -->
@@ -171,7 +171,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
     </header>
 
     <!-- Navegação Principal -->
-    <nav class="navbar-main" style="background: var(--boticario-light-green);">
+    <nav class="navbar-main">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12">
