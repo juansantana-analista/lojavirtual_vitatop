@@ -4,7 +4,7 @@
     </main>
 
     <!-- Footer Principal -->
-    <footer class="footer" style="background: linear-gradient(135deg, <?php echo $corPrincipal; ?>, <?php echo $corSecundaria; ?>);">
+    <footer class="footer" style="background: <?php echo $corPrincipal; ?>;">
         <div class="container">           
             <!-- Informações do Distribuidor -->
             <div class="distributor-section">
