@@ -39,10 +39,17 @@ if ($loja_nao_encontrada) {
     echo '<div class="notfound-msg">A loja que você tentou acessar não está disponível no momento.<br>Isso pode acontecer se o endereço estiver incorreto ou se a loja foi desativada.<br><br><strong>Que tal explorar outras oportunidades de bem-estar na VitaTop?</strong></div>';
     echo '<div class="notfound-sugestao">Se precisar de ajuda, nosso time está pronto para te apoiar. Conte com a gente para cuidar da sua saúde e felicidade! 💚</div>';
     // DEBUG
+    global $debug_loja_request, $debug_loja_response;
     echo '<hr><div style="background:#eee;padding:10px;margin-top:20px;font-size:14px;color:#333">';
     echo '<strong>DEBUG:</strong><br>';
     echo 'Afiliado (URL): <code>' . htmlspecialchars($afiliado) . '</code><br>';
     echo 'Lojinha ID retornado: <code>' . htmlspecialchars($lojinha_id) . '</code><br>';
+    if (isset($debug_loja_request)) {
+        echo '<br><strong>Request enviado para API:</strong><br><pre>' . htmlspecialchars(json_encode($debug_loja_request, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)) . '</pre>';
+    }
+    if (isset($debug_loja_response)) {
+        echo '<br><strong>Resposta recebida da API:</strong><br><pre>' . htmlspecialchars($debug_loja_response) . '</pre>';
+    }
     echo '</div>';
     echo '</div></body></html>';
     exit;

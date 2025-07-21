@@ -394,6 +394,7 @@ function formatPriceWithDiscount($preco_original, $produto_id) {
 }
 
 function buscarIdLojinhaPorSlug($slug) {
+    global $debug_loja_request, $debug_loja_response;
     // Normaliza o slug para garantir busca sem acento
     $slug_normalizado = generateSlug($slug);
     $requestData = [
@@ -401,6 +402,7 @@ function buscarIdLojinhaPorSlug($slug) {
         'method' => 'buscarLojaPorNome',
         'nome_loja' => $slug_normalizado
     ];
+    $debug_loja_request = $requestData;
 
     $ch = curl_init(API_URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -412,6 +414,8 @@ function buscarIdLojinhaPorSlug($slug) {
     ]);
 
     $response = curl_exec($ch);
+    $debug_loja_response = $response;
+
     if ($response === false) {
         curl_close($ch);
         return null; // fallback para loja não encontrada
