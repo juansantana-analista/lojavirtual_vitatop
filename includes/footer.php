@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="distributor-details">
                                     <h6 class="distributor-title">Seu Distribuidor Oficial</h6>
-                                    <p class="distributor-name"><?php echo ucfirst(getAfiliado()); ?></p>
+                                    <p class="distributor-name"><?php echo htmlspecialchars($loja_dados['nome_loja'] ?? ''); ?></p>
                                     <small class="distributor-description">
                                         Atendimento personalizado e suporte especializado para suas necessidades de saúde
                                     </small>

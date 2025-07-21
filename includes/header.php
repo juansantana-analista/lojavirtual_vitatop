@@ -64,7 +64,7 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
             <div class="d-flex justify-content-between align-items-center">
                 <div class="affiliate-info">
                     <i class="fas fa-user-tie me-2"></i>
-                    <span>Distribuidor Oficial: <strong><?php echo ucfirst(getAfiliado()); ?></strong></span>
+                    <span>Distribuidor Oficial: <strong><?php echo htmlspecialchars($loja_dados['nome_loja'] ?? ''); ?></strong></span>
                 </div>
                 <div class="contact-info d-none d-md-flex">
                     <span class="me-3">
