@@ -394,12 +394,10 @@ function formatPriceWithDiscount($preco_original, $produto_id) {
 }
 
 function buscarIdLojinhaPorSlug($slug) {
-    // Normaliza o slug para garantir busca sem acento
-    $slug_normalizado = generateSlug($slug);
     $requestData = [
         'class' => 'LojinhaRestService',
         'method' => 'buscarLojaPorNome',
-        'nome_loja' => $slug_normalizado
+        'nome_loja' => $slug
     ];
 
     $ch = curl_init(API_URL);
