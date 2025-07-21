@@ -42,7 +42,6 @@ if ($loja_nao_encontrada) {
     echo '<hr><div style="background:#eee;padding:10px;margin-top:20px;font-size:14px;color:#333">';
     echo '<strong>DEBUG:</strong><br>';
     echo 'Afiliado (URL): <code>' . htmlspecialchars($afiliado) . '</code><br>';
-    echo 'Afiliado normalizado: <code>' . htmlspecialchars($afiliado_normalizado) . '</code><br>';
     echo 'Lojinha ID retornado: <code>' . htmlspecialchars($lojinha_id) . '</code><br>';
     echo '</div>';
     echo '</div></body></html>';
