@@ -41,6 +41,13 @@ if ($loja_nao_encontrada) {
     echo '<div class="notfound-title">Ops! Loja não encontrada</div>';
     echo '<div class="notfound-msg">A loja que você tentou acessar não está disponível no momento.<br>Isso pode acontecer se o endereço estiver incorreto ou se a loja foi desativada.<br><br><strong>Que tal explorar outras oportunidades de bem-estar na VitaTop?</strong></div>';
     echo '<div class="notfound-sugestao">Se precisar de ajuda, nosso time está pronto para te apoiar. Conte com a gente para cuidar da sua saúde e felicidade! 💚</div>';
+    // DEBUG
+    echo '<hr><div style="background:#eee;padding:10px;margin-top:20px;font-size:14px;color:#333">';
+    echo '<strong>DEBUG:</strong><br>';
+    echo 'Afiliado (URL): <code>' . htmlspecialchars($afiliado) . '</code><br>';
+    echo 'Afiliado normalizado: <code>' . htmlspecialchars($afiliado_normalizado) . '</code><br>';
+    echo 'Lojinha ID retornado: <code>' . htmlspecialchars($lojinha_id) . '</code><br>';
+    echo '</div>';
     echo '</div></body></html>';
     exit;
 }
