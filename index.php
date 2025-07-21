@@ -14,7 +14,7 @@ $segments = explode('/', trim($path, '/'));
 $afiliado = (isset($segments[0], $segments[1]) && $segments[0] === 'lojinha_vitatop') ? $segments[1] : 'default';
 $_SESSION['afiliado'] = $afiliado;
 
-// Normaliza o afiliado para busca (remove acentos para URL)
+// Normaliza o nome para buscar na API
 $afiliado_normalizado = generateSlug($afiliado);
 
 // Determina o lojinha_id de forma robusta
@@ -24,7 +24,7 @@ if (!empty($_SESSION['afiliado'])) {
     if (is_numeric($_SESSION['afiliado'])) {
         $lojinha_id = (int)$_SESSION['afiliado'];
     } else {
-        $lojinha_id = buscarIdLojinhaPorSlug($afiliado);
+        $lojinha_id = buscarIdLojinhaPorSlug($afiliado_normalizado);
         if ($lojinha_id === null || $lojinha_id === 0) {
             $loja_nao_encontrada = true;
         }
