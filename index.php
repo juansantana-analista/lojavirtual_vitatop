@@ -24,7 +24,7 @@ if (!empty($_SESSION['afiliado'])) {
     if (is_numeric($_SESSION['afiliado'])) {
         $lojinha_id = (int)$_SESSION['afiliado'];
     } else {
-        $lojinha_id = buscarIdLojinhaPorSlug($afiliado_normalizado);
+        $lojinha_id = buscarIdLojinhaPorSlug($afiliado);
         if ($lojinha_id === null || $lojinha_id === 0) {
             $loja_nao_encontrada = true;
         }
