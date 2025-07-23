@@ -142,14 +142,12 @@ $whatsapp = $loja_dados['whatsapp'] ?? '';
                 <div class="col-2 col-lg-3 order-2 order-lg-3">
                     <div class="header-actions">
                         
-                        <!-- Login 
                         <div class="user-info d-none d-lg-flex align-items-center me-3">
                             <i class="fas fa-user text-primary me-2"></i>
                             <div>
                                 <strong class="user-text">Minha Conta</strong>
                             </div>
                         </div>
-                        -->
                         
                         <!-- Carrinho -->
                         <div class="cart-info">
