@@ -30,7 +30,11 @@
                         <div class="distributor-actions">
                             <?php
                             $whatsapp = $loja_dados_response['data']['data']['whatsapp'] ?? '';
-                            $whatsapp_link = $whatsapp ? 'https://wa.me/' . preg_replace('/\D/', '', $whatsapp) : '#';
+                            $whatsapp_numerico = preg_replace('/\D/', '', $whatsapp);
+                            if (strpos($whatsapp_numerico, '55') !== 0 && !empty($whatsapp_numerico)) {
+                                $whatsapp_numerico = '55' . $whatsapp_numerico;
+                            }
+                            $whatsapp_link = $whatsapp ? 'https://wa.me/' . $whatsapp_numerico : '#';
                             ?>
                             <a href="<?php echo $whatsapp_link; ?>" class="btn btn-distributor" target="_blank">
                                 <i class="fab fa-whatsapp me-2"></i>Falar com Distribuidor
